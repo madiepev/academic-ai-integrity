@@ -45,7 +45,7 @@ Wondering where you stand with AI literacy? Take our **10-minute assessment** to
     <p style="font-size: 14px; color: #555; flex-grow: 1;">
       You're the daredevil who has already explored the territory. You've experimented with AI in various contexts and are ready to refine your judgment on when AI use is appropriate or crosses ethical boundaries.
     </p>
-    <button onclick="window.location.href='pilot-track.html'" style="padding: 10px 25px; margin-top: 15px; font-size: 14px; background-color: #0066cc; color: white; border: none; border-radius: 5px; cursor: pointer;">
+    <button onclick="window.location.href='pilot/know.md'" style="padding: 10px 25px; margin-top: 15px; font-size: 14px; background-color: #0066cc; color: white; border: none; border-radius: 5px; cursor: pointer;">
       Start Pilot Track
     </button>
   </div>
@@ -55,7 +55,7 @@ Wondering where you stand with AI literacy? Take our **10-minute assessment** to
     <p style="font-size: 14px; color: #555; flex-grow: 1;">
       You're curious and seeking the best information to guide your journey. You want to understand when AI use is appropriate in academic settings and build your skills in making ethical judgments.
     </p>
-    <button onclick="window.location.href='navigator-track.html'" style="padding: 10px 25px; margin-top: 15px; font-size: 14px; background-color: #ff6600; color: white; border: none; border-radius: 5px; cursor: pointer;">
+    <button onclick="window.location.href='navigator/know.md'" style="padding: 10px 25px; margin-top: 15px; font-size: 14px; background-color: #ff6600; color: white; border: none; border-radius: 5px; cursor: pointer;">
       Start Navigator Track
     </button>
   </div>
