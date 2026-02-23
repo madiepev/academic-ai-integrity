@@ -1,7 +1,7 @@
 # Know: understanding AI and hallucinations
 
 <div style="margin-bottom: 20px;">
-  <button onclick="window.location.href='../index.md'" style="padding: 10px 20px; font-size: 14px; background-color: #666; color: white; border: none; border-radius: 5px; cursor: pointer;">
+  <button onclick="window.location.href='../'" style="padding: 10px 20px; font-size: 14px; background-color: #666; color: white; border: none; border-radius: 5px; cursor: pointer;">
     ← Back to home
   </button>
 </div>
@@ -11,9 +11,16 @@
 ## Introduction to AI in academic contexts
 
 <div style="background-color: #f0f0f0; padding: 40px; text-align: center; border-radius: 8px; margin: 20px 0;">
-  <p style="color: #666; font-size: 18px; margin: 0;">Video placeholder</p>
-  <p style="color: #999; font-size: 14px; margin: 10px 0 0 0;">YouTube video embed will go here</p>
-  <p style="color: #999; font-size: 12px; font-style: italic;">Topic: understanding AI tools and their limitations</p>
+  <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; border-radius: 8px;">
+    <iframe
+      src="https://www.youtube.com/embed/MaRyiz19HpM"
+      title="Understanding AI tools and their limitations"
+      style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+      allowfullscreen
+    ></iframe>
+  </div>
+  <p style="color: #999; font-size: 12px; font-style: italic; margin-top: 10px;">Topic: understanding AI tools and their limitations</p>
 </div>
 
 ---
@@ -141,7 +148,7 @@ Analyze this scenario and provide a detailed response covering the following dim
 ---
 
 <div style="text-align: center; margin: 40px 0;">
-  <button onclick="window.location.href='apply.md'" style="padding: 15px 40px; font-size: 16px; background-color: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold;">
+  <button onclick="window.location.href='apply'" style="padding: 15px 40px; font-size: 16px; background-color: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold;">
     Continue to apply →
   </button>
 </div>

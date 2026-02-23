@@ -1,7 +1,7 @@
 # Know: understanding AI and hallucinations
 
 <div style="margin-bottom: 20px;">
-  <button onclick="window.location.href='../index.md'" style="padding: 10px 20px; font-size: 14px; background-color: #666; color: white; border: none; border-radius: 5px; cursor: pointer;">
+  <button onclick="window.location.href='../'" style="padding: 10px 20px; font-size: 14px; background-color: #666; color: white; border: none; border-radius: 5px; cursor: pointer;">
     ← Back to home
   </button>
 </div>
@@ -193,7 +193,7 @@ Below are three scenarios where students used AI tools. Each contains a hallucin
 ---
 
 <div style="text-align: center; margin: 40px 0;">
-  <button onclick="window.location.href='apply.md'" style="padding: 15px 40px; font-size: 16px; background-color: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold;">
+  <button onclick="window.location.href='apply'" style="padding: 15px 40px; font-size: 16px; background-color: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold;">
     Continue to apply →
   </button>
 </div>
