@@ -1,28 +1,35 @@
-# Know: Understanding AI and Hallucinations
+# Know: understanding AI and hallucinations
 
 <div style="margin-bottom: 20px;">
   <button onclick="window.location.href='../index.md'" style="padding: 10px 20px; font-size: 14px; background-color: #666; color: white; border: none; border-radius: 5px; cursor: pointer;">
-    ← Back to Home
+    ← Back to home
   </button>
 </div>
 
 ---
 
-## 📺 Introduction to AI in Academic Contexts
+## Introduction to AI in academic contexts
 
 <div style="background-color: #f0f0f0; padding: 40px; text-align: center; border-radius: 8px; margin: 20px 0;">
-  <p style="color: #666; font-size: 18px; margin: 0;">🎥 Video Placeholder</p>
-  <p style="color: #999; font-size: 14px; margin: 10px 0 0 0;">YouTube video embed will go here</p>
-  <p style="color: #999; font-size: 12px; font-style: italic;">Topic: Understanding AI Tools and Their Limitations</p>
+  <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; border-radius: 8px;">
+    <iframe
+      src="https://www.youtube.com/embed/MaRyiz19HpM"
+      title="Understanding AI tools and their limitations"
+      style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+      allowfullscreen
+    ></iframe>
+  </div>
+  <p style="color: #999; font-size: 12px; font-style: italic; margin-top: 10px;">Topic: understanding AI tools and their limitations</p>
 </div>
 
 ---
 
-## 🤖 Overview of Relevant AI Tools
+## Overview of relevant AI tools
 
 Understanding the landscape of AI tools is essential for making informed decisions about when and how to use them in academic work.
 
-### Common AI Tools in Academic Settings
+### Common AI tools in academic settings
 
 **Large Language Models (LLMs)**
 - ChatGPT, Claude, Gemini
@@ -44,7 +51,7 @@ Understanding the landscape of AI tools is essential for making informed decisio
 - Used for: code completion, debugging suggestions
 - Key limitation: May suggest inefficient or insecure code
 
-### Key Concept: AI Hallucinations
+### Key concept: AI hallucinations
 
 **What is a hallucination?** When an AI generates information that sounds confident and plausible but is factually incorrect or entirely fabricated.
 
@@ -56,7 +63,7 @@ Understanding the landscape of AI tools is essential for making informed decisio
 
 ---
 
-## ✅ Check Your Understanding: Spotting Hallucinations
+## Check your understanding: spotting hallucinations
 
 Below are three scenarios where students used AI tools. Each contains a hallucination. Can you identify why the hallucination occurred?
 
@@ -176,7 +183,7 @@ Below are three scenarios where students used AI tools. Each contains a hallucin
 
 ---
 
-## 🎯 Key Takeaways
+## Key takeaways
 
 - **Always verify** AI-generated information, especially facts, quotes, and citations
 - **Understand** that AI tools generate text based on patterns, not truth
@@ -187,6 +194,6 @@ Below are three scenarios where students used AI tools. Each contains a hallucin
 
 <div style="text-align: center; margin: 40px 0;">
   <button onclick="window.location.href='apply.md'" style="padding: 15px 40px; font-size: 16px; background-color: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold;">
-    Continue to Apply →
+    Continue to apply →
   </button>
 </div>

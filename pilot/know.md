@@ -1,28 +1,28 @@
-# Know: Understanding AI and Hallucinations
+# Know: understanding AI and hallucinations
 
 <div style="margin-bottom: 20px;">
   <button onclick="window.location.href='../index.md'" style="padding: 10px 20px; font-size: 14px; background-color: #666; color: white; border: none; border-radius: 5px; cursor: pointer;">
-    ← Back to Home
+    ← Back to home
   </button>
 </div>
 
 ---
 
-## 📺 Introduction to AI in Academic Contexts
+## Introduction to AI in academic contexts
 
 <div style="background-color: #f0f0f0; padding: 40px; text-align: center; border-radius: 8px; margin: 20px 0;">
-  <p style="color: #666; font-size: 18px; margin: 0;">🎥 Video Placeholder</p>
+  <p style="color: #666; font-size: 18px; margin: 0;">Video placeholder</p>
   <p style="color: #999; font-size: 14px; margin: 10px 0 0 0;">YouTube video embed will go here</p>
-  <p style="color: #999; font-size: 12px; font-style: italic;">Topic: Understanding AI Tools and Their Limitations</p>
+  <p style="color: #999; font-size: 12px; font-style: italic;">Topic: understanding AI tools and their limitations</p>
 </div>
 
 ---
 
-## 🤖 Overview of Relevant AI Tools
+## Overview of relevant AI tools
 
 Understanding the landscape of AI tools is essential for making informed decisions about when and how to use them in academic work.
 
-### Common AI Tools in Academic Settings
+### Common AI tools in academic settings
 
 **Large Language Models (LLMs)**
 - ChatGPT, Claude, Gemini
@@ -44,7 +44,7 @@ Understanding the landscape of AI tools is essential for making informed decisio
 - Used for: code completion, debugging suggestions
 - Key limitation: May suggest inefficient or insecure code
 
-### Key Concept: AI Hallucinations
+### Key concept: AI hallucinations
 
 **What is a hallucination?** When an AI generates information that sounds confident and plausible but is factually incorrect or entirely fabricated.
 
@@ -56,7 +56,7 @@ Understanding the landscape of AI tools is essential for making informed decisio
 
 ---
 
-## 🔍 Advanced Challenge: Hallucination Autopsy
+## Advanced challenge: hallucination autopsy
 
 As an experienced AI user, you're ready for a more complex challenge. Below is a realistic academic scenario where multiple issues compound to create problematic AI usage.
 
@@ -123,14 +123,14 @@ Analyze this scenario and provide a detailed response covering the following dim
 ### Submit Your Analysis
 
 <div style="margin: 20px 0; padding: 20px; background-color: #f0f0f0; border-radius: 8px;">
-  <p><strong>📝 Reflection Space</strong></p>
+  <p><strong>Reflection space</strong></p>
   <p style="font-size: 14px; color: #666;">Write your comprehensive analysis (500-750 words) and submit it through your learning management system, or use it as a reference for your own AI usage practices.</p>
   <p style="font-size: 14px; color: #666; margin-top: 15px;"><em>For self-assessment: Compare your analysis with a peer or discuss with your instructor to deepen your understanding of appropriate AI usage in research contexts.</em></p>
 </div>
 
 ---
 
-## 🎯 Key Takeaways for Advanced Users
+## Key takeaways for advanced users
 
 - **Hallucinations compound**: Small inaccuracies can cascade into major misrepresentations
 - **Specificity invites fabrication**: The more specific your query about things the AI doesn't have access to, the more likely it will hallucinate details
@@ -142,6 +142,6 @@ Analyze this scenario and provide a detailed response covering the following dim
 
 <div style="text-align: center; margin: 40px 0;">
   <button onclick="window.location.href='apply.md'" style="padding: 15px 40px; font-size: 16px; background-color: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold;">
-    Continue to Apply →
+    Continue to apply →
   </button>
 </div>
