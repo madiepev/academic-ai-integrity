@@ -395,6 +395,36 @@
 
         <!-- Form Sections -->
         <form id="disclosureForm">
+            <!-- Section 0: AI Usage Check -->
+            <div class="form-section">
+                <div class="question">Did you use AI tools while working on this assignment? <span class="required-indicator">*</span></div>
+                <div class="radio-group">
+                    <div class="radio-option">
+                        <input type="radio" id="usedAI" name="aiUsage" value="yes" onchange="toggleAIForm(true)" required>
+                        <label for="usedAI">Yes, I used AI tools</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="noAI" name="aiUsage" value="no" onchange="toggleAIForm(false)">
+                        <label for="noAI">No, I did not use AI tools</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- No AI Reason Section (hidden by default) -->
+            <div id="noAISection" style="display: none;">
+                <div class="form-section">
+                    <div class="question">Reason for not using AI (optional)</div>
+                    <div class="description">Briefly explain why you chose not to use AI tools. Write in a clear, professional tone using complete sentences. Your explanation will be added directly to the disclosure statement.</div>
+                    <div class="tip-box">
+                        <strong>💡 Writing tips:</strong> Use objective, academic language. Start your sentence as if continuing from "...this work." For example: "This decision was made to develop independent research skills" or "The assignment guidelines specifically prohibited the use of AI tools."
+                    </div>
+                    <textarea id="noAIReason" name="noAIReason" placeholder="Example: This decision was made to develop independent analytical and writing skills without technological assistance."></textarea>
+                    <div class="field-counter"><span id="noAIReasonCounter">0</span> characters</div>
+                </div>
+            </div>
+
+            <!-- AI Form Sections (hidden by default) -->
+            <div id="aiFormSections" style="display: none;">
             <!-- Section 1: Tasks -->
             <div class="form-section">
                 <div class="question">Complete this sentence: "The author used AI to assist with..." <span class="required-indicator">*</span></div>
@@ -503,6 +533,7 @@
                     </div>
                 </div>
             </div>
+            </div><!-- End aiFormSections -->
         </form>
 
         <!-- Generate Button -->
@@ -533,7 +564,7 @@
         });
 
         function setupCharacterCounters() {
-            const fields = ['tasks', 'prompts', 'factCheck'];
+            const fields = ['tasks', 'prompts', 'factCheck', 'noAIReason'];
             fields.forEach(field => {
                 const element = document.getElementById(field);
                 const counter = document.getElementById(field + 'Counter');
@@ -659,14 +690,42 @@
         function checkGenerateButton() {
             const form = document.getElementById('disclosureForm');
             const generateBtn = document.getElementById('generateBtn');
+            const aiUsage = document.querySelector('input[name="aiUsage"]:checked');
             
-            // Check if all required fields are filled
+            // If "No AI" is selected, only require that selection
+            if (aiUsage && aiUsage.value === 'no') {
+                generateBtn.disabled = false;
+                return;
+            }
+            
+            // If "Yes AI" is selected, check if all required fields are filled
             const allFilled = form.checkValidity();
             generateBtn.disabled = !allFilled;
         }
 
         function generateDisclosure() {
-            // Validate form
+            // Check if AI was used
+            const aiUsage = document.querySelector('input[name="aiUsage"]:checked');
+            
+            if (!aiUsage) {
+                alert('Please indicate whether you used AI tools.');
+                return;
+            }
+            
+            // If no AI was used, generate simple statement
+            if (aiUsage.value === 'no') {
+                let disclosure = 'The author did not use any AI tools during the preparation of this work.';
+                const reason = document.getElementById('noAIReason').value.trim();
+                if (reason) {
+                    disclosure += ` ${reason}`;
+                }
+                document.getElementById('disclosureOutput').textContent = disclosure;
+                document.getElementById('resultSection').style.display = 'block';
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                return;
+            }
+            
+            // Validate form for AI usage
             if (!document.getElementById('disclosureForm').checkValidity()) {
                 alert('Please fill in all required fields.');
                 return;
@@ -774,6 +833,23 @@
             }, function() {
                 alert('Failed to copy. Please select and copy the text manually.');
             });
+        }
+
+        function toggleAIForm(showForm) {
+            const aiFormSections = document.getElementById('aiFormSections');
+            const noAISection = document.getElementById('noAISection');
+            const generateBtn = document.getElementById('generateBtn');
+            
+            if (showForm) {
+                aiFormSections.style.display = 'block';
+                noAISection.style.display = 'none';
+            } else {
+                aiFormSections.style.display = 'none';
+                noAISection.style.display = 'block';
+            }
+            
+            // Update button state
+            checkGenerateButton();
         }
     </script>
 </body>
