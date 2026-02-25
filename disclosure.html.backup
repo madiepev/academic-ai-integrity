@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Disclosure Statement Generator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 1200px;
+            width: 100%;
+            padding: 40px;
+            position: relative;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+
+        .form-section {
+            margin-bottom: 30px;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .question {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .description {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        input[type="text"],
+        input[type="date"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 15px;
+            font-family: inherit;
+            transition: border-color 0.3s ease;
+            margin-bottom: 15px;
+        }
+
+        input[type="text"]:focus,
+        input[type="date"]:focus,
+        textarea:focus,
+        select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .suggestions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+
+        .suggestion-chip {
+            background: #f0f0f0;
+            border: 1px solid #ddd;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .suggestion-chip:hover {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .radio-option {
+            flex: 1;
+        }
+
+        .radio-option input[type="radio"] {
+            display: none;
+        }
+
+        .radio-option label {
+            display: block;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .radio-option input[type="radio"]:checked + label {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        button {
+            flex: 1;
+            padding: 14px 28px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-primary:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-secondary {
+            background: #f0f0f0;
+            color: #333;
+        }
+
+        .btn-secondary:hover {
+            background: #e0e0e0;
+        }
+
+        .result-section {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .result-section.active {
+            display: block;
+        }
+
+        .disclosure-output {
+            background: #f8f9fa;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            font-size: 15px;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .success-icon {
+            text-align: center;
+            font-size: 60px;
+            margin-bottom: 20px;
+        }
+
+        .copy-button {
+            background: #28a745;
+            color: white;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        .copy-button:hover {
+            background: #218838;
+        }
+
+        .required-indicator {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 2fr 2fr 1fr;
+            gap: 10px;
+        }
+
+        .form-row input,
+        .form-row select {
+            margin-bottom: 0;
+        }
+
+        .month-year-inputs {
+            display: grid;required fields to generate your academic AI disclosure statement</p
+            .month-year-inputs {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .field-counter {
+            text-align: right;
+            font-size: 12px;
+            color: #999;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>AI Disclosure Statement Generator</h1>
+        <p class="subtitle">Complete all fields to generate your academic AI disclosure statement</p>
+        
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressBar"></div>
+        </div>
+
+        <div class="step-indicator">
+            <span id="stepIndicator">Question 1 of 8</span>
+        </div>
+
+        <!-- Form Sections -->
+        <form id="disclosureForm">
+            <!-- Section 1: Assignment -->
+            <div class="form-section active" data-section="1">
+                <div class="question">What assignment or task(s) did you use AI for? <span class="required-indicator">*</span></div>
+                <div class="description">Be specific about the assignment name and the specific tasks you used AI to help with.</div>
+                <div class="suggestions">
+                    <span class="suggestion-chip" onclick="addSuggestion('assignment', 'Literature review')">Literature review</span>
+                    <span class="suggestion-chip" onclick="addSuggestion('assignment', 'Essay writing')">Essay writing</span>
+                    <span class="suggestion-chip" onclick="addSuggestion('assignment', 'Research proposal')">Research proposal</span>
+                    <span class="suggestion-chip" onclick="addSuggestion('assignment', 'Data analysis')">Data analysis</span>
+                    <span class="sug">
+                <div class="question">What assignment or task(s) did you use AI for? <span class="required-indicator">*</span></div>
+                <div class="description">Be specific about the assignment name and the specific tasks you used AI to help with.</div>
+                <div class="suggestions">
+                    <span class="suggestion-chip" onclick="addSuggestion('assignment', 'Literature review')">Literature review</span>
+                    <span class="suggestion-chip" onclick="addSuggestion('assignment', 'Essay writing')">Essay writing</span>
+                    <span class="suggestion-chip" onclick="addSuggestion('assignment', 'Research proposal')">Research proposal</span>
+                    <span class="suggestion-chip" onclick="addSuggestion('assignment', 'Data analysis')">Data analysis</span>
+                    <span class="suggestion-chip" onclick="addSuggestion('assignment', 'Code debugging')">Code debugging</span>
+                    <span class="suggestion-chip" onclick="addSuggestion('assignment', 'Presentation preparation')">Presentation preparation</span>
+                </div>
+                <textarea id="assignment" name="assignment" placeholder="Example: Final essay on climate change policy; used AI for brainstorming ideas and language refinement" required></textarea>
+                <div class="field-counter"><span id="assignmentCounter">0</span> characters</div>
+            </div>
+
+            <!-- Section 2: Model Information -->
+            <div class="form-section">
+                <div class="question">AI Tool Information <span class="required-indicator">*</span></div>
+                <div class="description">Provide the tool name, version (if known), and when you accessed it</div>
+                <div class="form-row">
+                    <div>
+                        <input type="text" id="toolName" name="toolName" placeholder="Tool name (e.g., ChatGPT, Claude)" required>
+                    </div>
+                    <div>
+                        <input type="text" id="version" name="version" placeholder="Version (optional, e.g., GPT-4)">
+                    </div>
+                    <div class="month-year-inputs">
+                        <select id="monthAccessed" name="monthAccessed" required>
+                            <option value="">Month</option>
+                            <option value="January">January</option>
+                            <option value="February">February</option>
+                            <option value="March">March</option>
+                            <option value="April">April</option>
+                            <option value="May">May</option>
+                            <option value="June">June</option>
+                            <option value="July">July</option>
+                         4: Percentage Used -->
+            <div class="form-sectionn>
+                            <option value="October">October</option>
+                            <option value="November">November</option>
+                            <option value="December">December</option>
+                        </select>
+                        <input type="number" id="yearAccessed" name="yearAccessed" placeholder="Year" min="2020" max="2030" required>
+                    </div>
+                </divracters</div>
+            </div>
+
+            <!-- Section 6: Percentage Used -->
+            <div class="form-section" data-section="6">
+                <div class="question">How much AI-generated content did you use? <span class="required-indicator">*</span></div>
+                <div class="description">Estimate the percentage of AI contribution to your final work</div>
+                <div class="radio-group">
+                    <div class="radio-option">
+                        <input type="radio" id="low" name="percentage" value="low" required>
+                        <label for="low">Low (0-30%)</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="moderate" name="percentage" value="moderate">
+                        <label for="moderate">Moderate (30-70%)</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="high" name="percentage" value="high">
+                        <label for="high">High (70-100%)</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 5: Why Use AI & Ethics -->
+            <div class="form-section">
+                <div class="question">Complete this sentence: "The author reviewed and verified all AI-assisted content for accuracy and integrity through..." <span class="required-indicator">*</span></div>
+                <div class="description">Your answer will appear directly in the disclosure. Describe your fact-checking methods.</div>
+                <textarea id="factCheck" name="factCheck" placeholder="Example: cross-referencing with academic sources, verification through library databases, and manual review of all content" required></textarea>
+                <div class="field-counter"><span id="factCheckCounter">0</span> characters</div>
+                
+                <div class="question" style="margin-top: 20px;">Ethics & Data Privacy <span class="required-indicator">*</span></div>
+                <div class="description">Select to confirm that no confidential, personal, or identifiable data was entered into the AI tool.</div>
+                <div class="radio-group">
+                    <div class="radio-option" style="flex: none; min-width: 200px;">
+                        <input type="radio" id="ethicsConfirm" name="ethics" value="confirmed" required>
+                        <label for="ethicsConfirm">✓ I confirm no confidential data was used</label>
+                    </div>
+                </div>
+            </div>
+
+
+        </form>
+
+        <!-- Generate Button -->
+        <div class="button-group">
+            <button type="button" class="btn-primary" id="generateBtn" onclick="generateDisclosure()" disabled>Generate Disclosure Statement</button>
+        </div>
+
+        <!-- Result Section -->
+        <div class="result-section" id="resultSection">
+            <div class="success-icon">✅</div>
+            <h2 style="text-align: center; color: #333; margin-bottom: 20px;">Your AI Disclosure Statement</h2>
+            <div class="disclosure-output" id="disclosureOutput"></div>
+            <button type="button" class="copy-button" onclick="copyDisclosure()">📋 Copy to Clipboard</button>
+            <button type="button" class="btn-secondary" onclick="startOver()">Create Another Disclosure</button>
+        </divdiv class="button-group">
+                <button type="button" class="copy-button" onclick="copyDisclosure()">📋 Copy to Clipboard</button>
+                <button type="button" class="btn-secondary" onclick="editDisclosure()">✏️ Edit & Regenerate</button>
+            </div
+
+    <script>
+        // Initialize character counters
+        document.addEventListener('DOMContentLoaded', function() {
+            setupCharacterCounters();
+            setupFormValidation();
+            setCurrentMonthYear();
+        });
+
+        function setupCharacterCounters() {
+            const fields = ['tasks', 'prompts', 'factCheck'];
+            fields.forEach(field => {
+                const element = document.getElementById(field);
+                const counter = document.getElementById(field + 'Counter');
+                if (element && counter) {
+                    element.addEventListener('input', function() {
+                        counter.textContent = this.value.length;
+                    });
+                }
+            });
+        }
+
+        function setupFormValidation() {
+            const form = document.getElementById('disclosureForm');
+            form.addEventListener('input', checkGenerateButton);
+        }
+
+        function setCurrentMonthYear() {
+            const now = new Date();
+            const currentYear = now.getFullYear();
+            document.getElementById('yearAccessed').value = currentYear;
+            
+            const months = ['January', 'February', 'March', 'April', 'May', 'June', 
+                          'July', 'August', 'September', 'October', 'November', 'December'];
+            document.getElementById('monthAccessed').value = months[now.getMonth()];
+        }
+
+        function addSuggestion(fieldId, text) {
+            const field = document.getElementById(fieldId);
+            const currentValue = field.value.trim();
+            if (currentValue) {
+                field.value = currentValue + '; ' + text;
+            } else {
+                field.value = text;
+            }
+            field.dispatchEvent(new Event('input'));
+            document.getElementById('stepIndicator').textContent = `Question ${currentSection} of ${totalSections}`;
+        }
+
+        function checkGenerateButton() {
+            const form = document.getElementById('disclosureForm');
+            const generateBtn = document.getElementById('generateBtn');
+            
+            // Check if all required fields are filled
+            const allFilled = form.checkValidity();
+            generateBtn.disabled = !allFilled;
+        }
+
+        function generateDisclosure() {
+            // Validate form
+            if (!document.getElementById('disclosureForm').checkValidity()) {
+                alert('Please fill in all required fields.');
+                return;
+            }
+
+            // Get form values
+            const assignment = document.getElementById('assignment').value.trim();
+            const toolName = document.getElementById('toolName').value.trim();
+            const version = document.getElementById('version').value.trim();
+            const dateAccessed = document.getElementById('dateAccessed').value;
+            const prompts = document.getElementById('prompts').value.trim();
+            const percentage = document.querySelector('input[name="percentage"]:checked').value;
+            const whyUse = document.getElementById('whyUse').value.trim();
+            const ethics = document.getElementById('ethics').value.trim();
+            const factCheck = document.getElementById('factCheck').value.trim();
+
+            // Format date
+            const date = new Date(dateAccessed);
+            const year = date.getFullYear();
+            const formattedDate = date.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+
+            // Generate specific tasks summary from prompts
+            const tasks = extractTasks(prompts, assignment);
+
+            // Generate disclosure statement
+            let disclosure = `The author acknowledges the use of ${toolName} (${version}, accessed ${formattedDate}) to assist with ${tasks} during the preparation of this work. `;
+            
+            // Add percentage context
+            if (percentage === 'low') {
+                disclosure += `AI assistance represented approximately 0-30% of the final work. `;
+            } else if (percentage === 'moderate') {
+                disclosure += `AI assistance represented approximately 30-70% of the final work. `;
+            } else if (percentage === 'high') {
+                disclosure += `AI assistance represented approximately 70-100% of the final work. `;
+            }
+
+            disclosure += `The author has reviewed and verified all AI-assisted content for accuracy and integrity through ${factCheck}. `;
+            
+            disclosure += `No confidential, personal, or identifiable data were entered into the tool at any stage.`;
+
+            // Display result
+            document.getElementById('disclosureOutput').textContent = disclosure;
+            document.querySelector('.container').style.maxWidth = '900px';
+            
+            // Hide form, show result
+            document.getElementById('disclosureForm').style.display = 'none';
+            document.getElementById('navigationButtons').style.display = 'none';
+            document.querySelector('.progress-bar').style.display = 'none';
+            document.querySelector('.step-indicator').style.display = 'none';
+            document.getElementById('resultSection').classList.add('active');
+
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function extractTasks(prompts, assignment) {
+            // Common task keywords
+            const taskKeywords = {
+                'brainstorm': 'idea generation',
+                'grammar': 'language refinement',
+                'style': 'language refinement',
+                'refine': 'language refinement',
+                'structure': 'content organization',
+                'organize': 'content organization',
+                'summarize': 'summarization',
+                'summary': 'summarization',
+                'code': 'code assistance',
+                'debug': 'code debugging',
+                'research': 'research assistance',
+                'translate': 'translation',
+                'explain': 'concept clarification',
+                'clarif': 'concept clarification',
+                'review': 'content review',
+                'feedback': 'feedback generation',
+                'citation': 'citation formatting',
+                'reference': 'reference formatting'
+            };
+
+            let detectedTasks = new Set();
+            const lowerPrompts = prompts.toLowerCase();
+            
+            for (let [keyword, task] of Object.entries(taskKeywords)) {
+                if (lowerPrompts.includes(keyword)) {
+                    detectedTasks.add(task);
+                }
+            }
+
+            if (demonthAccessed = document.getElementById('monthAccessed').value;
+            const yearAccessed = document.getElementById('yearAccessed').value;
+            const prompts = document.getElementById('prompts').value.trim();
+            const percentage = document.querySelector('input[name="percentage"]:checked').value;
+            const whyUse = document.getElementById('whyUse').value.trim();
+            const ethics = document.getElementById('ethics').value.trim();
+            const factCheck = document.getElementById('factCheck').value.trim();
+
+            // Format model info
+            let modelInfo = toolName;
+            if (version) {
+                modelInfo += ` (${version})`;
+            }
+            modelInfo += `, accessed ${monthAccessed} ${yearAccessed}`;
+
+            // Generate specific tasks summary from prompts
+            const tasks = extractTasks(prompts, assignment);
+
+            // Generate disclosure statement
+            let disclosure = `The author acknowledges the use of ${modelInfo}
+
+            if (lower.includes('source') || lower.includes('reference') || lower.includes('citation')) {
+                methods.push('cross-referencing with academic sources');
+            }
+            if (lower.includes('expert') || lower.includes('professor') || lower.includes('instructor')) {
+                methods.push('consultation with subject matter experts');
+            }
+            if (lower.includes('database') || lower.includes('library')) {
+                methods.push('verification through academic databases');
+            }
+            if (lower.includes('manual') || lower.includes('review') || lower.includes('check')) {
+            
+            // Show result section
+            document.getElementById('resultSection').classList.add('active');
+
+            // Scroll to result
+            document.getElementById('resultSection').scrollIntoView({ behavior: 'smooth', block: 'start
+            }
+
+            return 'careful review and fact-checking procedures';
+        }
+
+        function summarizeEthics(ethics) {
+            const lower = ethics.toLowerCase();
+            
+            if (lower.includes('no') && (lower.includes('confidential') || lower.includes('personal') || lower.includes('identifiable'))) {
+                return 'No confidential, personal, or identifiable data were entered into the tool at any stage.';
+            }
+            
+            if (lower.includes('only') && (lower.includes('own') || lower.includes('original') || lower.includes('general'))) {
+                return 'Only the author\'s original content and general concepts were shared with the AI tool, with no confidential or identifiable data entered.';
+            }
+
+            return 'Appropriate ethical guidelines were followed regarding data input, with no confidential or identifiable information shared.';
+        }
+
+        function copyDisclosure() {
+            const disclosure = document.getElementById('disclosureOutput').textContent;
+            navigator.clipboard.writeText(disclosure).then(function() {
+                const button = event.target;
+                const originalText = button.textContent;
+                button.textContent = '✓ Copied!';
+                button.style.background = '#28a745';
+                setTimeout(function() {
+                    button.textContent = originalText;
+                }, 2000);
+            }, function() {
+                alert('Failed to copy. Please select and copy the text manually.');
+            });
+        }
+
+        function startOver() {
+            // Reset form
+            document.getElementById('disclosureForm').reset();
+            currentSection = 1;
+
+            // Reset display
+            document.getElementById('disclosureForm').style.display = 'block';
+            document.getElementById('navigationButtons').style.display = 'flex';
+            document.querySelector('.progress-bar').style.display = 'block';
+            document.querySelector('.step-indicator').style.display = 'block';
+            document.getElementById('resultSection').classList.remove('active');
+            document.querySelector('.container').style.maxWidth = '800px';
+
+            // Show first section
+            const sections = document.querySelectorAll('.form-section');
+            sections.forEach((section, index) => {
+                section.classList.remove('active');
+                if (index === 0) section.classList.add('active');
+            });
+
+            // Reset buttons and progress
+            updateButtons();
+            updateProgress();
+            updateStepIndicator();
+
+            // Reset character counters
+            ['assignment', 'prompts', 'whyUse', 'ethics', 'factCheck'].forEach(field => {
+                const counter = document.getElementById(field + 'Counter');
+                if (counter) counter.textContent = '0';
+            });
+
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
+editDisclosure() {
+            // Hide result section
+            document.getElementById('resultSection').classList.remove('active');
+            
+            // Scroll to form

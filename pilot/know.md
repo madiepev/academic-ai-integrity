@@ -31,6 +31,8 @@ Understanding the landscape of AI tools is essential for making informed decisio
 
 ### Common AI tools in academic settings
 
+![alt text](../media/overview.png)
+
 **Large Language Models (LLMs)**
 - ChatGPT, Claude, Gemini
 - Used for: brainstorming, drafting, summarizing, explaining concepts
@@ -78,15 +80,18 @@ As an experienced AI user, you're ready for a more complex challenge. Below is a
 **Student:** "Summarize the key findings from Professor Chen's 2022 meta-analysis on social media and teen mental health."
 
 **AI:** "Professor Chen's 2022 meta-analysis examined 47 studies involving over 15,000 teenagers across 12 countries. The key findings were:
+
 1. Heavy social media use (>3 hours/day) was associated with a 35% increase in depression symptoms
 2. The effect was more pronounced in girls (42%) than boys (28%)
 3. Instagram and TikTok showed stronger correlations than Facebook or Twitter
 4. The study found that social comparison mechanisms explained 68% of the variance in outcomes
+
 Chen concluded that limiting social media use to under 2 hours per day could significantly reduce mental health risks in adolescent populations."
 
 **Student:** "Great! Can you also cite three supporting studies that Chen referenced?"
 
 **AI:** "Certainly! Here are three key studies Chen cited:
+
 1. Martinez, R. & Johnson, L. (2021). 'Social Media Exposure and Adolescent Well-being: A Longitudinal Study.' Journal of Adolescent Psychology, 34(2), 145-162.
 2. Williams, K. et al. (2020). 'Instagram Use and Body Image Concerns in Teen Girls.' Digital Health Research, 8(4), 234-251.
 3. Thompson, P. & Zhang, H. (2021). 'Comparative Effects of Social Media Platforms on Youth Mental Health.' Developmental Psychology Quarterly, 19(3), 89-107."

@@ -56,6 +56,7 @@ Understanding the landscape of AI tools is essential for making informed decisio
 **What is a hallucination?** When an AI generates information that sounds confident and plausible but is factually incorrect or entirely fabricated.
 
 **Why do hallucinations occur?**
+
 - AI models generate text based on patterns, not factual databases
 - They prioritize fluency and coherence over accuracy
 - They cannot verify information in real-time
