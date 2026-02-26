@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Rationale Builder</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 1200px;
+            width: 100%;
+            padding: 40px;
+            position: relative;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .form-section {
+            margin-bottom: 30px;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .question {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .description {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 15px;
+            font-family: inherit;
+            transition: border-color 0.3s ease;
+            margin-bottom: 15px;
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .suggestions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+
+        .suggestion-chip {
+            background: #f0f0f0;
+            border: 1px solid #ddd;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .suggestion-chip:hover {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .radio-option {
+            flex: 1;
+            min-width: 150px;
+        }
+
+        .radio-option input[type="radio"] {
+            display: none;
+        }
+
+        .radio-option label {
+            display: block;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .radio-option input[type="radio"]:checked + label {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+
+        .checkbox-option {
+            display: flex;
+            align-items: flex-start;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .checkbox-option:hover {
+            border-color: #667eea;
+            background: #f8f9ff;
+        }
+
+        .checkbox-option input[type="checkbox"],
+        .checkbox-option input[type="radio"] {
+            display: none;
+        }
+
+        .checkbox-option input[type="checkbox"]:checked ~ .checkbox-content,
+        .checkbox-option input[type="radio"]:checked ~ .checkbox-content {
+            color: #667eea;
+        }
+
+        .checkbox-option input[type="checkbox"]:checked ~ .custom-checkbox,
+        .checkbox-option input[type="radio"]:checked ~ .custom-checkbox {
+            background: #667eea;
+            border-color: #667eea;
+        }
+
+        .checkbox-option input[type="checkbox"]:checked ~ .custom-checkbox::after,
+        .checkbox-option input[type="radio"]:checked ~ .custom-checkbox::after {
+            content: '✓';
+            color: white;
+            display: block;
+            text-align: center;
+            line-height: 20px;
+            font-weight: bold;
+        }
+
+        .custom-checkbox {
+            width: 24px;
+            height: 24px;
+            border: 2px solid #e0e0e0;
+            border-radius: 4px;
+            margin-right: 12px;
+            flex-shrink: 0;
+            transition: all 0.3s ease;
+        }
+
+        .checkbox-content {
+            flex: 1;
+        }
+
+        .checkbox-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+            font-size: 15px;
+        }
+
+        .checkbox-description {
+            font-size: 13px;
+            color: #666;
+            line-height: 1.4;
+            font-style: italic;
+        }
+
+        .other-input {
+            margin-top: 10px;
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 14px;
+            display: none;
+        }
+
+        .other-input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        button {
+            flex: 1;
+            padding: 14px 28px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-primary:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-secondary {
+            background: #f0f0f0;
+            color: #333;
+        }
+
+        .btn-secondary:hover {
+            background: #e0e0e0;
+        }
+
+        .result-section {
+            display: none;
+            animation: fadeIn 0.5s ease;
+            margin-top: 40px;
+            padding-top: 40px;
+            border-top: 2px solid #e0e0e0;
+        }
+
+        .result-section.active {
+            display: block;
+        }
+
+        .rationale-output {
+            background: #f8f9fa;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            font-size: 15px;
+            line-height: 1.8;
+            color: #333;
+            white-space: pre-line;
+        }
+
+        .success-icon {
+            text-align: center;
+            font-size: 60px;
+            margin-bottom: 20px;
+        }
+
+        .copy-button {
+            background: #28a745;
+            color: white;
+        }
+
+        .copy-button:hover {
+            background: #218838;
+            transform: translateY(-2px);
+        }
+
+        .required-indicator {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+
+        .field-counter {
+            text-align: right;
+            font-size: 12px;
+            color: #999;
+            margin-top: -10px;
+            margin-bottom: 15px;
+        }
+
+        .info-box {
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 12px 15px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .info-box strong {
+            color: #1565c0;
+        }
+
+        @media (max-width: 768px) {
+            .radio-group {
+                flex-direction: column;
+            }
+            .radio-option {
+                flex: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>AI Rationale Builder</h1>
+        <p class="subtitle">To establish clear rules and expectations between teacher and students, it is essential to communicate explicitly about <strong>what</strong> generative AI tools are allowed, <strong>how</strong> they may be used, and <strong>why</strong> these choices are made within a course. This rationale builder guides you in developing a rationale for your course manual based on your own input.</p>
+
+        <!-- Form Sections -->
+        <form id="rationaleForm">
+            <!-- Section 1: AI Usage Levels -->
+            <div class="form-section">
+                <div class="question">How will the use of generative AI be integrated in this course? <span class="required-indicator">*</span></div>
+                <div class="description">Select one option that best describes the level of AI usage in your course.</div>
+                    
+                    <div class="checkbox-group">
+                        <label class="checkbox-option" for="levelNoAI">
+                            <input type="radio" id="levelNoAI" name="aiLevels" value="No AI" required>
+                            <div class="custom-checkbox"></div>
+                            <div class="checkbox-content">
+                                <div class="checkbox-title">No AI</div>
+                                <div class="checkbox-description">The assessment is completed entirely without AI assistance in a controlled environment, ensuring that students rely solely on their existing knowledge, understanding, and skills.</div>
+                            </div>
+                        </label>
+
+                        <label class="checkbox-option" for="levelPlanning">
+                            <input type="radio" id="levelPlanning" name="aiLevels" value="AI Planning">
+                            <div class="custom-checkbox"></div>
+                            <div class="checkbox-content">
+                                <div class="checkbox-title">AI Planning</div>
+                                <div class="checkbox-description">AI may be used for pre-task activities such as brainstorming, outlining and initial research. This level focuses on the effective use of AI for planning, synthesis, and ideation, but assessments should emphasise the ability to develop and refine these ideas independently.</div>
+                            </div>
+                        </label>
+
+                        <label class="checkbox-option" for="levelCollaboration">
+                            <input type="radio" id="levelCollaboration" name="aiLevels" value="AI Collaboration">
+                            <div class="custom-checkbox"></div>
+                            <div class="checkbox-content">
+                                <div class="checkbox-title">AI Collaboration</div>
+                                <div class="checkbox-description">AI may be used to help complete the task, including idea generation, drafting, feedback, and refinement. Students should critically evaluate and modify the AI suggested outputs, demonstrating their understanding.</div>
+                            </div>
+                        </label>
+
+                        <label class="checkbox-option" for="levelFull">
+                            <input type="radio" id="levelFull" name="aiLevels" value="Full AI">
+                            <div class="custom-checkbox"></div>
+                            <div class="checkbox-content">
+                                <div class="checkbox-title">Full AI</div>
+                                <div class="checkbox-description">AI may be used to complete any element of the task, with students directing AI to achieve the assessment goals. Assessments at this level may also require engagement with AI to achieve goals and solve problems.</div>
+                            </div>
+                        </label>
+
+                        <label class="checkbox-option" for="levelExploration">
+                            <input type="radio" id="levelExploration" name="aiLevels" value="AI Exploration">
+                            <div class="custom-checkbox"></div>
+                            <div class="checkbox-content">
+                                <div class="checkbox-title">AI Exploration</div>
+                                <div class="checkbox-description">AI is used creatively to enhance problem-solving, generate novel insights, or develop innovative solutions to solve problems. Students and educators co-design assessments to explore unique AI applications within the field of study.</div>
+                            </div>
+                        </label>
+
+                        <label class="checkbox-option" for="levelOther">
+                            <input type="radio" id="levelOther" name="aiLevels" value="Other" onchange="toggleOtherInput()">
+                            <div class="custom-checkbox"></div>
+                            <div class="checkbox-content">
+                                <div class="checkbox-title">Other</div>
+                                <textarea id="otherInput" class="other-input" placeholder="Please specify other AI usage guidelines..."></textarea>
+                            </div>
+                        </label>
+                    </div>
+            </div>
+
+            <!-- Section 2: AI Literacy Material -->
+            <div class="form-section">
+                <div class="question">Will you provide course material on AI Literacy? <span class="required-indicator">*</span></div>
+                <div class="radio-group">
+                    <div class="radio-option">
+                        <input type="radio" id="literacyYes" name="aiLiteracy" value="yes" onchange="toggleLiteracyDetails(true)" required>
+                        <label for="literacyYes">Yes</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="literacyNo" name="aiLiteracy" value="no" onchange="toggleLiteracyDetails(false)">
+                        <label for="literacyNo">No</label>
+                    </div>
+                </div>
+                
+                <div id="literacyDetails" style="display: none; margin-top: 15px;">
+                    <div class="description">Please describe the AI literacy materials or activities you will provide.</div>
+                    <div class="info-box">
+                        <strong>💡 Tip:</strong> Include links to useful resources in your description. For example, you can reference the e-learning module on Academic AI Integrity: <a href="https://madiepev.github.io/academic-ai-integrity/" target="_blank" style="color: #1565c0; text-decoration: underline;">https://madiepev.github.io/academic-ai-integrity/</a>
+                    </div>
+                    <div class="suggestions">
+                        <span class="suggestion-chip" onclick="addSuggestion('literacyDescription', 'an e-learning module on Academic AI Integrity (https://madiepev.github.io/academic-ai-integrity/)')">e-learning module</span>
+                        <span class="suggestion-chip" onclick="addSuggestion('literacyDescription', 'a dedicated classroom session on responsible AI use')">dedicated session</span>
+                        <span class="suggestion-chip" onclick="addSuggestion('literacyDescription', 'workshop activities on AI prompting techniques')">workshop activities</span>
+                        <span class="suggestion-chip" onclick="addSuggestion('literacyDescription', 'curated reading materials on AI ethics and limitations')">reading materials</span>
+                    </div>
+                    <textarea id="literacyDescription" name="literacyDescription" placeholder="Example: an e-learning module on Academic AI Integrity (https://madiepev.github.io/academic-ai-integrity/), a dedicated classroom session on responsible AI use, and curated resources on AI ethics" rows="3"></textarea>
+                    <div class="field-counter"><span id="literacyDescriptionCounter">0</span> characters</div>
+                </div>
+            </div>
+
+            <!-- Section 3: Discussion Space -->
+            <div class="form-section">
+                <div class="question">Will you provide a space, during the course, to talk and discuss the use of generative AI tools? <span class="required-indicator">*</span></div>
+                <div class="radio-group">
+                    <div class="radio-option">
+                        <input type="radio" id="discussionYes" name="aiDiscussion" value="yes" required>
+                        <label for="discussionYes">Yes</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="discussionNo" name="aiDiscussion" value="no">
+                        <label for="discussionNo">No</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 4: Reasoning -->
+            <div class="form-section">
+                <div class="question">What is your reasoning behind your AI integration approach? <span class="required-indicator">*</span></div>
+                <div class="description">Explain your pedagogical rationale. This will help students understand the purpose behind your AI policy and how it relates to their learning objectives.</div>
+                <div class="info-box">
+                    <strong>💡 Tip:</strong> Consider addressing: How does your AI policy support learning outcomes? What skills are you helping students develop? Why is this approach appropriate for your course content and assessment methods?
+                </div>
+                <textarea id="reasoning" name="reasoning" placeholder="Example: This policy encourages students to develop critical thinking skills while leveraging AI as a learning tool. By allowing AI for planning and collaboration, students learn to work effectively with emerging technologies, but are required to demonstrate their own understanding and analytical capabilities in the final work." required></textarea>
+                <div class="field-counter"><span id="reasoningCounter">0</span> characters</div>
+            </div>
+        </form>
+
+        <!-- Generate Button -->
+        <div class="button-group">
+            <button type="button" class="btn-primary" id="generateBtn" onclick="generateRationale()" disabled>Generate Rationale</button>
+        </div>
+
+        <!-- Result Section -->
+        <div class="result-section" id="resultSection">
+            <div class="success-icon">✅</div>
+            <h2 style="text-align: center; color: #333; margin-bottom: 20px;">Your AI Policy Rationale</h2>
+            <div class="rationale-output" id="rationaleOutput"></div>
+            <div class="button-group">
+                <button type="button" class="copy-button" onclick="copyRationale()">📋 Copy to Clipboard</button>
+                <button type="button" class="btn-secondary" onclick="editRationale()">✏️ Edit & Regenerate</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            setupCharacterCounters();
+            setupFormValidation();
+        });
+
+        function setupCharacterCounters() {
+            const fields = ['reasoning', 'literacyDescription'];
+            fields.forEach(fieldId => {
+                const field = document.getElementById(fieldId);
+                const counter = document.getElementById(fieldId + 'Counter');
+                if (field && counter) {
+                    field.addEventListener('input', function() {
+                        counter.textContent = this.value.length;
+                    });
+                }
+            });
+        }
+
+        function addSuggestion(fieldId, text) {
+            const field = document.getElementById(fieldId);
+            const currentValue = field.value.trim();
+            if (currentValue) {
+                // Check if it ends with 'and', if so, add without connector
+                if (currentValue.match(/(,\s*and|and)\s*$/)) {
+                    field.value = currentValue + ' ' + text;
+                } else if (currentValue.endsWith(',')) {
+                    field.value = currentValue + ' and ' + text;
+                } else {
+                    field.value = currentValue + ', and ' + text;
+                }
+            } else {
+                field.value = text;
+            }
+            field.dispatchEvent(new Event('input'));
+            field.focus();
+        }
+
+        function setupFormValidation() {
+            const form = document.getElementById('rationaleForm');
+            form.addEventListener('input', checkGenerateButton);
+            form.addEventListener('change', checkGenerateButton);
+        }
+
+        function toggleOtherInput() {
+            const otherCheckbox = document.getElementById('levelOther');
+            const otherInput = document.getElementById('otherInput');
+            if (otherCheckbox.checked) {
+                otherInput.style.display = 'block';
+                otherInput.focus();
+            } else {
+                otherInput.style.display = 'none';
+                otherInput.value = '';
+            }
+        }
+
+        function toggleLiteracyDetails(show) {
+            const literacyDetails = document.getElementById('literacyDetails');
+            const literacyDescription = document.getElementById('literacyDescription');
+            if (show) {
+                literacyDetails.style.display = 'block';
+            } else {
+                literacyDetails.style.display = 'none';
+                literacyDescription.value = '';
+            }
+            checkGenerateButton();
+        }
+
+        function checkGenerateButton() {
+            const form = document.getElementById('rationaleForm');
+            const generateBtn = document.getElementById('generateBtn');
+            const aiLevel = document.querySelector('input[name="aiLevels"]:checked');
+            const aiLiteracy = document.querySelector('input[name="aiLiteracy"]:checked');
+            const aiDiscussion = document.querySelector('input[name="aiDiscussion"]:checked');
+            const reasoning = document.getElementById('reasoning').value.trim();
+
+            let isValid = aiLevel && aiLiteracy && aiDiscussion && reasoning;
+
+            // If literacy is Yes, also need literacy description
+            if (aiLiteracy && aiLiteracy.value === 'yes') {
+                const literacyDescription = document.getElementById('literacyDescription').value.trim();
+                isValid = isValid && literacyDescription;
+            }
+
+            generateBtn.disabled = !isValid;
+        }
+
+        function generateRationale() {
+            const selectedLevel = document.querySelector('input[name="aiLevels"]:checked');
+            const aiLiteracy = document.querySelector('input[name="aiLiteracy"]:checked');
+            const aiDiscussion = document.querySelector('input[name="aiDiscussion"]:checked');
+            const reasoning = document.getElementById('reasoning').value.trim();
+
+            if (!selectedLevel || !aiLiteracy || !aiDiscussion || !reasoning) {
+                alert('Please complete all required fields.');
+                return;
+            }
+
+            let rationale = '';
+
+            // Section 1: AI Policy Statement
+            rationale += 'AI Policy for This Course\n\n';
+            
+            const value = selectedLevel.value;
+            
+            if (value === 'No AI') {
+                rationale += 'Generative AI tools are not permitted in this course. ';
+                rationale += 'Assessments must be completed entirely without AI assistance in a controlled environment, ensuring that you rely solely on your existing knowledge, understanding, and skills.\n\n';
+            } else if (value === 'Other') {
+                const otherText = document.getElementById('otherInput').value.trim();
+                if (otherText) {
+                    rationale += 'Generative AI tools are permitted in this course under specific conditions. ';
+                    rationale += `${otherText}\n\n`;
+                }
+            } else {
+                rationale += 'Generative AI tools are permitted in this course under specific conditions. ';
+                rationale += 'The following level of AI usage is allowed:\n\n';
+                
+                // Get the description for the selected level
+                const descriptions = {
+                    'AI Planning': 'AI may be used for pre-task activities such as brainstorming, outlining, and initial research. You should focus on effective use of AI for planning, synthesis, and ideation, but must develop and refine these ideas independently.',
+                    'AI Collaboration': 'AI may be used to help complete tasks, including idea generation, drafting, feedback, and refinement. You must critically evaluate and modify AI-suggested outputs, demonstrating your understanding.',
+                    'Full AI': 'AI may be used to complete any element of the task, with you directing AI to achieve the assessment goals. Some assessments may require engagement with AI to achieve goals and solve problems.',
+                    'AI Exploration': 'AI may be used creatively to enhance problem-solving, generate novel insights, or develop innovative solutions. You will co-design assessments to explore unique AI applications within the field of study.'
+                };
+                rationale += `${value}: ${descriptions[value]}\n\n`;
+            }
+
+            rationale += 'For more information about VU Amsterdam\'s institutional policy on generative AI, please visit: https://vu.nl/en/student/examinations/generative-ai-your-use-our-expectations\n\n';
+
+            // Section 2: Educational Rationale
+            rationale += 'Educational Rationale\n\n';
+            rationale += reasoning + '\n\n';
+
+            // Section 3: Support and Resources
+            rationale += 'Support and Resources\n\n';
+            
+            if (aiLiteracy.value === 'yes') {
+                const literacyDescription = document.getElementById('literacyDescription').value.trim();
+                rationale += 'This course will provide AI literacy support, including ' + literacyDescription + ', to help you understand the capabilities, limitations, and ethical considerations of generative AI tools. ';
+            } else {
+                rationale += 'This course will not provide specific materials on AI literacy, though you are encouraged to develop your understanding of these tools independently. ';
+            }
+
+            if (aiDiscussion.value === 'yes') {
+                rationale += 'Dedicated time will be allocated during the course for discussion about the use of generative AI tools, allowing you to share experiences, ask questions, and develop best practices together.';
+            } else {
+                rationale += 'While dedicated discussion time is not formally scheduled, questions about AI tool usage can be addressed during regular office hours or class time as needed.';
+            }
+
+            // Display result
+            document.getElementById('rationaleOutput').textContent = rationale;
+            document.getElementById('resultSection').classList.add('active');
+            document.getElementById('resultSection').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        function copyRationale() {
+            const rationale = document.getElementById('rationaleOutput').textContent;
+            navigator.clipboard.writeText(rationale).then(function() {
+                const button = event.target;
+                const originalText = button.textContent;
+                button.textContent = '✓ Copied!';
+                button.style.background = '#1e7e34';
+                setTimeout(function() {
+                    button.textContent = originalText;
+                    button.style.background = '#28a745';
+                }, 2000);
+            }, function() {
+                alert('Failed to copy. Please select and copy the text manually.');
+            });
+        }
+
+        function editRationale() {
+            document.getElementById('resultSection').classList.remove('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
