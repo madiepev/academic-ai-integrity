@@ -81,7 +81,7 @@ Wondering where you stand with AI literacy? Take our **10-minute assessment** to
     </div>
     <div>
       <strong>For teachers:</strong><br>
-      <a href="teacher-rationale.html" style="color: #0066cc; text-decoration: none; font-size: 16px;">
+      <a href="rationale.html" style="color: #0066cc; text-decoration: none; font-size: 16px;">
         AI rationale builder
       </a>
       <p style="font-size: 13px; color: #666; margin: 5px 0 0 0;">Create AI usage guidelines for your course</p>
