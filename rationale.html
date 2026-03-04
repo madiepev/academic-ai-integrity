@@ -347,6 +347,42 @@
             color: #1565c0;
         }
 
+        .qualtrics-section {
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 2px solid #e0e0e0;
+        }
+
+        .qualtrics-section h3 {
+            font-size: 20px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .qualtrics-section p {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .btn-survey {
+            display: inline-block;
+            padding: 14px 28px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .btn-survey:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
         @media (max-width: 768px) {
             .radio-group {
                 flex-direction: column;
@@ -491,11 +527,17 @@
         <!-- Result Section -->
         <div class="result-section" id="resultSection">
             <div class="success-icon">✅</div>
-            <h2 style="text-align: center; color: #333; margin-bottom: 20px;">Your AI Policy Rationale</h2>
+            <h2 style="text-align: center; color: #333; margin-bottom: 20px;">Your AI Use Rationale</h2>
             <div class="rationale-output" id="rationaleOutput"></div>
             <div class="button-group">
-                <button type="button" class="copy-button" onclick="copyRationale()">📋 Copy to Clipboard</button>
-                <button type="button" class="btn-secondary" onclick="editRationale()">✏️ Edit & Regenerate</button>
+                <button type="button" class="copy-button" onclick="copyRationale()">Copy to Clipboard</button>
+                <button type="button" class="btn-secondary" onclick="editRationale()">Edit & Regenerate</button>
+            </div>
+
+            <div class="qualtrics-section">
+                <h3>Share Your Rationale for Research</h3>
+                <p>We are collecting rationales to better understand how educators approach AI integration. If you are willing, please upload your rationale using the form below. Participation is voluntary and anonymous.</p>
+                <a href="https://vuamsterdam.eu.qualtrics.com/jfe/form/SV_4INCsmknxIJOfIO" target="_blank" rel="noopener noreferrer" class="btn-survey">Open survey ↗</a>
             </div>
         </div>
     </div>
