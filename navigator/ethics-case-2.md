@@ -21,14 +21,29 @@ A student approaches the instructor to explain that they do not wish to use gene
 
 ---
 
-## Reflect
+## Respond
 
 <div class="reflection-box">
 	<p class="reflection-question">How should the instructor respond?</p>
 	<textarea class="reflection-input" id="reflection-case2" placeholder="Write your response here..."></textarea>
 	<div class="reflection-actions">
-		<button class="save-btn" onclick="saveReflection('case2')">Save response</button>
-		<span class="save-status" id="save-status-case2"></span>
+		<button class="save-btn" onclick="viewExpertPerspective('case2')">View expert perspective</button>
+	</div>
+</div>
+
+<div class="expert-panel" id="expert-case2" style="display: none;">
+	<div class="expert-perspective">
+		<h3 class="expert-title">Expert perspective</h3>
+		<p>The instructor should take the student's concern seriously and engage with it rather than dismissing it. The appropriate response is to offer an equivalent alternative that achieves the same learning outcomes — such as using a peer review process, consulting a human tutor, or performing the analytical steps manually — without requiring AI use. This respects student autonomy and avoids imposing a tool that conflicts with sincerely held values. At the same time, the instructor should be transparent about why AI was included: if it is genuinely integral to the learning objective rather than just a convenience, that rationale is worth explaining. If a meaningful alternative cannot be designed, it may also be worth reconsidering whether requiring a specific commercial tool is appropriate as a non-negotiable element of course participation.</p>
+	</div>
+
+	<div class="reflection-box" style="margin-top: 20px;">
+		<p class="reflection-question">How does your response compare? What did you get right, and what would you do differently?</p>
+		<textarea class="reflection-input" id="reflection-case2-compare" placeholder="Write your comparison here..."></textarea>
+		<div class="reflection-actions">
+			<button class="save-btn" onclick="saveReflection('case2-compare')">Save reflection</button>
+			<span class="save-status" id="save-status-case2-compare"></span>
+		</div>
 	</div>
 </div>
 
@@ -129,17 +144,62 @@ A student approaches the instructor to explain that they do not wish to use gene
 		color: #28a745;
 		font-weight: 500;
 	}
+
+	.expert-panel {
+		margin-top: 24px;
+	}
+
+	.expert-perspective {
+		background-color: #fff8f0;
+		border: 1px solid #ffd099;
+		border-left: 4px solid #ff6600;
+		border-radius: 12px;
+		padding: 24px;
+	}
+
+	.expert-title {
+		font-size: 15px;
+		font-weight: 700;
+		color: #cc4400;
+		text-transform: uppercase;
+		letter-spacing: 0.05em;
+		margin: 0 0 12px 0;
+	}
+
+	.expert-perspective p {
+		font-size: 14px;
+		line-height: 1.7;
+		color: #333333;
+		margin: 0;
+	}
 </style>
 
 <script>
 	(function () {
-		const key = "reflection-case2";
-		const textarea = document.getElementById("reflection-case2");
-		if (textarea) {
-			const saved = localStorage.getItem(key);
-			if (saved) textarea.value = saved;
+		["reflection-case2", "reflection-case2-compare"].forEach(function (key) {
+			const el = document.getElementById(key);
+			if (el) {
+				const saved = localStorage.getItem(key);
+				if (saved) el.value = saved;
+			}
+		});
+		if (localStorage.getItem("reflection-case2-compare") !== null) {
+			const panel = document.getElementById("expert-case2");
+			if (panel) panel.style.display = "block";
 		}
 	})();
+
+	function viewExpertPerspective(caseId) {
+		const textarea = document.getElementById("reflection-" + caseId);
+		if (textarea) {
+			localStorage.setItem("reflection-" + caseId, textarea.value);
+		}
+		const panel = document.getElementById("expert-" + caseId);
+		if (panel) {
+			panel.style.display = "block";
+			panel.scrollIntoView({ behavior: "smooth", block: "start" });
+		}
+	}
 
 	function saveReflection(caseId) {
 		const textarea = document.getElementById("reflection-" + caseId);
@@ -147,7 +207,7 @@ A student approaches the instructor to explain that they do not wish to use gene
 		if (textarea) {
 			localStorage.setItem("reflection-" + caseId, textarea.value);
 			if (status) {
-				status.textContent = "Response saved.";
+				status.textContent = "Saved.";
 				setTimeout(function () { status.textContent = ""; }, 2500);
 			}
 		}

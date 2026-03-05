@@ -21,14 +21,29 @@ The instructor is also aware that they have limited experience with generative A
 
 ---
 
-## Reflect
+## Respond
 
 <div class="reflection-box">
 	<p class="reflection-question">How should the instructor respond?</p>
 	<textarea class="reflection-input" id="reflection-case3" placeholder="Write your response here..."></textarea>
 	<div class="reflection-actions">
-		<button class="save-btn" onclick="saveReflection('case3')">Save response</button>
-		<span class="save-status" id="save-status-case3"></span>
+		<button class="save-btn" onclick="viewExpertPerspective('case3')">View expert perspective</button>
+	</div>
+</div>
+
+<div class="expert-panel" id="expert-case3" style="display: none;">
+	<div class="expert-perspective">
+		<h3 class="expert-title">Expert perspective</h3>
+		<p>The instructor's decision to restrict AI is pedagogically defensible if the learning outcomes do not require it, and their honesty about limited expertise is itself a sign of professional integrity. The recommended response to students is to explain the restriction in terms of the course's learning goals — not as a blanket moral stance on AI — and to acknowledge students' broader concerns openly without being dismissive. The instructor might say something like: "AI is not part of this course's assessment design, and I don't yet have the expertise to supervise its use responsibly here. If you want to develop AI skills, I'd encourage you to explore resources outside this course." This is transparent, honest, and keeps the focus on what the course is actually designed to achieve. It avoids both defensiveness and overclaiming authority on a topic where the instructor themselves has acknowledged limits.</p>
+	</div>
+
+	<div class="reflection-box" style="margin-top: 20px;">
+		<p class="reflection-question">How does your response compare? What did you get right, and what would you do differently?</p>
+		<textarea class="reflection-input" id="reflection-case3-compare" placeholder="Write your comparison here..."></textarea>
+		<div class="reflection-actions">
+			<button class="save-btn" onclick="saveReflection('case3-compare')">Save reflection</button>
+			<span class="save-status" id="save-status-case3-compare"></span>
+		</div>
 	</div>
 </div>
 
@@ -129,17 +144,62 @@ The instructor is also aware that they have limited experience with generative A
 		color: #28a745;
 		font-weight: 500;
 	}
+
+	.expert-panel {
+		margin-top: 24px;
+	}
+
+	.expert-perspective {
+		background-color: #fff8f0;
+		border: 1px solid #ffd099;
+		border-left: 4px solid #ff6600;
+		border-radius: 12px;
+		padding: 24px;
+	}
+
+	.expert-title {
+		font-size: 15px;
+		font-weight: 700;
+		color: #cc4400;
+		text-transform: uppercase;
+		letter-spacing: 0.05em;
+		margin: 0 0 12px 0;
+	}
+
+	.expert-perspective p {
+		font-size: 14px;
+		line-height: 1.7;
+		color: #333333;
+		margin: 0;
+	}
 </style>
 
 <script>
 	(function () {
-		const key = "reflection-case3";
-		const textarea = document.getElementById("reflection-case3");
-		if (textarea) {
-			const saved = localStorage.getItem(key);
-			if (saved) textarea.value = saved;
+		["reflection-case3", "reflection-case3-compare"].forEach(function (key) {
+			const el = document.getElementById(key);
+			if (el) {
+				const saved = localStorage.getItem(key);
+				if (saved) el.value = saved;
+			}
+		});
+		if (localStorage.getItem("reflection-case3-compare") !== null) {
+			const panel = document.getElementById("expert-case3");
+			if (panel) panel.style.display = "block";
 		}
 	})();
+
+	function viewExpertPerspective(caseId) {
+		const textarea = document.getElementById("reflection-" + caseId);
+		if (textarea) {
+			localStorage.setItem("reflection-" + caseId, textarea.value);
+		}
+		const panel = document.getElementById("expert-" + caseId);
+		if (panel) {
+			panel.style.display = "block";
+			panel.scrollIntoView({ behavior: "smooth", block: "start" });
+		}
+	}
 
 	function saveReflection(caseId) {
 		const textarea = document.getElementById("reflection-" + caseId);
@@ -147,7 +207,7 @@ The instructor is also aware that they have limited experience with generative A
 		if (textarea) {
 			localStorage.setItem("reflection-" + caseId, textarea.value);
 			if (status) {
-				status.textContent = "Response saved.";
+				status.textContent = "Saved.";
 				setTimeout(function () { status.textContent = ""; }, 2500);
 			}
 		}

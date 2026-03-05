@@ -24,14 +24,29 @@ The assignment is formative and does not contribute to the student's final grade
 
 ---
 
-## Reflect
+## Respond
 
 <div class="reflection-box">
 	<p class="reflection-question">How should the instructor respond?</p>
 	<textarea class="reflection-input" id="reflection-case1" placeholder="Write your response here..."></textarea>
 	<div class="reflection-actions">
-		<button class="save-btn" onclick="saveReflection('case1')">Save response</button>
-		<span class="save-status" id="save-status-case1"></span>
+		<button class="save-btn" onclick="viewExpertPerspective('case1')">View expert perspective</button>
+	</div>
+</div>
+
+<div class="expert-panel" id="expert-case1" style="display: none;">
+	<div class="expert-perspective">
+		<h3 class="expert-title">Expert perspective</h3>
+		<p>Because the assignment is formative and does not contribute to the student's grade, and because the student disclosed their AI use as required, a punitive response is not appropriate. The instructor should treat this as a learning opportunity. Feedback should acknowledge the disclosure positively and then address the specific issue directly: note that the technical term appears out of place, explain why it does not align with the course content, and invite the student to reconsider that section using their own understanding. This is precisely the situation that formative assessment and disclosure policies are designed to surface. The instructor might also use the conversation to discuss how AI-generated text can introduce vocabulary that sounds plausible but is contextually incorrect — a useful critical AI literacy lesson.</p>
+	</div>
+
+	<div class="reflection-box" style="margin-top: 20px;">
+		<p class="reflection-question">How does your response compare? What did you get right, and what would you do differently?</p>
+		<textarea class="reflection-input" id="reflection-case1-compare" placeholder="Write your comparison here..."></textarea>
+		<div class="reflection-actions">
+			<button class="save-btn" onclick="saveReflection('case1-compare')">Save reflection</button>
+			<span class="save-status" id="save-status-case1-compare"></span>
+		</div>
 	</div>
 </div>
 
@@ -132,17 +147,62 @@ The assignment is formative and does not contribute to the student's final grade
 		color: #28a745;
 		font-weight: 500;
 	}
+
+	.expert-panel {
+		margin-top: 24px;
+	}
+
+	.expert-perspective {
+		background-color: #fff8f0;
+		border: 1px solid #ffd099;
+		border-left: 4px solid #ff6600;
+		border-radius: 12px;
+		padding: 24px;
+	}
+
+	.expert-title {
+		font-size: 15px;
+		font-weight: 700;
+		color: #cc4400;
+		text-transform: uppercase;
+		letter-spacing: 0.05em;
+		margin: 0 0 12px 0;
+	}
+
+	.expert-perspective p {
+		font-size: 14px;
+		line-height: 1.7;
+		color: #333333;
+		margin: 0;
+	}
 </style>
 
 <script>
 	(function () {
-		const key = "reflection-case1";
-		const textarea = document.getElementById("reflection-case1");
-		if (textarea) {
-			const saved = localStorage.getItem(key);
-			if (saved) textarea.value = saved;
+		["reflection-case1", "reflection-case1-compare"].forEach(function (key) {
+			const el = document.getElementById(key);
+			if (el) {
+				const saved = localStorage.getItem(key);
+				if (saved) el.value = saved;
+			}
+		});
+		if (localStorage.getItem("reflection-case1-compare") !== null) {
+			const panel = document.getElementById("expert-case1");
+			if (panel) panel.style.display = "block";
 		}
 	})();
+
+	function viewExpertPerspective(caseId) {
+		const textarea = document.getElementById("reflection-" + caseId);
+		if (textarea) {
+			localStorage.setItem("reflection-" + caseId, textarea.value);
+		}
+		const panel = document.getElementById("expert-" + caseId);
+		if (panel) {
+			panel.style.display = "block";
+			panel.scrollIntoView({ behavior: "smooth", block: "start" });
+		}
+	}
 
 	function saveReflection(caseId) {
 		const textarea = document.getElementById("reflection-" + caseId);
@@ -150,7 +210,7 @@ The assignment is formative and does not contribute to the student's final grade
 		if (textarea) {
 			localStorage.setItem("reflection-" + caseId, textarea.value);
 			if (status) {
-				status.textContent = "Response saved.";
+				status.textContent = "Saved.";
 				setTimeout(function () { status.textContent = ""; }, 2500);
 			}
 		}
