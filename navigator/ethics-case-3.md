@@ -24,7 +24,7 @@ The instructor is also aware that they have limited experience with generative A
 ## Reflect
 
 <div class="reflection-box">
-	<p class="reflection-question">What principle should guide the instructor's decision about allowing or restricting AI use in this course, and how should that principle shape the instructor's response to the students' concerns?</p>
+	<p class="reflection-question">How should the instructor respond?</p>
 	<textarea class="reflection-input" id="reflection-case3" placeholder="Write your response here..."></textarea>
 	<div class="reflection-actions">
 		<button class="save-btn" onclick="saveReflection('case3')">Save response</button>

@@ -27,7 +27,7 @@ The assignment is formative and does not contribute to the student's final grade
 ## Reflect
 
 <div class="reflection-box">
-	<p class="reflection-question">What principle should guide the instructor's decision about allowing or restricting AI use in this course, and how should that principle shape the instructor's response to the student's situation?</p>
+	<p class="reflection-question">How should the instructor respond?</p>
 	<textarea class="reflection-input" id="reflection-case1" placeholder="Write your response here..."></textarea>
 	<div class="reflection-actions">
 		<button class="save-btn" onclick="saveReflection('case1')">Save response</button>

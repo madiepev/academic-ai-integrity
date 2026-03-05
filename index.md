@@ -67,6 +67,28 @@ Wondering where you stand with AI literacy? Take our **10-minute assessment** to
 
 ---
 
+## Ethics and policy
+
+<div style="background-color: #f0f4ff; padding: 20px; border-radius: 5px; margin-top: 10px;">
+  <h3 style="margin-top: 0;">Explore AI ethics and VU policy</h3>
+  <div style="display: flex; gap: 20px; flex-wrap: wrap; justify-content: center;">
+    <div>
+      <a href="navigator/ethics" style="color: #0066cc; text-decoration: none; font-size: 16px;">
+        Ethics: VU policy and AI in assessment
+      </a>
+      <p style="font-size: 13px; color: #666; margin: 5px 0 0 0;">Understand VU policy, the AI Assessment Scale, and ethical frameworks</p>
+    </div>
+    <div>
+      <a href="navigator/ethics-cases" style="color: #0066cc; text-decoration: none; font-size: 16px;">
+        Ethics: practice cases
+      </a>
+      <p style="font-size: 13px; color: #666; margin: 5px 0 0 0;">Explore real-world scenarios and reflect on ethical AI use</p>
+    </div>
+  </div>
+</div>
+
+---
+
 ## Quick access tools
 
 <div style="background-color: #f8f9fa; padding: 20px; border-radius: 5px; margin-top: 40px;">
