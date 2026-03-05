@@ -47,6 +47,13 @@ A student approaches the instructor to explain that they do not wish to use gene
 	</div>
 </div>
 
+---
+
+<div style="text-align: center; margin: 32px 0;">
+	<p style="font-size: 14px; color: #555; margin-bottom: 12px;">Have a case of your own? Share it with us.</p>
+	<a href="https://vuamsterdam.eu.qualtrics.com/jfe/form/SV_aYwf8ohZt4Udz70" target="_blank" style="display: inline-block; padding: 11px 28px; font-size: 14px; font-weight: 500; background-color: #0066cc; color: white; border-radius: 6px; text-decoration: none;">Submit your own case</a>
+</div>
+
 <style>
 	.case-tags {
 		display: flex;
@@ -183,10 +190,6 @@ A student approaches the instructor to explain that they do not wish to use gene
 				if (saved) el.value = saved;
 			}
 		});
-		if (localStorage.getItem("reflection-case2-compare") !== null) {
-			const panel = document.getElementById("expert-case2");
-			if (panel) panel.style.display = "block";
-		}
 	})();
 
 	function viewExpertPerspective(caseId) {
