@@ -135,20 +135,39 @@
 
 /* --- ChatPDF mock --- */
 #ai-tool-explorer .mock-chatpdf { display: flex; min-height: 300px; background: white; }
-#ai-tool-explorer .chatpdf-sidebar { width: 44%; background: #f8fafc; border-right: 1px solid #e5e7eb; display: flex; flex-direction: column; flex-shrink: 0; }
-#ai-tool-explorer .chatpdf-pdf-header { background: #dc2626; padding: 7px 11px; font-size: 11px; font-weight: 700; color: white; display: flex; align-items: center; gap: 5px; }
-#ai-tool-explorer .chatpdf-pdf-body { flex: 1; padding: 12px; overflow: hidden; }
-#ai-tool-explorer .pdf-page { background: white; border: 1px solid #d1d5db; border-radius: 3px; padding: 14px; font-size: 9.5px; color: #374151; line-height: 1.7; box-shadow: 0 2px 8px rgba(0,0,0,0.07); font-family: 'Times New Roman', serif; }
-#ai-tool-explorer .pdf-title { font-size: 11px; font-weight: 700; text-align: center; margin-bottom: 6px; color: #111827; }
-#ai-tool-explorer .pdf-authors { font-size: 9px; text-align: center; color: #6b7280; margin-bottom: 8px; }
+#ai-tool-explorer .chatpdf-nav { width: 130px; background: #1a1726; display: flex; flex-direction: column; flex-shrink: 0; overflow: hidden; }
+#ai-tool-explorer .chatpdf-nav-top { padding: 10px 9px 8px; border-bottom: 1px solid #2e2840; }
+#ai-tool-explorer .chatpdf-logo-row { display: flex; align-items: center; gap: 5px; }
+#ai-tool-explorer .chatpdf-logo-icon { width: 18px; height: 18px; background: linear-gradient(135deg,#a855f7,#ec4899); border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 10px; color: white; font-weight: 800; flex-shrink: 0; }
+#ai-tool-explorer .chatpdf-logo-text { color: white; font-size: 11.5px; font-weight: 700; flex: 1; }
+#ai-tool-explorer .chatpdf-new-btn { background: transparent; border: 1px solid #4b4468; border-radius: 5px; color: #c4b5d4; font-size: 9.5px; padding: 2px 6px; cursor: pointer; font-family: inherit; white-space: nowrap; }
+#ai-tool-explorer .chatpdf-nav-section { padding: 8px 9px 4px; }
+#ai-tool-explorer .chatpdf-nav-label { font-size: 9.5px; font-weight: 700; color: #7c6f9a; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px; display: flex; align-items: center; justify-content: space-between; }
+#ai-tool-explorer .chatpdf-nav-label-subfolder { font-size: 9px; color: #7c6f9a; font-weight: 400; text-transform: none; letter-spacing: 0; }
+#ai-tool-explorer .chatpdf-nav-item { font-size: 10px; color: #b0a5c8; padding: 4px 6px; border-radius: 5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+#ai-tool-explorer .chatpdf-nav-item.active { background: #2e2840; color: white; }
+#ai-tool-explorer .chatpdf-nav-footer { margin-top: auto; padding: 9px; border-top: 1px solid #2e2840; }
+#ai-tool-explorer .chatpdf-nav-footer-text { font-size: 9px; color: #6b6080; line-height: 1.5; margin-bottom: 7px; }
+#ai-tool-explorer .chatpdf-signup-btn { width: 100%; background: #7c3aed; border: none; border-radius: 6px; color: white; font-size: 10px; font-weight: 700; padding: 5px 0; cursor: pointer; font-family: inherit; }
+#ai-tool-explorer .chatpdf-pdf-panel { width: 190px; border-right: 1px solid #e5e7eb; background: #f3f4f6; overflow: hidden; display: flex; flex-direction: column; flex-shrink: 0; }
+#ai-tool-explorer .chatpdf-pdf-topbar { background: white; border-bottom: 1px solid #e5e7eb; padding: 6px 10px; font-size: 9.5px; color: #6b7280; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+#ai-tool-explorer .chatpdf-pdf-inner { flex: 1; padding: 10px; }
+#ai-tool-explorer .pdf-page { background: white; border: 1px solid #d1d5db; padding: 12px; font-size: 8.5px; color: #374151; line-height: 1.7; box-shadow: 0 2px 8px rgba(0,0,0,0.07); font-family: 'Times New Roman', serif; }
+#ai-tool-explorer .pdf-title { font-size: 10px; font-weight: 700; text-align: center; margin-bottom: 5px; color: #111827; }
+#ai-tool-explorer .pdf-authors { font-size: 8.5px; text-align: center; color: #6b7280; margin-bottom: 7px; }
 #ai-tool-explorer .pdf-abstract-head { font-weight: 700; margin-bottom: 3px; }
 #ai-tool-explorer .pdf-highlight { background: #fef08a; border-radius: 2px; }
-#ai-tool-explorer .chatpdf-chat { flex: 1; display: flex; flex-direction: column; background: white; }
-#ai-tool-explorer .chatpdf-chat-header { padding: 9px 13px; border-bottom: 1px solid #e5e7eb; font-size: 12px; font-weight: 700; color: #111827; display: flex; align-items: center; gap: 5px; }
-#ai-tool-explorer .chatpdf-msgs { flex: 1; padding: 11px 13px; display: flex; flex-direction: column; gap: 11px; overflow: hidden; }
-#ai-tool-explorer .chatpdf-msg-user { align-self: flex-end; background: #dc2626; color: white; border-radius: 12px 12px 2px 12px; padding: 8px 11px; font-size: 11.5px; max-width: 82%; line-height: 1.4; }
-#ai-tool-explorer .chatpdf-msg-ai { align-self: flex-start; background: #f1f5f9; color: #1f2937; border-radius: 2px 12px 12px 12px; padding: 9px 11px; font-size: 11.5px; max-width: 87%; line-height: 1.6; }
-#ai-tool-explorer .chatpdf-input-row { border-top: 1px solid #e5e7eb; padding: 7px 11px; display: flex; align-items: center; gap: 7px; }
+#ai-tool-explorer .chatpdf-chat { flex: 1; display: flex; flex-direction: column; background: white; min-width: 0; }
+#ai-tool-explorer .chatpdf-msgs { flex: 1; padding: 14px 14px 8px; display: flex; flex-direction: column; gap: 10px; overflow: hidden; }
+#ai-tool-explorer .chatpdf-question { font-size: 12px; color: #111827; font-weight: 500; line-height: 1.5; }
+#ai-tool-explorer .chatpdf-answer { font-size: 11px; color: #374151; line-height: 1.7; }
+#ai-tool-explorer .chatpdf-cite { display: inline-flex; align-items: center; background: #e0f2fe; color: #0369a1; font-size: 9px; font-weight: 700; border-radius: 10px; padding: 0 5px; margin: 0 1px; vertical-align: middle; }
+#ai-tool-explorer .chatpdf-actions { display: flex; gap: 8px; align-items: center; }
+#ai-tool-explorer .chatpdf-action-icon { font-size: 12px; color: #9ca3af; }
+#ai-tool-explorer .chatpdf-input-row { border-top: 1px solid #f1f5f9; padding: 7px 10px; display: flex; align-items: center; gap: 6px; }
+#ai-tool-explorer .chatpdf-input-chips { display: flex; gap: 4px; flex-shrink: 0; }
+#ai-tool-explorer .chatpdf-chip { font-size: 9.5px; font-weight: 600; padding: 3px 9px; border-radius: 12px; border: 1px solid #e5e7eb; color: #6b7280; }
+#ai-tool-explorer .chatpdf-chip.active { background: #7c3aed; border-color: #7c3aed; color: white; }
 
 /* --- Explain Paper mock --- */
 #ai-tool-explorer .mock-explainpaper { background: white; min-height: 290px; display: flex; flex-direction: column; }
@@ -187,20 +206,28 @@
   #ai-tool-explorer .mock-perplexity-body { grid-template-columns: 1fr; }
   #ai-tool-explorer .perplexity-sources-col { display: none; }
   #ai-tool-explorer .mock-chatpdf { flex-direction: column; }
-  #ai-tool-explorer .chatpdf-sidebar { width: 100%; max-height: 130px; overflow: hidden; }
+  #ai-tool-explorer .chatpdf-nav { width: 100%; max-height: 80px; }
+  #ai-tool-explorer .chatpdf-pdf-panel { display: none; }
   #ai-tool-explorer .explainpaper-body { flex-direction: column; }
   #ai-tool-explorer .ep-explanation-col { width: 100%; }
 }
 </style>
 
-<p class="ate-intro">Below is a curated overview of conversational AI tools relevant to academic work. These tools differ in how they interact with information — some are general assistants, others search the web in real time, and some let you work directly with documents. Select a tool to see a simulated example of what it looks like in practice.</p>
+<p class="ate-intro">Below is a curated overview of conversational AI tools relevant to academic work. These tools differ in how they interact with information — use the filters to browse by category:</p>
+<ul class="ate-intro" style="margin: -8px 0 16px 18px; color: #374151; font-size: 14px; line-height: 1.8;">
+  <li><strong>General chat</strong> — open-ended assistants for brainstorming, drafting, or explaining concepts</li>
+  <li><strong>Research</strong> — tools that search the web in real time and cite their sources, suited for literature orientation</li>
+  <li><strong>Document chat</strong> — tools that let you upload a PDF and ask questions directly about its content</li>
+  <li><strong>VU license available</strong> — tools you can access through your institutional account</li>
+</ul>
+<p class="ate-intro">Most tools offer a free version with core functionality, alongside a paid tier that unlocks additional features such as higher usage limits, more powerful models, or advanced capabilities. Select a tool to see a simulated example of what it looks like in practice.</p>
 
 <div class="ate-filters" id="ate-filters">
   <button class="ate-filter active" data-filter="all">All tools</button>
   <button class="ate-filter" data-filter="general-chat">General chat</button>
   <button class="ate-filter" data-filter="research">Research</button>
   <button class="ate-filter" data-filter="document-chat">Document chat</button>
-  <button class="ate-filter" data-filter="vu-available">VU available</button>
+  <button class="ate-filter" data-filter="vu-available">VU license available</button>
 </div>
 
 <div class="ate-grid" id="ate-grid">
@@ -222,7 +249,7 @@
     <div class="ate-desc">Microsoft's web-connected AI assistant, available to VU students via institutional account with data privacy protections.</div>
     <div class="ate-tags">
       <span class="ate-tag general-chat">General chat</span>
-      <span class="ate-tag vu-available">VU available</span>
+      <span class="ate-tag vu-available">VU license available</span>
     </div>
   </div>
 
@@ -307,7 +334,7 @@
     chatpdf: {
       name: 'ChatPDF',
       url: 'https://www.chatpdf.com',
-      html: '<div class="mock-chatpdf"><div class="chatpdf-sidebar"><div class="chatpdf-pdf-header">&#128196; uploaded-paper.pdf</div><div class="chatpdf-pdf-body"><div class="pdf-page"><div class="pdf-title">The Effect of Spaced Repetition on Long-term Retention in L2 Vocabulary Learning</div><div class="pdf-authors">Andersen, T. &amp; Nguyen, L. (2022). Journal of Applied Linguistics, 18(2), 44&#8211;61.</div><div class="pdf-abstract-head">Abstract</div>This study investigates whether spaced repetition schedules outperform massed practice for vocabulary retention among second-language learners. A randomised controlled trial (n&#160;=&#160;120) was conducted over eight weeks. <span class="pdf-highlight">Results indicate significantly higher retention scores in the spaced repetition group at both four-week and eight-week follow-up assessments</span>, with an effect size of d&#160;=&#160;0.68 (p&#160;&lt;&#160;.001). Implications for digital vocabulary platforms are discussed.</div></div></div><div class="chatpdf-chat"><div class="chatpdf-chat-header">&#128172; Chat with paper</div><div class="chatpdf-msgs"><div class="chatpdf-msg-user">What is the main research question and method used in this paper?</div><div class="chatpdf-msg-ai">The paper asks: <strong style="color:#dc2626">Does spaced repetition outperform massed practice for L2 vocabulary retention?</strong><br><br>The authors used a randomised controlled trial with 120 undergraduate students assigned to either a spaced repetition group or a control (massed practice) group. Retention was measured at four and eight weeks post-training.</div></div><div class="chatpdf-input-row"><div class="mock-input-box">Ask about this paper&#8230;</div></div></div></div>'
+      html: '<div class="mock-chatpdf"><div class="chatpdf-nav"><div class="chatpdf-nav-top"><div class="chatpdf-logo-row"><div class="chatpdf-logo-icon">C</div><span class="chatpdf-logo-text">ChatPDF</span><button class="chatpdf-new-btn">+ New</button></div></div><div class="chatpdf-nav-section"><div class="chatpdf-nav-label">Chats</div><div class="chatpdf-nav-item active">Asynchronous learning&#8211; a general review of best prac&#8230;</div></div><div class="chatpdf-nav-section"><div class="chatpdf-nav-label">Folders <span class="chatpdf-nav-label-subfolder">+ New folder</span></div></div><div class="chatpdf-nav-section"><div class="chatpdf-nav-label">Tools</div><div class="chatpdf-nav-item">AI Writer</div><div class="chatpdf-nav-item">AI Detector</div><div class="chatpdf-nav-item">YouTube Chat</div><div class="chatpdf-nav-item">Research</div></div><div class="chatpdf-nav-footer"><div class="chatpdf-nav-footer-text">Sign up for free to save your chat history</div><button class="chatpdf-signup-btn">Sign up</button></div></div><div class="chatpdf-pdf-panel"><div class="chatpdf-pdf-topbar">Asynchronous learning&#8211; a general review of best practices&#8230;</div><div class="chatpdf-pdf-inner"><div class="pdf-page"><div class="pdf-title">Asynchronous learning: a general review of best practices for the 21st century</div><div class="pdf-authors">Thomas Chandy Varkey et al.<br>JRIT, Vol.&#160;16 No.&#160;1, 2023</div><div class="pdf-abstract-head">Abstract</div>The purpose of this paper is to create a &#8220;go-to-guide&#8221; of best practices in the creation of asynchronous courses. Due to the global pandemic, millions of students transitioned from in-class instruction to online programs&#8230;</div></div></div><div class="chatpdf-chat"><div class="chatpdf-msgs"><div class="chatpdf-question">How does spacing and interleaving improve learning in asynchronous courses?</div><div class="chatpdf-answer">Spacing and interleaving enhance learning in asynchronous courses by promoting better retention through the strategic distribution of learning episodes over time. Spacing involves distributing study sessions with intervals between them, improving long-term memory recall <span class="chatpdf-cite">&#8599;3</span> <span class="chatpdf-cite">&#8599;4</span>. Interleaving, or sequencing different topics in an interspersed manner, encourages learners to differentiate between concepts and apply knowledge more flexibly <span class="chatpdf-cite">&#8599;3</span> <span class="chatpdf-cite">&#8599;4</span>.</div><div class="chatpdf-actions"><span class="chatpdf-action-icon">&#128203;</span><span class="chatpdf-action-icon">&#128077;</span><span class="chatpdf-action-icon">&#128078;</span></div></div><div class="chatpdf-input-row"><div class="mock-input-box" style="flex:1;">Ask any question&#8230;</div><div class="chatpdf-input-chips"><span class="chatpdf-chip active">Fast</span><span class="chatpdf-chip">Quality</span></div></div></div></div>'
     },
     explainpaper: {
       name: 'Explain Paper',
@@ -360,150 +387,21 @@
 </script>
 </div>
 
-### Key concept: AI hallucinations
-
-**What is a hallucination?** When an AI generates information that sounds confident and plausible but is factually incorrect or entirely fabricated.
-
-**Why do hallucinations occur?**
-
-- AI models generate text based on patterns, not factual databases
-- They prioritize fluency and coherence over accuracy
-- They cannot verify information in real-time
-- They may "fill in gaps" with plausible-sounding but false information
-
 ---
 
-## Check your understanding: spotting hallucinations
+## Check your knowledge
 
-Below are three scenarios where students used AI tools. Each contains a hallucination. Can you identify why the hallucination occurred?
+Before moving on, test how well you've understood the key concepts. Choose the path that best matches your experience level:
 
-### Question 1
-
-**Student Prompt:** "Who won the Nobel Prize in Literature in 2024?"
-
-**AI Response:** "The 2024 Nobel Prize in Literature was awarded to Haruki Murakami for his masterful blend of magical realism and contemporary Japanese culture."
-
-<div style="margin: 20px 0; padding: 15px; background-color: #f9f9f9; border-left: 4px solid #0066cc;">
-
-**Why does this hallucination exist?**
-
-<form>
-  <label style="display: block; margin: 10px 0;">
-    <input type="radio" name="q1" value="a">
-    A) The AI's training data has a cutoff date and doesn't include 2024 events, so it generated a plausible answer based on patterns
-  </label>
-  <label style="display: block; margin: 10px 0;">
-    <input type="radio" name="q1" value="b">
-    B) Haruki Murakami refused the award, so the AI was technically correct
-  </label>
-  <label style="display: block; margin: 10px 0;">
-    <input type="radio" name="q1" value="c">
-    C) The AI was confused between literature and peace prizes
-  </label>
-  <label style="display: block; margin: 10px 0;">
-    <input type="radio" name="q1" value="d">
-    D) The AI intentionally provided false information to test the student
-  </label>
-</form>
-
-<details style="margin-top: 10px;">
-<summary style="cursor: pointer; color: #0066cc; font-weight: bold;">Show Answer</summary>
-<p style="margin-top: 10px;"><strong>Correct Answer: A</strong></p>
-<p>The AI's training data has a cutoff date and doesn't include real-time information about 2024 events. When asked about something beyond its knowledge cutoff, it generated a plausible-sounding answer based on patterns it learned (Murakami is a famous author often mentioned for the Nobel Prize). This is a classic hallucination where the AI fills knowledge gaps with convincing but false information.</p>
-</details>
-
-</div>
-
-### Question 2
-
-**Student Prompt:** "Can you cite three studies about the effectiveness of spaced repetition in learning?"
-
-**AI Response:** "Certainly! Here are three relevant studies:
-1. Johnson, M. & Williams, K. (2019). 'The Impact of Spaced Repetition on Long-term Retention.' Journal of Educational Psychology, 45(3), 287-302.
-2. Chen, L. et al. (2021). 'Cognitive Benefits of Distributed Practice.' Memory and Cognition Studies, 12(1), 45-67.
-3. Rodriguez, A. & Patel, S. (2020). 'Spaced Learning in Digital Environments.' Educational Technology Review, 28(4), 112-128."
-
-<div style="margin: 20px 0; padding: 15px; background-color: #f9f9f9; border-left: 4px solid #0066cc;">
-
-**Why does this hallucination exist?**
-
-<form>
-  <label style="display: block; margin: 10px 0;">
-    <input type="radio" name="q2" value="a">
-    A) The studies are real but the page numbers are incorrect
-  </label>
-  <label style="display: block; margin: 10px 0;">
-    <input type="radio" name="q2" value="b">
-    B) The AI generated plausible-looking citations by combining common academic patterns (author names, dates, journal formats) without verifying they actually exist
-  </label>
-  <label style="display: block; margin: 10px 0;">
-    <input type="radio" name="q2" value="c">
-    C) These are real studies but from a different field entirely
-  </label>
-  <label style="display: block; margin: 10px 0;">
-    <input type="radio" name="q2" value="d">
-    D) The AI accessed outdated databases that have since been corrected
-  </label>
-</form>
-
-<details style="margin-top: 10px;">
-<summary style="cursor: pointer; color: #0066cc; font-weight: bold;">Show Answer</summary>
-<p style="margin-top: 10px;"><strong>Correct Answer: B</strong></p>
-<p>This is one of the most dangerous types of hallucinations. The AI generated citations that follow correct academic formatting patterns but may not actually exist. It learned what citations "look like" from its training data and created plausible but potentially fictional references. This is why you should NEVER use AI-generated citations without independently verifying them in actual databases.</p>
-</details>
-
-</div>
-
-### Question 3
-
-**Student Prompt:** "Explain the main arguments in Professor Smith's 2023 paper on climate policy."
-
-**AI Response:** "In her 2023 paper, Professor Smith argues that carbon taxation is ineffective and proposes instead a system of voluntary corporate commitments. She provides case studies from Norway and Denmark showing that voluntary measures resulted in 40% emissions reductions over five years. Smith concludes that market-based solutions are superior to government intervention."
-
-<div style="margin: 20px 0; padding: 15px; background-color: #f9f9f9; border-left: 4px solid #0066cc;">
-
-**Why does this hallucination exist?**
-
-<form>
-  <label style="display: block; margin: 10px 0;">
-    <input type="radio" name="q3" value="a">
-    A) Professor Smith changed their position after publication
-  </label>
-  <label style="display: block; margin: 10px 0;">
-    <input type="radio" name="q3" value="b">
-    B) The AI only read the abstract, not the full paper
-  </label>
-  <label style="display: block; margin: 10px 0;">
-    <input type="radio" name="q3" value="c">
-    C) The AI doesn't have access to the specific paper and generated plausible-sounding arguments based on common climate policy debates, potentially misrepresenting the author's actual position
-  </label>
-  <label style="display: block; margin: 10px 0;">
-    <input type="radio" name="q3" value="d">
-    D) The AI mixed up Professor Smith with another researcher
-  </label>
-</form>
-
-<details style="margin-top: 10px;">
-<summary style="cursor: pointer; color: #0066cc; font-weight: bold;">Show Answer</summary>
-<p style="margin-top: 10px;"><strong>Correct Answer: C</strong></p>
-<p>When asked about specific papers it hasn't been trained on, the AI generates content based on general knowledge of the topic. It creates arguments that sound like they could be in a climate policy paper, but they may completely misrepresent what Professor Smith actually wrote. This is particularly problematic in academic work because it could lead to misattributing positions to scholars and spreading misinformation.</p>
-</details>
-
-</div>
-
----
-
-## Key takeaways
-
-- **Always verify** AI-generated information, especially facts, quotes, and citations
-- **Understand** that AI tools generate text based on patterns, not truth
-- **Recognize** that confident tone ≠ accurate information
-- **Use AI appropriately** as a starting point, not a final source
-
----
-
-<div style="text-align: center; margin: 40px 0;">
-  <button onclick="window.location.href='apply'" style="padding: 15px 40px; font-size: 16px; background-color: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold;">
-    Continue to apply →
-  </button>
+<div style="display: flex; gap: 20px; margin: 24px 0; flex-wrap: wrap;">
+  <a href="navigator/know-assess.html" style="flex: 1; min-width: 220px; text-decoration: none; display: block; padding: 24px; border: 2px solid #667eea; border-radius: 12px; background: #f0f4ff; color: inherit;">
+    <div style="font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em; color: #667eea; margin-bottom: 8px;">Navigator track</div>
+    <div style="font-size: 16px; font-weight: 700; color: #1e1b4b; margin-bottom: 8px;">Foundation check →</div>
+    <div style="font-size: 13px; color: #475569; line-height: 1.6;">New to AI or building on the basics. 3 questions.</div>
+  </a>
+  <a href="pilot/know-assess.html" style="flex: 1; min-width: 220px; text-decoration: none; display: block; padding: 24px; border: 2px solid #d97706; border-radius: 12px; background: #fffbeb; color: inherit;">
+    <div style="font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em; color: #d97706; margin-bottom: 8px;">Pilot track</div>
+    <div style="font-size: 16px; font-weight: 700; color: #1e1b4b; margin-bottom: 8px;">Advanced check →</div>
+    <div style="font-size: 13px; color: #475569; line-height: 1.6;">Already familiar with AI tools and ready to test deeper knowledge. 5 questions.</div>
+  </a>
 </div>

@@ -33,36 +33,55 @@ By completing this e-learning module, you will:
 
 ## Assess your AI literacy
 
-Wondering where you stand with AI literacy? Take our **10-minute assessment** to discover your current level and get personalized recommendations.
+We have developed assessments for each learning objective in two profiles: **AI Pilot** and **AI Navigator**. Not sure which profile fits you? Discover your current level first.
 
-<div style="text-align: center; margin: 30px 0;">
-  <button onclick="window.location.href='assessment.html'" style="padding: 15px 40px; font-size: 16px; background-color: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold;">
-    Start the AI Literacy Assessment
+<div style="text-align: center; margin: 24px 0;">
+  <button onclick="window.location.href='assessment.html'" style="padding: 14px 36px; font-size: 15px; background: linear-gradient(135deg, #28a745, #1a7a30); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; box-shadow: 0 4px 12px rgba(40,167,69,0.28);">
+    Discover your level &rarr;
   </button>
 </div>
 
-### Already know your level? Select your profile
+<div style="display: flex; justify-content: center; align-items: stretch; gap: 20px; margin: 0 0 32px 0; flex-wrap: wrap;">
+  <div style="border: 2px solid #0066cc; border-radius: 10px; padding: 18px 20px; width: 280px; text-align: center;">
+    <h4 style="margin: 0 0 10px 0; color: #0066cc;">AI Pilot</h4>
+    <p style="font-size: 13px; color: #555; margin: 0;">
+      You've already explored AI in various contexts and are ready to refine your judgment on when and how AI use is appropriate or crosses ethical boundaries.
+    </p>
+  </div>
+  <div style="border: 2px solid #ff6600; border-radius: 10px; padding: 18px 20px; width: 280px; text-align: center;">
+    <h4 style="margin: 0 0 10px 0; color: #ff6600;">AI Navigator</h4>
+    <p style="font-size: 13px; color: #555; margin: 0;">
+      You want to understand when AI use is appropriate in academic settings and build your skills in making well-informed, ethical judgments.
+    </p>
+  </div>
+</div>
 
-<div style="display: flex; justify-content: center; align-items: stretch; gap: 30px; margin: 40px 0; flex-wrap: wrap;">
-  <div style="border: 2px solid #0066cc; border-radius: 10px; padding: 20px; width: 300px; text-align: center; display: flex; flex-direction: column;">
-    <h4 style="margin: 0 0 15px 0;">AI pilot</h4>
-    <p style="font-size: 14px; color: #555; flex-grow: 1;">
-      You're the daredevil who has already explored the territory. You've experimented with AI in various contexts and are ready to refine your judgment on when AI use is appropriate or crosses ethical boundaries.
-    </p>
-    <button onclick="window.location.href='pilot/know'" style="padding: 10px 25px; margin-top: 15px; font-size: 14px; background-color: #0066cc; color: white; border: none; border-radius: 5px; cursor: pointer;">
-      Start Pilot Track
-    </button>
+For each learning objective below, choose which profile assessment you want to complete:
+
+<div style="display: flex; flex-direction: column; gap: 14px; margin: 16px 0 36px 0;">
+
+  <div style="display: flex; align-items: center; justify-content: space-between; border: 1px solid #e2e8f0; border-radius: 10px; padding: 18px 22px; background: #fafbfc; flex-wrap: wrap; gap: 12px;">
+    <div style="flex: 1; min-width: 200px;">
+      <div style="font-weight: 700; font-size: 15px; color: #1e1b4b; margin-bottom: 4px;">Know: AI literacy in academic contexts</div>
+      <div style="font-size: 13px; color: #64748b;">Understanding AI tools, their limitations, and responsible use in academic work</div>
+    </div>
+    <div style="display: flex; gap: 10px; flex-shrink: 0;">
+      <a href="pilot/know" style="padding: 8px 18px; border-radius: 6px; background-color: #0066cc; color: white; text-decoration: none; font-size: 13px; font-weight: 600;">AI Pilot</a>
+      <a href="navigator/know" style="padding: 8px 18px; border-radius: 6px; background-color: #ff6600; color: white; text-decoration: none; font-size: 13px; font-weight: 600;">AI Navigator</a>
+    </div>
   </div>
-  
-  <div style="border: 2px solid #ff6600; border-radius: 10px; padding: 20px; width: 300px; text-align: center; display: flex; flex-direction: column;">
-    <h4 style="margin: 0 0 15px 0;">AI navigator</h4>
-    <p style="font-size: 14px; color: #555; flex-grow: 1;">
-      You're curious and seeking the best information to guide your journey. You want to understand when AI use is appropriate in academic settings and build your skills in making ethical judgments.
-    </p>
-    <button onclick="window.location.href='navigator/know'" style="padding: 10px 25px; margin-top: 15px; font-size: 14px; background-color: #ff6600; color: white; border: none; border-radius: 5px; cursor: pointer;">
-      Start Navigator Track
-    </button>
+
+  <div style="display: flex; align-items: center; justify-content: space-between; border: 1px solid #e2e8f0; border-radius: 10px; padding: 18px 22px; background: #fafbfc; flex-wrap: wrap; gap: 12px;">
+    <div style="flex: 1; min-width: 200px;">
+      <div style="font-weight: 700; font-size: 15px; color: #1e1b4b; margin-bottom: 4px;">Use: Prompt engineering for academic tasks</div>
+      <div style="font-size: 13px; color: #64748b;">Structuring prompts for idea generation, planning, literature, and writing</div>
+    </div>
+    <div style="display: flex; gap: 10px; flex-shrink: 0;">
+      <a href="pilot/use-assess.html" style="padding: 8px 18px; border-radius: 6px; background-color: #0066cc; color: white; text-decoration: none; font-size: 13px; font-weight: 600;">AI Pilot</a>
+      <a href="navigator/use-assess.html" style="padding: 8px 18px; border-radius: 6px; background-color: #ff6600; color: white; text-decoration: none; font-size: 13px; font-weight: 600;">AI Navigator</a>
+    </div>
   </div>
+
 </div>
 
 ---

@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Tools — Advanced Knowledge Check</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 860px;
+            width: 100%;
+            padding: 36px;
+            margin: 20px auto;
+        }
+
+        /* === Back link === */
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #94a3b8;
+            text-decoration: none;
+            margin-bottom: 22px;
+        }
+        .back-link:hover { color: #667eea; }
+
+        /* === Header === */
+        .assess-tag {
+            display: inline-block;
+            background: #fef3c7;
+            color: #d97706;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            padding: 3px 10px;
+            border-radius: 20px;
+            margin-bottom: 10px;
+        }
+        .page-title {
+            font-size: 24px;
+            font-weight: 800;
+            color: #1e1b4b;
+            margin-bottom: 8px;
+        }
+        .page-subtitle {
+            font-size: 13px;
+            color: #6b7280;
+            line-height: 1.7;
+            max-width: 660px;
+            margin-bottom: 28px;
+        }
+
+        hr.divider { border: none; border-top: 1px solid #f1f5f9; margin: 0 0 28px; }
+
+        /* === Steps === */
+        .steps {
+            display: flex;
+            gap: 0;
+            margin-bottom: 28px;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        .step-chip {
+            flex: 1;
+            padding: 12px 14px;
+            border-right: 1px solid #e2e8f0;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+        .step-chip:last-child { border-right: none; }
+        .step-num {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: #1e1b4b;
+            color: white;
+            font-size: 11px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+        .step-text { font-size: 12px; color: #374151; line-height: 1.5; }
+        .step-text strong { display: block; font-size: 11px; font-weight: 700; color: #1e1b4b; margin-bottom: 2px; }
+
+        /* === Section label === */
+        .section-label {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.07em;
+            color: #94a3b8;
+            margin-bottom: 12px;
+        }
+
+        /* === Scenario card === */
+        .case-card {
+            border: 1px solid #e2e8f0;
+            border-left: 4px solid #667eea;
+            border-radius: 0 12px 12px 0;
+            padding: 18px 20px;
+            margin-bottom: 16px;
+            background: #f8fafc;
+        }
+        .card-tag {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: #667eea;
+            margin-bottom: 6px;
+        }
+        .case-title { font-size: 15px; font-weight: 800; color: #1e1b4b; margin-bottom: 6px; }
+        .case-body  { font-size: 13px; color: #374151; line-height: 1.75; }
+
+        /* === Tool callout === */
+        .tool-callout {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            border-radius: 10px;
+            padding: 14px 16px;
+            margin-bottom: 20px;
+            font-size: 13px;
+            color: #374151;
+            line-height: 1.65;
+        }
+        .tool-callout .icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+
+        /* === Perplexity mock === */
+        .px-mock-wrap {
+            border: 1.5px solid #e5e7eb;
+            border-radius: 14px;
+            overflow: hidden;
+            margin-bottom: 18px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.07);
+        }
+        .px-topbar {
+            background: #1c1c1c;
+            padding: 9px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .px-brand-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .px-icon {
+            width: 22px;
+            height: 22px;
+            background: #20b2aa;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 800;
+            color: white;
+            flex-shrink: 0;
+        }
+        .px-brand-name { font-size: 13px; font-weight: 700; color: white; }
+        .px-sim-tag {
+            font-size: 10px;
+            font-weight: 700;
+            background: rgba(255,255,255,0.1);
+            color: #9ca3af;
+            border-radius: 10px;
+            padding: 2px 8px;
+        }
+        .px-search-bar {
+            background: #f9fafb;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 9px 16px;
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            font-size: 13px;
+            color: #374151;
+        }
+        .px-search-icon { color: #9ca3af; font-size: 14px; flex-shrink: 0; }
+        .px-query { font-weight: 500; }
+        .px-content { background: white; padding: 18px 20px; }
+        .px-answer-label, .px-sources-label {
+            font-size: 10px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.07em;
+            color: #94a3b8;
+            margin-bottom: 10px;
+        }
+        .px-answer {
+            font-size: 13.5px;
+            color: #1f2937;
+            line-height: 1.8;
+            margin-bottom: 18px;
+        }
+        .px-cite {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 16px;
+            height: 16px;
+            padding: 0 3px;
+            background: #e0f2fe;
+            color: #0284c7;
+            border-radius: 4px;
+            font-size: 9px;
+            font-weight: 800;
+            vertical-align: super;
+            margin: 0 1px;
+        }
+        .px-sources-panel {
+            border-top: 1px solid #f1f5f9;
+            padding-top: 14px;
+        }
+        .px-source-item {
+            font-size: 12px;
+            color: #475569;
+            line-height: 1.65;
+            padding: 5px 0;
+            border-bottom: 1px solid #f8fafc;
+            display: flex;
+            gap: 8px;
+        }
+        .px-source-item:last-child { border-bottom: none; }
+        .px-cite-num {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 18px;
+            height: 16px;
+            padding: 0 3px;
+            background: #e0f2fe;
+            color: #0284c7;
+            border-radius: 4px;
+            font-size: 9px;
+            font-weight: 800;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        /* === Progress === */
+        .progress-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 24px;
+        }
+        .progress-bar-wrap {
+            flex: 1;
+            background: #f1f5f9;
+            border-radius: 99px;
+            height: 6px;
+            overflow: hidden;
+        }
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            border-radius: 99px;
+            transition: width 0.4s ease;
+        }
+        .progress-text { font-size: 11px; font-weight: 700; color: #94a3b8; white-space: nowrap; }
+
+        /* === Question card === */
+        .question-card {
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 22px;
+            margin-bottom: 14px;
+            animation: fadeUp 0.3s ease;
+        }
+        .q-number {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.07em;
+            color: #667eea;
+            margin-bottom: 8px;
+        }
+        .q-text {
+            font-size: 14px;
+            font-weight: 700;
+            color: #1e1b4b;
+            line-height: 1.55;
+            margin-bottom: 6px;
+        }
+        .q-hint {
+            font-size: 12.5px;
+            color: #94a3b8;
+            line-height: 1.6;
+            margin-bottom: 18px;
+        }
+
+        /* === Options — vertical list === */
+        .options-list {
+            display: flex;
+            flex-direction: column;
+            gap: 9px;
+            margin-bottom: 18px;
+        }
+        .option-tile {
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 13px 15px;
+            cursor: pointer;
+            text-align: left;
+            background: white;
+            font-family: inherit;
+            transition: border-color 0.18s, background 0.18s;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            width: 100%;
+        }
+        .option-tile:hover:not(:disabled) { border-color: #667eea; background: #f8fafc; }
+        .option-letter {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: #f1f5f9;
+            color: #64748b;
+            font-size: 11px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: background 0.18s, color 0.18s;
+        }
+        .option-text { font-size: 13px; color: #374151; line-height: 1.5; text-align: left; }
+
+        /* States */
+        .option-tile.active-selection { border-color: #667eea; background: #f0f4ff; }
+        .option-tile.active-selection .option-letter { background: #667eea; color: white; }
+        .option-tile.selected-correct { border-color: #16a34a; background: #f0fdf4; }
+        .option-tile.selected-correct .option-letter { background: #16a34a; color: white; }
+        .option-tile.selected-wrong { border-color: #dc2626; background: #fef2f2; }
+        .option-tile.selected-wrong .option-letter { background: #dc2626; color: white; }
+        .option-tile.dimmed { opacity: 0.35; }
+
+        /* === Feedback === */
+        .feedback {
+            display: none;
+            border-radius: 10px;
+            padding: 16px 18px;
+            margin-bottom: 16px;
+            animation: fadeUp 0.25s ease;
+        }
+        .feedback.visible { display: block; }
+        .feedback.correct { background: #f0fdf4; border: 1px solid #86efac; }
+        .feedback.wrong   { background: #fef2f2; border: 1px solid #fca5a5; }
+        .feedback-heading { font-size: 14px; font-weight: 800; margin-bottom: 5px; }
+        .feedback.correct .feedback-heading { color: #16a34a; }
+        .feedback.wrong   .feedback-heading { color: #dc2626; }
+        .feedback-body { font-size: 13px; color: #374151; line-height: 1.7; }
+
+        /* === Action buttons === */
+        .action-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .btn-submit {
+            padding: 10px 22px;
+            background: #1e1b4b;
+            color: white;
+            border: none;
+            border-radius: 9px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: inherit;
+            transition: opacity 0.18s;
+        }
+        .btn-submit:disabled { opacity: 0.35; cursor: default; }
+        .btn-submit:not(:disabled):hover { opacity: 0.85; }
+        .btn-next {
+            padding: 10px 22px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 9px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: inherit;
+            display: none;
+            transition: opacity 0.18s;
+        }
+        .btn-next:hover { opacity: 0.87; }
+
+        /* === End screen === */
+        .end-screen {
+            display: none;
+            text-align: center;
+            padding: 32px 0;
+            animation: fadeUp 0.3s ease;
+        }
+        .end-screen.visible { display: block; }
+        .score-circle {
+            width: 86px;
+            height: 86px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 18px;
+        }
+        .score-num   { font-size: 26px; font-weight: 800; line-height: 1; }
+        .score-denom { font-size: 11px; opacity: 0.75; }
+        .end-title   { font-size: 20px; font-weight: 800; color: #1e1b4b; margin-bottom: 8px; }
+        .end-body    { font-size: 13px; color: #6b7280; line-height: 1.7; max-width: 480px; margin: 0 auto 22px; }
+        .btn-restart {
+            padding: 11px 26px;
+            background: #1e1b4b;
+            color: white;
+            border: none;
+            border-radius: 9px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: inherit;
+            margin-right: 10px;
+        }
+        .btn-restart:hover { opacity: 0.85; }
+        .btn-back-nav {
+            padding: 11px 26px;
+            background: #f1f5f9;
+            color: #475569;
+            border: none;
+            border-radius: 9px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: inherit;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .btn-back-nav:hover { background: #e2e8f0; }
+
+        .btn-continue {
+            padding: 11px 26px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 9px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: inherit;
+            text-decoration: none;
+            display: inline-block;
+            margin-left: 10px;
+        }
+        .btn-continue:hover { opacity: 0.87; }
+
+        .source-note { margin-top: 28px; font-size: 11px; color: #cbd5e1; text-align: center; line-height: 1.6; }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(10px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 600px) {
+            .container { padding: 22px 16px; }
+            .steps { flex-direction: column; }
+            .step-chip { border-right: none; border-bottom: 1px solid #e2e8f0; }
+            .step-chip:last-child { border-bottom: none; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <a href="know.html" class="back-link">&larr; Back to Know</a>
+
+    <div class="assess-tag">Advanced knowledge check</div>
+    <h1 class="page-title">Five tool decisions &mdash; no obvious answers</h1>
+    <p class="page-subtitle">Each question places a student at a specific point in their research workflow. Your task is not just to spot a hallucination &mdash; it is to reason about which AI tool fits the task, why retrieval does not eliminate error, and how to compose a workflow from specialist tools rather than relying on one tool for everything.</p>
+
+    <div class="steps">
+        <div class="step-chip">
+            <div class="step-num">1</div>
+            <div class="step-text"><strong>Read the scenario</strong>Understand what the student actually needs, not just what they asked for.</div>
+        </div>
+        <div class="step-chip">
+            <div class="step-num">2</div>
+            <div class="step-text"><strong>Evaluate the options</strong>Consider what each tool is designed to do &mdash; and where it fails.</div>
+        </div>
+        <div class="step-chip">
+            <div class="step-num">3</div>
+            <div class="step-text"><strong>Answer the questions</strong>Apply your knowledge of tool architectures and academic workflows.</div>
+        </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- Quiz area — rendered by JS -->
+    <div id="quiz-area"></div>
+
+    <!-- End screen -->
+    <div class="end-screen" id="end-screen">
+        <div class="score-circle">
+            <div class="score-num" id="score-num">&ndash;</div>
+            <div class="score-denom" id="score-denom">/ 5</div>
+        </div>
+        <div class="end-title" id="end-title">&ndash;</div>
+        <div class="end-body" id="end-body">&ndash;</div>
+        <button class="btn-restart" onclick="startQuiz()">Try again</button>
+        <a href="know.html" class="btn-back-nav">Back to Know</a>
+        <a href="../use.html" class="btn-continue">Continue to Use &rsaquo;</a>
+    </div>
+
+    <p class="source-note">
+        Simulated tool interfaces are for learning purposes only and do not represent real outputs from any service.<br>
+        Paper references in the Perplexity mock are illustrative; they do not correspond to verified published findings.
+    </p>
+
+</div>
+
+<script>
+/* ============================================================
+   PERPLEXITY MOCK — injected for Q1 only
+   ============================================================ */
+const PERPLEXITY_MOCK_HTML = `
+<div class="px-mock-wrap">
+    <div class="px-topbar">
+        <div class="px-brand-row">
+            <div class="px-icon">P</div>
+            <span class="px-brand-name">Perplexity</span>
+        </div>
+        <span class="px-sim-tag">Simulated interface</span>
+    </div>
+    <div class="px-search-bar">
+        <span class="px-search-icon">&#9906;</span>
+        <span class="px-query">percentage students sleep deprivation academic performance GPA</span>
+    </div>
+    <div class="px-content">
+        <div class="px-answer-label">Answer</div>
+        <div class="px-answer">
+            <p>Research consistently links sleep deprivation to reduced academic performance in university students.
+            Around <strong>60 per cent of students</strong> report sleep problems affecting their coursework
+            <span class="px-cite">1</span>.
+            Students sleeping fewer than six hours per night show a GPA reduction of roughly
+            <strong>0.4 grade points</strong> compared with peers sleeping seven to nine hours
+            <span class="px-cite">2</span>.
+            A longitudinal study found that sleep quality predicted semester-end GPA
+            <strong>more reliably than self-reported study time</strong>
+            <span class="px-cite">3</span>.</p>
+        </div>
+        <div class="px-sources-panel">
+            <div class="px-sources-label">Sources</div>
+            <div class="px-source-item">
+                <span class="px-cite-num">1</span>
+                <span>Vandermeer, L. &amp; Santos, R. (2021). Sleep patterns and GPA decline in Dutch university students. <em>Journal of Sleep Research</em>, 30(4).</span>
+            </div>
+            <div class="px-source-item">
+                <span class="px-cite-num">2</span>
+                <span>Kowalski, A. et al. (2020). Cumulative sleep restriction and academic outcomes. <em>Sleep Medicine</em>, 45, 112&ndash;119.</span>
+            </div>
+            <div class="px-source-item">
+                <span class="px-cite-num">3</span>
+                <span>Lim, Y. H. &amp; Park, S. (2022). Sleep quality as a predictor of semester-end performance. <em>Learning and Individual Differences</em>, 93.</span>
+            </div>
+        </div>
+    </div>
+</div>`;
+
+/* ============================================================
+   QUESTION BANK — 5 questions, each with its own scenario
+   ============================================================ */
+const QUESTIONS = [
+
+    /* ─── Q1: Citations ≠ accuracy ─── */
+    {
+        scenarioStudent: 'Daan, 2nd-year Communication Science',
+        scenarioText: 'Daan is writing a section on sleep deprivation and academic performance. He uses Perplexity to gather supporting statistics, receives a response with three numbered citations linking to journal articles, and plans to copy the figures directly into his draft.',
+        showMock: true,
+        callout: 'Every claim in the response is followed by a citation number linking to a listed source. The output looks rigorously grounded. Does that make the statistics safe to use without checking?',
+        qText: 'Daan concludes the output is trustworthy because every statistic has a numbered citation. What is wrong with this reasoning?',
+        qHint: 'A citation tells you which URL was retrieved. Think carefully about what it does \u2014 and does not \u2014 guarantee about the relationship between that source and the figure attributed to it.',
+        correct: 1,
+        feedback: {
+            correct: 'Correct. Perplexity\u2019s citation numbers confirm retrieval \u2014 they identify which URL the tool fetched when generating its response. They do not confirm that the statistic attributed to the source actually appears in that document, or that the AI read it accurately. The tool may retrieve a broadly relevant page and then generate a plausible-sounding figure consistent with the source\u2019s general argument \u2014 without that figure appearing anywhere in the source. Treating a citation as proof of accuracy is itself a reasoning error. The correct step is to follow the link and verify the statistic in the original document.',
+            wrong: 'Think again. The question is not about whether Perplexity finds good journals or low-quality websites. Some of its retrieved sources may be excellent. The issue is what a citation number actually guarantees. It confirms that a page was retrieved. Does that also confirm that the specific figure was accurately quoted from it?'
+        },
+        options: [
+            { letter: 'A', text: 'Perplexity\u2019s citation numbers are generated by the AI and often link to sources that don\u2019t actually discuss the claimed topic' },
+            { letter: 'B', text: 'A citation confirms that a source was retrieved \u2014 it does not confirm that the statistic attributed to it appears in that source, or that the AI read it accurately' },
+            { letter: 'C', text: 'Most academic journals are behind paywalls, so Perplexity always works from abstracts only and cannot accurately report statistics from the full text' },
+            { letter: 'D', text: 'Perplexity rounds and simplifies statistics it finds in sources, so exact figures from the original are never reliably preserved' }
+        ]
+    },
+
+    /* ─── Q2: Systematic review \u2014 Elicit ─── */
+    {
+        scenarioStudent: 'Valentina, PhD candidate in Educational Psychology',
+        scenarioText: 'Valentina is conducting a systematic literature review on mindfulness-based interventions and academic stress in university students. She needs to identify empirical studies published since 2019 and \u2014 for each one \u2014 extract the sample size, intervention type, outcome measure, and key finding in a structured form she can export and verify.',
+        showMock: false,
+        callout: null,
+        qText: 'Valentina needs structured metadata extraction from a defined set of recent empirical papers \u2014 essentially a populated table, one row per study. Which tool is designed for exactly this task?',
+        qHint: 'General-purpose chat tools can generate tables \u2014 but they populate the cells from training data and risk fabricating specific values. Think about which tool is built specifically for systematic literature search and structured data extraction from research papers.',
+        correct: 2,
+        feedback: {
+            correct: 'Correct. Elicit is purpose-built for exactly this kind of systematic review task. It searches academic databases (primarily Semantic Scholar), surfaces empirical studies matching a query, and lets you define structured columns \u2014 sample size, study design, outcome measures, key findings \u2014 that it populates directly from each paper\u2019s content. Unlike a general-purpose LLM, Elicit grounds extractions in actual source text, which makes results auditable. Valentina should still verify key figures against the originals before submitting, but Elicit gives her a structured, traceable starting point rather than a table of plausible-sounding fabrications.',
+            wrong: 'Look again at what Valentina specifically needs: not a summary, but structured metadata per study from a recent, bounded set of empirical papers. Perplexity and ChatGPT with browsing can produce formatted tables \u2014 but those tables are generated from training data and are likely to contain hallucinated values for specific fields like sample sizes. NotebookLM processes documents you already have; it does not search for papers. Which tool is designed specifically to search research literature and extract structured fields per study?'
+        },
+        options: [
+            { letter: 'A', text: 'Perplexity \u2014 it searches the web in real time and can surface recent publications with numbered citations for each claim' },
+            { letter: 'B', text: 'ChatGPT with browsing enabled \u2014 it can retrieve recent papers and structure their findings as a formatted table' },
+            { letter: 'C', text: 'Elicit \u2014 a research assistant built specifically for empirical literature search and structured data extraction across studies' },
+            { letter: 'D', text: 'NotebookLM \u2014 it processes documents you already have and surfaces key information from each source' }
+        ]
+    },
+
+    /* ─── Q3: Multi-source synthesis \u2014 NotebookLM ─── */
+    {
+        scenarioStudent: 'Fatima, MSc Cognitive Neuroscience',
+        scenarioText: 'Fatima has received 15 PDF journal articles from her supervisor, all on the same research theme. She needs to produce a synthesis showing which sources support, contradict, or are neutral on each of her central claims \u2014 with exact page-level quotes so she can verify every attributed statement before submission.',
+        showMock: false,
+        callout: null,
+        qText: 'Fatima has all the documents. She needs cross-source synthesis with source-attributed, page-level citations. Which tool is the best match for this?',
+        qHint: 'Not all tools that accept uploaded documents handle cross-document synthesis with citation accuracy equally. Think about which is purpose-built for multi-source, attribution-traceable work on a bounded collection of documents you own.',
+        correct: 1,
+        feedback: {
+            correct: 'Correct. Google NotebookLM is specifically designed for the situation Fatima faces: a bounded collection of verified documents requiring synthesis with traceable attribution. NotebookLM grounds every response in the documents you have uploaded, returns inline citations pointing to the specific source and passage, and lets you confirm every claim against the original text. ChatGPT and Claude can accept large amounts of uploaded text, but they generate synthesised responses without guaranteed page-level attribution \u2014 responses that may blend two sources, slightly misquote, or interpolate. ChatPDF is effective for single-document interrogation but does not natively synthesise across a collection.',
+            wrong: 'Consider what Fatima specifically requires: not just document-handling capability, but attribution traceable to a specific source and a specific passage. ChatGPT and Claude can process uploaded documents and synthesise across them \u2014 but they cannot reliably guarantee that each claim is accurately traced to an exact location in a named document. Which tool is explicitly built for source-attributed multi-document synthesis?'
+        },
+        options: [
+            { letter: 'A', text: 'Upload all 15 PDFs to ChatGPT \u2014 it accepts multiple files and can synthesise across them in a single conversation' },
+            { letter: 'B', text: 'Google NotebookLM \u2014 built for multi-source synthesis with direct quotation and source attribution across a defined document collection' },
+            { letter: 'C', text: 'Use Claude with all documents attached \u2014 its large context window can hold all 15 papers simultaneously' },
+            { letter: 'D', text: 'Process each paper in ChatPDF individually, then paste the resulting summaries into a new ChatGPT conversation for synthesis' }
+        ]
+    },
+
+    /* ─── Q4: RAG failure modes ─── */
+    {
+        scenarioStudent: 'Omar, 3rd-year Data Science',
+        scenarioText: 'After learning that ChatGPT can fabricate statistics, Omar switches to Perplexity for all research tasks. He tells his study group: \u201cPerplexity looks things up on the internet in real time \u2014 it\u2019s not generating from memory, so it can\u2019t actually hallucinate. Every claim it makes is grounded in a source it just retrieved.\u201d',
+        showMock: false,
+        callout: null,
+        qText: 'Omar has identified a genuine advantage of retrieval-augmented tools, but his conclusion is too strong. What is the most precise critique?',
+        qHint: 'Retrieval does reduce hallucination risk compared with a base LLM. But think through the different stages where errors can still enter: which source gets retrieved, what the AI extracts from it, and how it combines claims across multiple sources.',
+        correct: 3,
+        feedback: {
+            correct: 'Correct. Omar has identified a genuine advantage \u2014 retrieval-augmented generation does reduce hallucination by grounding answers in retrieved content. But \u201creduces\u201d is not \u201celiminates.\u201d Three error modes remain. Retrieval errors: the tool may retrieve a topically adjacent page that does not actually contain the claimed statistic. Reading errors: the AI may misread a table, extract a figure from the wrong row, or confuse a percentage with a raw count. Synthesis errors: when combining claims from multiple sources, the AI may produce a statement not directly in any single source but which sounds consistent with all of them. The presence of a citation confirms that retrieval happened \u2014 it does not confirm that what the AI stated from the retrieved page is accurate. Omar\u2019s workflow is meaningfully safer than using a base LLM; it is not verification-free.',
+            wrong: 'Think more carefully. Omar\u2019s conclusion is that retrieval makes hallucination impossible. Is that claim too strong? Work through what can go wrong at each stage: which page is retrieved, what the AI extracts from it, and how it synthesises across multiple sources. Does any one of those steps guarantee absolute accuracy?'
+        },
+        options: [
+            { letter: 'A', text: 'Omar is largely correct \u2014 retrieval-augmented tools have been shown to produce significantly fewer errors than base LLMs, making them effectively reliable for academic queries' },
+            { letter: 'B', text: 'Perplexity still generates some answers from training data when no good web source is found, so it behaves like a base LLM for those specific queries' },
+            { letter: 'C', text: 'Retrieval-augmented tools are actually less reliable than base LLMs because they can retrieve low-quality websites and present them as authoritative sources' },
+            { letter: 'D', text: 'Retrieval reduces but does not eliminate hallucination \u2014 the AI may retrieve a marginally relevant source, misread a figure within it, or synthesise claims across sources in ways that no single source actually states' }
+        ]
+    },
+
+    /* ─── Q5: Multi-stage workflow design ─── */
+    {
+        scenarioStudent: 'Research workflow planning',
+        scenarioText: 'A Master\u2019s student is starting a literature review. The workflow has four stages: (1) discover which empirical studies exist on the topic within the last five years; (2) deep-read the two most relevant papers, identifying methodology and key claims; (3) synthesise the eight papers collected so far; (4) draft a 500-word literature review section from the synthesis.',
+        showMock: false,
+        callout: null,
+        qText: 'Which approach to AI tool selection best serves this four-stage workflow?',
+        qHint: 'Each stage has genuinely different requirements: finding papers, analysing specific documents, synthesising a collection, writing prose. Consider whether any single tool is optimally suited to all four \u2014 and whether matching tools to stages might serve the student better.',
+        correct: 2,
+        feedback: {
+            correct: 'Correct. Different stages require genuinely different tool capabilities. Stage 1 (discovery) calls for structured access to research literature \u2014 Elicit or Semantic Scholar surface empirical papers with metadata more reliably than a general-purpose chat interface, which may hallucinate citation details. Stages 2\u20133 (close reading and synthesis) call for document-grounded tools like NotebookLM or ChatPDF, where answers are traceable to actual passages in papers you have verified. Stage 4 (drafting) is where a general-purpose LLM is genuinely strong \u2014 especially when your own synthesis notes are provided as context, so the AI structures your ideas into prose rather than generating unsourced claims from its training data. Using one tool for everything means accepting its weaknesses at every stage. Composing a workflow from specialist tools means each stage is handled by the tool best suited to it.',
+            wrong: 'Reconsider. The scenario describes four stages with genuinely different requirements \u2014 finding papers, close-reading documents, synthesising a collection, and writing prose. A single general-purpose tool has clear strengths in some of these and identifiable weaknesses in others. What does it mean to match tool choice to each stage\u2019s specific requirement, rather than defaulting to the same tool throughout?'
+        },
+        options: [
+            { letter: 'A', text: 'Use Perplexity throughout all four stages \u2014 its live search and generative capability handles both research discovery and academic writing in a single interface' },
+            { letter: 'B', text: 'Use ChatGPT with browsing enabled for all stages \u2014 as a general-purpose tool it handles search, document reading, synthesis, and drafting without requiring interface changes' },
+            { letter: 'C', text: 'Match a specialist tool to each stage: a research discovery tool for stage 1, a document-grounded tool for stages 2\u20133, and a general-purpose LLM receiving your own synthesis as context for stage 4' },
+            { letter: 'D', text: 'Use AI only for stages 1 and 4 \u2014 discovery and drafting \u2014 and conduct close reading and synthesis manually to minimise hallucination risk in the analytical stages' }
+        ]
+    }
+];
+
+/* ============================================================
+   STATE
+   ============================================================ */
+let currentQ  = 0;
+let score     = 0;
+let selected  = null;
+let submitted = false;
+let firstTry  = true;
+
+/* ============================================================
+   INIT
+   ============================================================ */
+function startQuiz() {
+    currentQ  = 0;
+    score     = 0;
+    selected  = null;
+    submitted = false;
+    document.getElementById('end-screen').classList.remove('visible');
+    document.getElementById('quiz-area').style.display = '';
+    renderQuestion();
+}
+
+/* ============================================================
+   RENDER
+   ============================================================ */
+function renderQuestion() {
+    const q     = QUESTIONS[currentQ];
+    const total = QUESTIONS.length;
+    selected  = null;
+    submitted = false;
+    firstTry  = true;
+
+    const area = document.getElementById('quiz-area');
+    area.style.display = '';
+    area.innerHTML = '';
+    area.style.animation = 'none';
+    area.offsetHeight; // reflow
+    area.style.animation = 'fadeUp 0.3s ease';
+
+    // Progress row
+    const pct = (currentQ / total) * 100;
+    const pr = document.createElement('div');
+    pr.className = 'progress-row';
+    pr.innerHTML = `
+        <div class="progress-bar-wrap">
+            <div class="progress-bar-fill" style="width:${pct}%"></div>
+        </div>
+        <div class="progress-text">Question ${currentQ + 1} of ${total}</div>`;
+    area.appendChild(pr);
+
+    // Section label
+    const sl = document.createElement('div');
+    sl.className = 'section-label';
+    sl.textContent = 'The scenario';
+    area.appendChild(sl);
+
+    // Scenario card
+    const sc = document.createElement('div');
+    sc.className = 'case-card';
+    sc.innerHTML = `
+        <div class="card-tag">Student scenario</div>
+        <div class="case-title">${escHtml(q.scenarioStudent)}</div>
+        <div class="case-body">${escHtml(q.scenarioText)}</div>`;
+    area.appendChild(sc);
+
+    // Perplexity mock (Q1 only)
+    if (q.showMock) {
+        const mockWrap = document.createElement('div');
+        mockWrap.innerHTML = PERPLEXITY_MOCK_HTML;
+        area.appendChild(mockWrap.firstElementChild);
+    }
+
+    // Callout (Q1 only)
+    if (q.callout) {
+        const callout = document.createElement('div');
+        callout.className = 'tool-callout';
+        callout.innerHTML = `<div class="icon">&#128161;</div><div><strong>What to notice:</strong> ${escHtml(q.callout)}</div>`;
+        area.appendChild(callout);
+    }
+
+    // Question card
+    const card = document.createElement('div');
+    card.className = 'question-card';
+
+    const qNum = document.createElement('div');
+    qNum.className = 'q-number';
+    qNum.textContent = `Question ${currentQ + 1} of ${total}`;
+    card.appendChild(qNum);
+
+    const qText = document.createElement('div');
+    qText.className = 'q-text';
+    qText.textContent = q.qText;
+    card.appendChild(qText);
+
+    const qHint = document.createElement('div');
+    qHint.className = 'q-hint';
+    qHint.textContent = q.qHint;
+    card.appendChild(qHint);
+
+    // Options
+    const list = document.createElement('div');
+    list.className = 'options-list';
+    list.id = 'options-list';
+    q.options.forEach((opt, idx) => {
+        const btn = document.createElement('button');
+        btn.className = 'option-tile';
+        btn.dataset.idx = idx;
+        btn.innerHTML = `<div class="option-letter">${opt.letter}</div><div class="option-text">${escHtml(opt.text)}</div>`;
+        btn.onclick = () => selectOption(idx);
+        list.appendChild(btn);
+    });
+    card.appendChild(list);
+
+    // Feedback box
+    const fb = document.createElement('div');
+    fb.className = 'feedback';
+    fb.id = 'feedback-box';
+    card.appendChild(fb);
+
+    // Action row
+    const actionRow = document.createElement('div');
+    actionRow.className = 'action-row';
+    const isLast = currentQ >= total - 1;
+    actionRow.innerHTML = `
+        <button class="btn-submit" id="btn-submit" disabled onclick="submitAnswer()">Check answer</button>
+        <button class="btn-next"   id="btn-next"   onclick="nextQuestion()">${isLast ? 'See results &rsaquo;' : 'Next question &rsaquo;'}</button>`;
+    card.appendChild(actionRow);
+
+    area.appendChild(card);
+}
+
+/* ============================================================
+   INTERACTION
+   ============================================================ */
+function selectOption(idx) {
+    if (submitted) return;
+    selected = idx;
+    document.querySelectorAll('.option-tile').forEach((t, i) => {
+        t.classList.toggle('active-selection', i === idx);
+    });
+    document.getElementById('btn-submit').disabled = false;
+}
+
+function submitAnswer() {
+    if (selected === null || submitted) return;
+
+    const q       = QUESTIONS[currentQ];
+    const correct = selected === q.correct;
+    const tiles   = document.querySelectorAll('.option-tile');
+    const chosen  = tiles[selected];
+    chosen.classList.remove('active-selection');
+
+    if (!correct) {
+        chosen.classList.add('selected-wrong');
+        chosen.disabled = true;
+        firstTry = false;
+
+        const fb = document.getElementById('feedback-box');
+        fb.className = 'feedback visible wrong';
+        fb.innerHTML = `
+            <div class="feedback-heading">Not quite &mdash; try again</div>
+            <div class="feedback-body">${q.feedback.wrong}</div>`;
+
+        selected = null;
+        document.getElementById('btn-submit').disabled = true;
+        return;
+    }
+
+    // Correct
+    submitted = true;
+    if (firstTry) score++;
+
+    tiles.forEach((t, i) => {
+        t.classList.remove('active-selection');
+        t.disabled = true;
+        if (i === selected) {
+            t.classList.add('selected-correct');
+        } else if (!t.classList.contains('selected-wrong')) {
+            t.classList.add('dimmed');
+        }
+    });
+
+    const fb = document.getElementById('feedback-box');
+    fb.className = 'feedback visible correct';
+    fb.innerHTML = `
+        <div class="feedback-heading">Correct</div>
+        <div class="feedback-body">${q.feedback.correct}</div>`;
+
+    document.getElementById('btn-submit').style.display = 'none';
+    document.getElementById('btn-next').style.display   = 'inline-block';
+}
+
+function nextQuestion() {
+    currentQ++;
+    if (currentQ >= QUESTIONS.length) {
+        showEndScreen();
+    } else {
+        renderQuestion();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+}
+
+/* ============================================================
+   END SCREEN
+   ============================================================ */
+function showEndScreen() {
+    document.getElementById('quiz-area').style.display = 'none';
+
+    const total = QUESTIONS.length;
+    const pct   = score / total;
+    let title, body;
+
+    if (pct === 1) {
+        title = 'Full marks';
+        body  = 'You demonstrated a precise understanding of how retrieval-augmented tools fail, which specialist tools fit which academic tasks, and why a composed workflow outperforms a single general-purpose tool. That kind of tool literacy is exactly what distinguishes thoughtful AI use from convenient but risky AI use.';
+    } else if (pct >= 0.8) {
+        title = 'Strong result';
+        body  = 'You have a solid grasp of the material. Review the question you missed \u2014 the nuances around retrieval errors, tool specialisation, and workflow composition are the most practically useful distinctions in this area.';
+    } else if (pct >= 0.6) {
+        title = 'Good foundation';
+        body  = 'You\u2019re getting there. The questions you missed likely point to gaps in tool-specific knowledge \u2014 particularly around Elicit, NotebookLM, and the architecture of retrieval-augmented tools. Revisiting those concepts will sharpen your practical workflow decisions.';
+    } else {
+        title = 'Keep going';
+        body  = 'These questions require specific knowledge of tool architectures and academic workflows. Go back to the Know section \u2014 especially the parts on how AI generates text and the overview of different tool types. Then return and try again.';
+    }
+
+    document.getElementById('score-num').textContent   = score;
+    document.getElementById('score-denom').textContent = `/ ${total}`;
+    document.getElementById('end-title').textContent   = title;
+    document.getElementById('end-body').textContent    = body;
+    document.getElementById('end-screen').classList.add('visible');
+}
+
+/* ============================================================
+   UTILS
+   ============================================================ */
+function escHtml(str) {
+    return str
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
+}
+
+/* ── Init ── */
+startQuiz();
+</script>
+</body>
+</html>

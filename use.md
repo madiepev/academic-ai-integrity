@@ -1,349 +1,310 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Prompt engineering explorer</title>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+# Use: prompt engineering explorer
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-        }
+<div style="margin-bottom: 20px;">
+  <button onclick="window.location.href='../'" style="padding: 10px 20px; font-size: 14px; background-color: #666; color: white; border: none; border-radius: 5px; cursor: pointer;">
+    ← Back to home
+  </button>
+</div>
 
-        .container {
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            max-width: 880px;
-            width: 100%;
-            padding: 36px;
-            margin: 20px auto;
-        }
+---
 
-        /* === Header === */
-        .page-title {
-            font-size: 24px;
-            font-weight: 800;
-            color: #1e1b4b;
-            margin-bottom: 6px;
-        }
-        .page-subtitle {
-            font-size: 13px;
-            color: #6b7280;
-            line-height: 1.65;
-            margin-bottom: 28px;
-            max-width: 640px;
-        }
+<style>
+    /* === Filter sections === */
+    .pe-wrap .filter-section { margin-bottom: 18px; }
+    .pe-wrap .filter-label {
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: #94a3b8;
+        margin-bottom: 10px;
+    }
+    .pe-wrap .pill-row { display: flex; flex-wrap: wrap; gap: 8px; }
 
-        /* === Filter sections === */
-        .filter-section { margin-bottom: 18px; }
-        .filter-label {
-            font-size: 11px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.06em;
-            color: #94a3b8;
-            margin-bottom: 10px;
-        }
-        .pill-row { display: flex; flex-wrap: wrap; gap: 8px; }
+    /* Task pills */
+    .pe-wrap .task-pill {
+        padding: 8px 16px;
+        border-radius: 24px;
+        border: 2px solid #e2e8f0;
+        background: white;
+        color: #475569;
+        font-size: 13px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+        font-family: inherit;
+        line-height: 1.4;
+    }
+    .pe-wrap .task-pill:hover { border-color: #667eea; color: #667eea; }
+    .pe-wrap .task-pill.active { background: #1e1b4b; border-color: #1e1b4b; color: white; }
 
-        /* Task pills */
-        .task-pill {
-            padding: 8px 16px;
-            border-radius: 24px;
-            border: 2px solid #e2e8f0;
-            background: white;
-            color: #475569;
-            font-size: 13px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-            font-family: inherit;
-            line-height: 1.4;
-        }
-        .task-pill:hover { border-color: #667eea; color: #667eea; }
-        .task-pill.active { background: #1e1b4b; border-color: #1e1b4b; color: white; }
+    /* Technique pills */
+    .pe-wrap .tech-pill {
+        padding: 7px 15px;
+        border-radius: 20px;
+        border: 2px solid #e2e8f0;
+        background: white;
+        color: #475569;
+        font-size: 12px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+        font-family: inherit;
+    }
+    .pe-wrap .tech-pill:hover { border-color: var(--c, #667eea); color: var(--c, #667eea); }
+    .pe-wrap .tech-pill.active { background: var(--c, #667eea); border-color: var(--c, #667eea); color: white; }
 
-        /* Technique pills */
-        .tech-pill {
-            padding: 7px 15px;
-            border-radius: 20px;
-            border: 2px solid #e2e8f0;
-            background: white;
-            color: #475569;
-            font-size: 12px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-            font-family: inherit;
-        }
-        .tech-pill:hover { border-color: var(--c, #667eea); color: var(--c, #667eea); }
-        .tech-pill.active { background: var(--c, #667eea); border-color: var(--c, #667eea); color: white; }
+    .pe-wrap .tp-structured  { --c: #3b82f6; }
+    .pe-wrap .tp-rolebased   { --c: #8b5cf6; }
+    .pe-wrap .tp-contextual  { --c: #0d9488; }
+    .pe-wrap .tp-cot         { --c: #f59e0b; }
+    .pe-wrap .tp-open        { --c: #ec4899; }
 
-        .tp-structured  { --c: #3b82f6; }
-        .tp-rolebased   { --c: #8b5cf6; }
-        .tp-contextual  { --c: #0d9488; }
-        .tp-cot         { --c: #f59e0b; }
-        .tp-open        { --c: #ec4899; }
+    .pe-wrap hr.divider { border: none; border-top: 1px solid #f1f5f9; margin: 6px 0 20px; }
 
-        hr.divider { border: none; border-top: 1px solid #f1f5f9; margin: 6px 0 20px; }
+    /* === Content area === */
+    .pe-wrap .content-area { min-height: 200px; }
+    @keyframes pefadeUp {
+        from { opacity: 0; transform: translateY(10px); }
+        to   { opacity: 1; transform: translateY(0); }
+    }
 
-        /* === Content area === */
-        .content-area { min-height: 200px; }
-        @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(10px); }
-            to   { opacity: 1; transform: translateY(0); }
-        }
+    /* Intro card */
+    .pe-wrap .intro-card {
+        border-left: 4px solid var(--tc, #667eea);
+        padding: 12px 16px;
+        background: #f8fafc;
+        border-radius: 0 8px 8px 0;
+        margin-bottom: 20px;
+    }
+    .pe-wrap .intro-card .tech-name {
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: var(--tc, #667eea);
+        margin-bottom: 4px;
+    }
+    .pe-wrap .intro-card .intro-text { font-size: 13px; color: #374151; line-height: 1.6; }
 
-        /* Intro card */
-        .intro-card {
-            border-left: 4px solid var(--tc, #667eea);
-            padding: 12px 16px;
-            background: #f8fafc;
-            border-radius: 0 8px 8px 0;
-            margin-bottom: 20px;
-        }
-        .intro-card .tech-name {
-            font-size: 11px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.06em;
-            color: var(--tc, #667eea);
-            margin-bottom: 4px;
-        }
-        .intro-card .intro-text { font-size: 13px; color: #374151; line-height: 1.6; }
+    /* Prompt option buttons */
+    .pe-wrap .prompts-label {
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: #94a3b8;
+        margin-bottom: 10px;
+    }
+    .pe-wrap .prompt-options { display: flex; flex-direction: column; gap: 10px; }
+    .pe-wrap .prompt-option {
+        border: 1px solid #e2e8f0;
+        border-left: 4px solid var(--tc, #667eea);
+        border-radius: 0 10px 10px 0;
+        padding: 14px 16px;
+        cursor: pointer;
+        text-align: left;
+        background: white;
+        font-family: inherit;
+        transition: background 0.18s, box-shadow 0.18s;
+        width: 100%;
+    }
+    .pe-wrap .prompt-option:hover { background: #f8fafc; box-shadow: 0 2px 10px rgba(0,0,0,0.06); }
+    .pe-wrap .prompt-option.active {
+        background: color-mix(in srgb, var(--tc, #667eea) 8%, white);
+        border-left-color: var(--tc, #667eea);
+        border-color: var(--tc, #667eea);
+        box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+    }
+    .pe-wrap .prompt-option-label {
+        font-size: 13px;
+        font-weight: 700;
+        color: #1e1b4b;
+        margin-bottom: 4px;
+    }
+    .pe-wrap .prompt-option-preview {
+        font-size: 12px;
+        color: #94a3b8;
+        font-style: italic;
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
+        line-height: 1.5;
+    }
+    .pe-wrap .prompt-option-cta {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 6px;
+    }
+    .pe-wrap .prompt-option-cta span {
+        font-size: 11px;
+        font-weight: 700;
+        color: var(--tc, #667eea);
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+    }
 
-        /* Prompt option buttons */
-        .prompts-label {
-            font-size: 11px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.06em;
-            color: #94a3b8;
-            margin-bottom: 10px;
-        }
-        .prompt-options { display: flex; flex-direction: column; gap: 10px; }
-        .prompt-option {
-            border: 1px solid #e2e8f0;
-            border-left: 4px solid var(--tc, #667eea);
-            border-radius: 0 10px 10px 0;
-            padding: 14px 16px;
-            cursor: pointer;
-            text-align: left;
-            background: white;
-            font-family: inherit;
-            transition: background 0.18s, box-shadow 0.18s;
-            width: 100%;
-        }
-        .prompt-option:hover { background: #f8fafc; box-shadow: 0 2px 10px rgba(0,0,0,0.06); }
-        .prompt-option.active {
-            background: color-mix(in srgb, var(--tc, #667eea) 8%, white);
-            border-left-color: var(--tc, #667eea);
-            border-color: var(--tc, #667eea);
-            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-        }
-        .prompt-option-label {
-            font-size: 13px;
-            font-weight: 700;
-            color: #1e1b4b;
-            margin-bottom: 4px;
-        }
-        .prompt-option-preview {
-            font-size: 12px;
-            color: #94a3b8;
-            font-style: italic;
-            overflow: hidden;
-            display: -webkit-box;
-            -webkit-line-clamp: 1;
-            -webkit-box-orient: vertical;
-            line-height: 1.5;
-        }
-        .prompt-option-cta {
-            display: flex;
-            justify-content: flex-end;
-            margin-top: 6px;
-        }
-        .prompt-option-cta span {
-            font-size: 11px;
-            font-weight: 700;
-            color: var(--tc, #667eea);
-            text-transform: uppercase;
-            letter-spacing: 0.04em;
-        }
+    /* === Chat view === */
+    .pe-wrap .chat-view { display: none; }
+    .pe-wrap .chat-view.visible { display: block; animation: pefadeUp 0.25s ease; }
+    .pe-wrap .chat-view-separator { border: none; border-top: 1px solid #f1f5f9; margin: 18px 0 16px; }
 
-        /* === Chat view === */
-        .chat-view { display: none; }
-        .chat-view.visible { display: block; animation: fadeUp 0.25s ease; }
-        .chat-view-separator { border: none; border-top: 1px solid #f1f5f9; margin: 18px 0 16px; }
+    .pe-wrap .chat-window {
+        background: #f8fafc;
+        border-radius: 12px;
+        padding: 20px 16px;
+        margin-bottom: 14px;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
+    .pe-wrap .chat-msg { max-width: 84%; }
+    .pe-wrap .chat-msg.user { align-self: flex-end; }
+    .pe-wrap .chat-msg.ai   { align-self: flex-start; }
 
-        .chat-window {
-            background: #f8fafc;
-            border-radius: 12px;
-            padding: 20px 16px;
-            margin-bottom: 14px;
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
-        .chat-msg { max-width: 84%; }
-        .chat-msg.user { align-self: flex-end; }
-        .chat-msg.ai   { align-self: flex-start; }
+    .pe-wrap .msg-label {
+        font-size: 10px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: #94a3b8;
+        margin-bottom: 4px;
+    }
+    .pe-wrap .chat-msg.user .msg-label { text-align: right; }
 
-        .msg-label {
-            font-size: 10px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            color: #94a3b8;
-            margin-bottom: 4px;
-        }
-        .chat-msg.user .msg-label { text-align: right; }
+    .pe-wrap .msg-bubble {
+        padding: 12px 16px;
+        border-radius: 14px;
+        font-size: 13px;
+        line-height: 1.7;
+    }
+    .pe-wrap .chat-msg.user .msg-bubble {
+        color: white;
+        border-bottom-right-radius: 4px;
+    }
+    .pe-wrap .chat-msg.ai .msg-bubble {
+        background: white;
+        color: #374151;
+        border: 1px solid #e2e8f0;
+        border-bottom-left-radius: 4px;
+    }
 
-        .msg-bubble {
-            padding: 12px 16px;
-            border-radius: 14px;
-            font-size: 13px;
-            line-height: 1.7;
-        }
-        .chat-msg.user .msg-bubble {
-            color: white;
-            border-bottom-right-radius: 4px;
-        }
-        .chat-msg.ai .msg-bubble {
-            background: white;
-            color: #374151;
-            border: 1px solid #e2e8f0;
-            border-bottom-left-radius: 4px;
-        }
+    .pe-wrap .typing-indicator {
+        align-self: flex-start;
+        padding: 10px 16px;
+        background: white;
+        border: 1px solid #e2e8f0;
+        border-radius: 14px;
+        border-bottom-left-radius: 4px;
+    }
+    .pe-wrap .typing-dots { display: flex; gap: 4px; align-items: center; }
+    .pe-wrap .typing-dot {
+        width: 6px; height: 6px;
+        background: #cbd5e1;
+        border-radius: 50%;
+        animation: tdBounce 1.2s infinite;
+    }
+    .pe-wrap .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+    .pe-wrap .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes tdBounce {
+        0%, 60%, 100% { transform: translateY(0); }
+        30% { transform: translateY(-5px); }
+    }
 
-        .typing-indicator {
-            align-self: flex-start;
-            padding: 10px 16px;
-            background: white;
-            border: 1px solid #e2e8f0;
-            border-radius: 14px;
-            border-bottom-left-radius: 4px;
-        }
-        .typing-dots { display: flex; gap: 4px; align-items: center; }
-        .typing-dot {
-            width: 6px; height: 6px;
-            background: #cbd5e1;
-            border-radius: 50%;
-            animation: tdBounce 1.2s infinite;
-        }
-        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
-        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
-        @keyframes tdBounce {
-            0%, 60%, 100% { transform: translateY(0); }
-            30% { transform: translateY(-5px); }
-        }
+    .pe-wrap .chat-actions {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+    .pe-wrap .sim-note { font-size: 11px; color: #94a3b8; font-style: italic; flex: 1; min-width: 160px; }
+    .pe-wrap .btn-copy {
+        padding: 7px 14px;
+        border-radius: 7px;
+        font-size: 12px;
+        font-weight: 600;
+        cursor: pointer;
+        font-family: inherit;
+        border: none;
+        transition: all 0.2s;
+        flex-shrink: 0;
+        background: #f1f5f9;
+        color: #475569;
+    }
+    .pe-wrap .btn-copy:hover { background: #e2e8f0; }
 
-        .chat-actions {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-        .sim-note { font-size: 11px; color: #94a3b8; font-style: italic; flex: 1; min-width: 160px; }
-        .btn-copy, .btn-back-prompts {
-            padding: 7px 14px;
-            border-radius: 7px;
-            font-size: 12px;
-            font-weight: 600;
-            cursor: pointer;
-            font-family: inherit;
-            border: none;
-            transition: all 0.2s;
-            flex-shrink: 0;
-        }
-        .btn-copy { background: #f1f5f9; color: #475569; }
-        .btn-copy:hover { background: #e2e8f0; }
-        .btn-back-prompts { color: white; }
-        .btn-back-prompts:hover { opacity: 0.85; }
+    /* Empty state */
+    .pe-wrap .empty-state { text-align: center; padding: 40px 20px; color: #cbd5e1; font-size: 14px; }
 
-        /* Empty state */
-        .empty-state { text-align: center; padding: 40px 20px; color: #cbd5e1; font-size: 14px; }
+    /* === Audience toggle + intro === */
+    .pe-wrap .audience-toggle { display: flex; gap: 8px; margin-bottom: 18px; }
+    .pe-wrap .audience-btn {
+        padding: 7px 18px;
+        border-radius: 20px;
+        border: 1.5px solid #e2e8f0;
+        background: white;
+        color: #475569;
+        font-size: 12px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.18s;
+        font-family: inherit;
+    }
+    .pe-wrap .audience-btn:hover { border-color: #667eea; color: #667eea; }
+    .pe-wrap .audience-btn.active { background: #1e1b4b; border-color: #1e1b4b; color: white; }
 
-        /* === Audience toggle + intro === */
-        .audience-toggle { display: flex; gap: 8px; margin-bottom: 18px; }
-        .audience-btn {
-            padding: 7px 18px;
-            border-radius: 20px;
-            border: 1.5px solid #e2e8f0;
-            background: white;
-            color: #475569;
-            font-size: 12px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.18s;
-            font-family: inherit;
-        }
-        .audience-btn:hover { border-color: #667eea; color: #667eea; }
-        .audience-btn.active { background: #1e1b4b; border-color: #1e1b4b; color: white; }
+    .pe-wrap .intro-section {
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        border-left: 4px solid #667eea;
+        border-radius: 0 12px 12px 0;
+        padding: 18px 20px;
+        margin-bottom: 28px;
+        font-size: 13px;
+        color: #374151;
+        line-height: 1.75;
+    }
+    .pe-wrap .intro-section p { margin-bottom: 14px; }
+    .pe-wrap .intro-section p:last-child { margin-bottom: 0; }
+    .pe-wrap .intro-section a { color: #667eea; font-weight: 600; }
+    .pe-wrap .intro-section a:hover { opacity: 0.8; }
+    .pe-wrap .intro-panel { display: none; }
+    .pe-wrap .intro-panel.active { display: block; animation: pefadeUp 0.2s ease; }
 
-        .intro-section {
-            background: #f8fafc;
-            border: 1px solid #e2e8f0;
-            border-left: 4px solid #667eea;
-            border-radius: 0 12px 12px 0;
-            padding: 18px 20px;
-            margin-bottom: 28px;
-            font-size: 13px;
-            color: #374151;
-            line-height: 1.75;
-        }
-        .intro-section p { margin-bottom: 14px; }
-        .intro-section p:last-child { margin-bottom: 0; }
-        .intro-section a { color: #667eea; font-weight: 600; }
-        .intro-section a:hover { opacity: 0.8; }
-        .intro-panel { display: none; }
-        .intro-panel.active { display: block; animation: fadeUp 0.2s ease; }
+    /* Source note */
+    .pe-wrap .source-note {
+        margin-top: 28px;
+        font-size: 12px;
+        color: #94a3b8;
+        text-align: center;
+        line-height: 1.6;
+        border-top: 1px solid #f1f5f9;
+        padding-top: 16px;
+    }
 
-        /* Source note */
-        .source-note {
-            margin-top: 28px;
-            font-size: 12px;
-            color: #94a3b8;
-            text-align: center;
-            line-height: 1.6;
-            border-top: 1px solid #f1f5f9;
-            padding-top: 16px;
-        }
+    @media (max-width: 600px) {
+        .pe-wrap .task-pill { font-size: 12px; padding: 7px 13px; }
+        .pe-wrap .chat-msg { max-width: 100%; }
+    }
+</style>
 
-        @media (max-width: 600px) {
-            .container { padding: 22px 16px; }
-            .task-pill { font-size: 12px; padding: 7px 13px; }
-            .chat-msg { max-width: 100%; }
-        }
-    </style>
-</head>
-<body>
-<div class="container">
-
-    <h1 class="page-title">Prompt Engineering Navigator</h1>
-    <p class="page-subtitle">Choose the academic task you are working on and a prompting technique, then try an example prompt to see what kind of response it produces.</p>
+<div class="pe-wrap">
 
     <!-- Audience toggle -->
     <div class="audience-toggle">
-        <button class="audience-btn active" onclick="switchAudience('student', this)">Student</button>
-        <button class="audience-btn" onclick="switchAudience('teacher', this)">Teacher</button>
+        <button class="audience-btn active" onclick="peSwitchAudience('student', this)">Student</button>
+        <button class="audience-btn" onclick="peSwitchAudience('teacher', this)">Teacher</button>
     </div>
 
     <div class="intro-section">
-        <div class="intro-panel active" id="intro-student">
+        <div class="intro-panel active" id="pe-intro-student">
             <p>To use AI responsibly in your studies, it's important to first think critically about your own approach. Before turning to any tool, you should reflect on how <strong>you</strong> would tackle the assignment: how you would get started, what steps you would take, and where you might encounter challenges. This helps you understand your own thinking process and identify the areas where support could be useful.</p>
             <p>Once you've explored your own approach, you can consider what kind of AI use is allowed within the course and how AI might help with the difficulties you identified. In this module, you will be introduced to different types of prompt usage &mdash; such as prompting for structure, early-stage literature exploration, identifying a research gap or content development &mdash; that can help you use AI in a thoughtful and constructive way.</p>
             <p><strong>Tips on prompting:</strong> <a href="https://vu-education-lab.github.io/AI-Literacy-Companion-VU/#how-to-use-generative-ai-so-that-it-works-for-you" target="_blank">How to use generative AI so that it works for you</a></p>
         </div>
-        <div class="intro-panel" id="intro-teacher">
+        <div class="intro-panel" id="pe-intro-teacher">
             <p>To help students use AI responsibly in higher education, it's important that they begin by thinking critically about their own approach before turning to any tools. In this activity, students first reflect on how <strong>they</strong> would tackle the assignment independently: how they would start, what steps they would take, and where they might struggle. This initial reflection makes their learning process visible and helps them recognise the areas in which support&mdash;whether human or AI&mdash;might be beneficial.</p>
             <p>After students explore their own approach, they consider what forms of AI use are permitted within your course and how AI could support the challenges they identified. Once this foundation is in place, they are introduced to a set of example prompts aimed at different types of academic support&mdash;such as structuring work, exploring literature, identifying a research gap, or developing content. This gives students a structured and responsible way to integrate AI into their learning while maintaining academic integrity and critical thinking.</p>
             <p><strong>Tips on prompting:</strong> <a href="https://vu-education-lab.github.io/AI-Literacy-Companion-VU/#how-to-use-generative-ai-so-that-it-works-for-you" target="_blank">How to use generative AI so that it works for you</a></p>
@@ -353,17 +314,18 @@
     <p style="font-size:12px; color:#94a3b8; margin-bottom:18px;">The prompt examples below are based on Table&nbsp;1 in: Qian, Y. (2025). Prompt Engineering in Education: A Systematic Review of Approaches and Educational Applications. <em>Journal of Educational Computing Research, 63</em>(7-8), 1782&ndash;1818. <a href="https://doi.org/10.1177/07356331251365189" style="color:#a5b4fc;" target="_blank">https://doi.org/10.1177/07356331251365189</a></p>
 
     <div class="filter-section">
-        <div class="pill-row" id="task-row"></div>
+        <div class="filter-label">What are you working on?</div>
+        <div class="pill-row" id="pe-task-row"></div>
     </div>
 
     <div class="filter-section">
         <div class="filter-label">What type of prompt do you need?</div>
-        <div class="pill-row" id="tech-row"></div>
+        <div class="pill-row" id="pe-tech-row"></div>
     </div>
 
     <hr class="divider">
 
-    <div class="content-area" id="content-area">
+    <div class="content-area" id="pe-content-area">
         <div class="empty-state">Select a task and a technique above to see example prompts.</div>
     </div>
 
@@ -391,30 +353,31 @@
             Test your understanding &rsaquo;
         </a>
     </div>
+
 </div>
 
 <script>
 /* ============================================================
    AUDIENCE TOGGLE
    ============================================================ */
-function switchAudience(audience, btn) {
-    document.querySelectorAll('.audience-btn').forEach(b => b.classList.remove('active'));
+function peSwitchAudience(audience, btn) {
+    document.querySelectorAll('.pe-wrap .audience-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
-    document.querySelectorAll('.intro-panel').forEach(p => p.classList.remove('active'));
-    document.getElementById('intro-' + audience).classList.add('active');
+    document.querySelectorAll('.pe-wrap .intro-panel').forEach(p => p.classList.remove('active'));
+    document.getElementById('pe-intro-' + audience).classList.add('active');
 }
 
 /* ============================================================
    CONFIGURATION
    ============================================================ */
-const TASKS = [
+const PE_TASKS = [
     { id: 'ideas',      label: 'Idea generation',     sub: 'Research gaps & questions' },
     { id: 'planning',   label: 'Structure & planning', sub: 'Workplans & assessment structure' },
     { id: 'literature', label: 'Literature review',    sub: 'Finding & synthesising sources' },
     { id: 'writing',    label: 'Content development',  sub: 'Writing & refining text' },
 ];
 
-const TECHNIQUES = [
+const PE_TECHNIQUES = [
     { id: 'structured', label: 'Structured',    sub: 'Guide with examples or constraints',   cls: 'tp-structured' },
     { id: 'rolebased',  label: 'Role-based',    sub: 'Ask AI to assume an identity',          cls: 'tp-rolebased'  },
     { id: 'contextual', label: 'Add context',   sub: 'Ground AI in your specific material',   cls: 'tp-contextual' },
@@ -422,15 +385,14 @@ const TECHNIQUES = [
     { id: 'open',       label: 'Open / direct', sub: 'Ask directly without scaffolding',      cls: 'tp-open'       },
 ];
 
-const TECH_COLOURS = {
+const PE_TECH_COLOURS = {
     structured: '#3b82f6', rolebased: '#8b5cf6', contextual: '#0d9488', cot: '#f59e0b', open: '#ec4899',
 };
 
 /* ============================================================
    DATA
-   Each entry: { intro, prompts: [{chip, full, response}] }
    ============================================================ */
-const DATA = {
+const PE_DATA = {
 
     /* ── IDEA GENERATION ─────────────────────────────────── */
     'ideas-structured': {
@@ -1378,107 +1340,102 @@ One specific note: "very" appears twice in your original. In academic writing, "
 /* ============================================================
    STATE
    ============================================================ */
-let activeTask = 'ideas';
-let activeTech = 'structured';
+let peActiveTask = 'ideas';
+let peActiveTech = 'structured';
 
 /* ============================================================
    BUILD PILLS
    ============================================================ */
-function buildPills() {
-    const taskRow = document.getElementById('task-row');
-    TASKS.forEach(t => {
+function peBuildPills() {
+    const taskRow = document.getElementById('pe-task-row');
+    PE_TASKS.forEach(t => {
         const btn = document.createElement('button');
-        btn.className = 'task-pill' + (t.id === activeTask ? ' active' : '');
+        btn.className = 'task-pill' + (t.id === peActiveTask ? ' active' : '');
         btn.dataset.id = t.id;
         btn.innerHTML = `${t.label} <span style="font-weight:400;opacity:0.6;font-size:11px;">— ${t.sub}</span>`;
-        btn.onclick = () => { activeTask = t.id; updatePills('task'); renderContent(); };
+        btn.onclick = () => { peActiveTask = t.id; peUpdatePills('task'); peRenderContent(); };
         taskRow.appendChild(btn);
     });
 
-    const techRow = document.getElementById('tech-row');
-    TECHNIQUES.forEach(t => {
+    const techRow = document.getElementById('pe-tech-row');
+    PE_TECHNIQUES.forEach(t => {
         const btn = document.createElement('button');
-        btn.className = `tech-pill ${t.cls}` + (t.id === activeTech ? ' active' : '');
+        btn.className = `tech-pill ${t.cls}` + (t.id === peActiveTech ? ' active' : '');
         btn.dataset.id = t.id;
         btn.title = t.sub;
         btn.textContent = t.label;
-        btn.onclick = () => { activeTech = t.id; updatePills('tech'); renderContent(); };
+        btn.onclick = () => { peActiveTech = t.id; peUpdatePills('tech'); peRenderContent(); };
         techRow.appendChild(btn);
     });
 }
 
-function updatePills(type) {
+function peUpdatePills(type) {
     if (type === 'task') {
-        document.querySelectorAll('.task-pill').forEach(b => b.classList.toggle('active', b.dataset.id === activeTask));
+        document.querySelectorAll('#pe-task-row .task-pill').forEach(b => b.classList.toggle('active', b.dataset.id === peActiveTask));
     } else {
-        document.querySelectorAll('.tech-pill').forEach(b => b.classList.toggle('active', b.dataset.id === activeTech));
+        document.querySelectorAll('#pe-tech-row .tech-pill').forEach(b => b.classList.toggle('active', b.dataset.id === peActiveTech));
     }
 }
 
 /* ============================================================
    RENDER CONTENT
    ============================================================ */
-function renderContent() {
-    const key    = `${activeTask}-${activeTech}`;
-    const data   = DATA[key];
-    const colour = TECH_COLOURS[activeTech] || '#667eea';
-    const tech   = TECHNIQUES.find(t => t.id === activeTech);
-    const ca     = document.getElementById('content-area');
+function peRenderContent() {
+    const key    = `${peActiveTask}-${peActiveTech}`;
+    const data   = PE_DATA[key];
+    const colour = PE_TECH_COLOURS[peActiveTech] || '#667eea';
+    const tech   = PE_TECHNIQUES.find(t => t.id === peActiveTech);
+    const ca     = document.getElementById('pe-content-area');
 
     ca.style.setProperty('--tc', colour);
     ca.innerHTML = '';
     ca.style.animation = 'none';
     ca.offsetHeight;
-    ca.style.animation = 'fadeUp 0.25s ease';
+    ca.style.animation = 'pefadeUp 0.25s ease';
 
     if (!data) {
         ca.innerHTML = '<div class="empty-state">No examples available for this combination yet.</div>';
         return;
     }
 
-    // Intro card
     const intro = document.createElement('div');
     intro.className = 'intro-card';
     intro.innerHTML = `<div class="tech-name">${tech.label} — ${tech.sub}</div><div class="intro-text">${data.intro}</div>`;
     ca.appendChild(intro);
 
-    // Label
     const lbl = document.createElement('div');
     lbl.className = 'prompts-label';
     lbl.textContent = 'Try one of these prompts';
     ca.appendChild(lbl);
 
-    // Prompt option buttons
     const opts = document.createElement('div');
     opts.className = 'prompt-options';
-    opts.id = 'prompt-options';
+    opts.id = 'pe-prompt-options';
     data.prompts.forEach(p => {
         const btn = document.createElement('button');
         btn.className = 'prompt-option';
         btn.innerHTML = `
             <div class="prompt-option-label">${p.chip}</div>
-            <div class="prompt-option-preview">${escHtml(p.full)}</div>
+            <div class="prompt-option-preview">${peEscHtml(p.full)}</div>
             <div class="prompt-option-cta"><span>See how it works &rsaquo;</span></div>`;
-        btn.onclick = () => showChat(p, colour, btn);
+        btn.onclick = () => peShowChat(p, colour, btn);
         opts.appendChild(btn);
     });
     ca.appendChild(opts);
 
-    // Chat area (hidden until prompt clicked)
     const chat = document.createElement('div');
     chat.className = 'chat-view';
-    chat.id = 'chat-view';
+    chat.id = 'pe-chat-view';
     ca.appendChild(chat);
 }
 
 /* ============================================================
    SHOW CHAT
    ============================================================ */
-function showChat(prompt, colour, btnEl) {
-    // Highlight the selected option
-    document.querySelectorAll('.prompt-option').forEach(b => b.classList.remove('active'));
+function peShowChat(prompt, colour, btnEl) {
+    document.querySelectorAll('#pe-prompt-options .prompt-option').forEach(b => b.classList.remove('active'));
     btnEl.classList.add('active');
-    const chat = document.getElementById('chat-view');
+    const chat = document.getElementById('pe-chat-view');
     chat.innerHTML = '';
     chat.className = 'chat-view visible';
 
@@ -1489,33 +1446,30 @@ function showChat(prompt, colour, btnEl) {
     const win = document.createElement('div');
     win.className = 'chat-window';
 
-    // User bubble
     const userMsg = document.createElement('div');
     userMsg.className = 'chat-msg user';
-    userMsg.innerHTML = `<div class="msg-label">You</div><div class="msg-bubble" style="background:${colour};">${escHtml(prompt.full)}</div>`;
+    userMsg.innerHTML = `<div class="msg-label">You</div><div class="msg-bubble" style="background:${colour};">${peEscHtml(prompt.full)}</div>`;
     win.appendChild(userMsg);
 
-    // Typing indicator
     const typing = document.createElement('div');
     typing.className = 'typing-indicator';
     typing.innerHTML = '<div class="typing-dots"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div>';
     win.appendChild(typing);
     chat.appendChild(win);
 
-    // After short delay: show AI response
     setTimeout(() => {
         typing.remove();
         const aiMsg = document.createElement('div');
         aiMsg.className = 'chat-msg ai';
-        aiMsg.style.animation = 'fadeUp 0.25s ease';
-        aiMsg.innerHTML = `<div class="msg-label">Simulated AI response</div><div class="msg-bubble">${escHtml(prompt.response)}</div>`;
+        aiMsg.style.animation = 'peadeUp 0.25s ease';
+        aiMsg.innerHTML = `<div class="msg-label">Simulated AI response</div><div class="msg-bubble">${peEscHtml(prompt.response)}</div>`;
         win.appendChild(aiMsg);
 
         const actions = document.createElement('div');
         actions.className = 'chat-actions';
         actions.innerHTML = `
             <span class="sim-note">This response illustrates what this prompt technique can produce. Actual outputs will vary.</span>
-            <button class="btn-copy" onclick="copyPrompt(${JSON.stringify(prompt.full)}, this)">Copy prompt</button>`;
+            <button class="btn-copy" onclick="peCopyPrompt(${JSON.stringify(prompt.full)}, this)">Copy prompt</button>`;
         chat.appendChild(actions);
     }, 850);
 }
@@ -1523,7 +1477,7 @@ function showChat(prompt, colour, btnEl) {
 /* ============================================================
    UTILITIES
    ============================================================ */
-function escHtml(str) {
+function peEscHtml(str) {
     return str
         .replace(/&/g, '&amp;')
         .replace(/</g, '&lt;')
@@ -1531,7 +1485,7 @@ function escHtml(str) {
         .replace(/\n/g, '<br>');
 }
 
-function copyPrompt(text, btn) {
+function peCopyPrompt(text, btn) {
     navigator.clipboard.writeText(text).then(() => {
         btn.textContent = 'Copied!';
         setTimeout(() => btn.textContent = 'Copy prompt', 1800);
@@ -1548,8 +1502,6 @@ function copyPrompt(text, btn) {
 /* ============================================================
    INIT
    ============================================================ */
-buildPills();
-renderContent();
+peBuildPills();
+peRenderContent();
 </script>
-</body>
-</html>

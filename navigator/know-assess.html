@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Tools &amp; Hallucinations — Knowledge Check</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 860px;
+            width: 100%;
+            padding: 36px;
+            margin: 20px auto;
+        }
+
+        /* === Back link === */
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #94a3b8;
+            text-decoration: none;
+            margin-bottom: 22px;
+        }
+        .back-link:hover { color: #667eea; }
+
+        /* === Header === */
+        .assess-tag {
+            display: inline-block;
+            background: #f0f4ff;
+            color: #667eea;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            padding: 3px 10px;
+            border-radius: 20px;
+            margin-bottom: 10px;
+        }
+        .page-title {
+            font-size: 24px;
+            font-weight: 800;
+            color: #1e1b4b;
+            margin-bottom: 8px;
+        }
+        .page-subtitle {
+            font-size: 13px;
+            color: #6b7280;
+            line-height: 1.7;
+            max-width: 660px;
+            margin-bottom: 28px;
+        }
+
+        hr.divider { border: none; border-top: 1px solid #f1f5f9; margin: 0 0 28px; }
+
+        /* === Steps === */
+        .steps {
+            display: flex;
+            gap: 0;
+            margin-bottom: 28px;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        .step-chip {
+            flex: 1;
+            padding: 12px 14px;
+            border-right: 1px solid #e2e8f0;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+        .step-chip:last-child { border-right: none; }
+        .step-num {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: #1e1b4b;
+            color: white;
+            font-size: 11px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+        .step-text { font-size: 12px; color: #374151; line-height: 1.5; }
+        .step-text strong { display: block; font-size: 11px; font-weight: 700; color: #1e1b4b; margin-bottom: 2px; }
+
+        /* === Section label === */
+        .section-label {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.07em;
+            color: #94a3b8;
+            margin-bottom: 12px;
+        }
+
+        /* === Case card === */
+        .case-card {
+            border: 1px solid #e2e8f0;
+            border-left: 4px solid #667eea;
+            border-radius: 0 12px 12px 0;
+            padding: 20px 22px;
+            margin-bottom: 16px;
+            background: #f8fafc;
+        }
+        .card-tag {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: #667eea;
+            margin-bottom: 8px;
+        }
+        .case-title { font-size: 15px; font-weight: 800; color: #1e1b4b; margin-bottom: 8px; }
+        .case-body  { font-size: 13px; color: #374151; line-height: 1.75; }
+        .case-body strong { color: #1e1b4b; }
+
+        /* === Tool callout === */
+        .tool-callout {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            border-radius: 10px;
+            padding: 14px 16px;
+            margin-bottom: 22px;
+            font-size: 13px;
+            color: #374151;
+            line-height: 1.65;
+        }
+        .tool-callout .icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+
+        /* === ChatGPT mock === */
+        .chat-mock-wrap {
+            border: 1.5px solid #e5e7eb;
+            border-radius: 14px;
+            overflow: hidden;
+            margin-bottom: 28px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.07);
+        }
+        .cm-topbar {
+            background: #f9fafb;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 9px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .cm-title-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .cm-icon {
+            width: 22px;
+            height: 22px;
+            background: #212121;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            color: white;
+            font-weight: 800;
+            flex-shrink: 0;
+        }
+        .cm-tool-name  { font-size: 13px; font-weight: 700; color: #1f2937; }
+        .cm-model-badge {
+            font-size: 10px;
+            background: #f1f5f9;
+            border-radius: 6px;
+            padding: 2px 7px;
+            color: #6b7280;
+            font-weight: 500;
+        }
+        .cm-sim-tag {
+            font-size: 10px;
+            font-weight: 700;
+            background: #fff7ed;
+            color: #c2410c;
+            border: 1px solid #fed7aa;
+            border-radius: 10px;
+            padding: 2px 8px;
+        }
+        .cm-messages {
+            background: white;
+            padding: 18px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        .cm-user-msg {
+            align-self: flex-end;
+            background: #f1f5f9;
+            border-radius: 14px 14px 2px 14px;
+            padding: 10px 14px;
+            max-width: 80%;
+            font-size: 13px;
+            color: #1f2937;
+            line-height: 1.55;
+        }
+        .cm-ai-row { display: flex; gap: 10px; align-items: flex-start; }
+        .cm-ai-icon {
+            width: 26px;
+            height: 26px;
+            background: #212121;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            color: white;
+            font-weight: 800;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+        .cm-ai-body { flex: 1; font-size: 13px; color: #1f2937; line-height: 1.8; }
+        .cm-ai-body ul { margin: 8px 0 4px 18px; list-style: disc; }
+        .cm-ai-body li { margin-bottom: 5px; }
+        .cm-ai-body strong { color: #111827; }
+        .cm-input-bar {
+            background: #f9fafb;
+            border-top: 1px solid #e5e7eb;
+            padding: 9px 16px;
+            font-size: 12px;
+            color: #9ca3af;
+        }
+
+        /* === Progress === */
+        .progress-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 24px;
+        }
+        .progress-bar-wrap {
+            flex: 1;
+            background: #f1f5f9;
+            border-radius: 99px;
+            height: 6px;
+            overflow: hidden;
+        }
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            border-radius: 99px;
+            transition: width 0.4s ease;
+        }
+        .progress-text { font-size: 11px; font-weight: 700; color: #94a3b8; white-space: nowrap; }
+
+        /* === Question card === */
+        .question-card {
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 22px;
+            margin-bottom: 14px;
+            animation: fadeUp 0.3s ease;
+        }
+        .q-number {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.07em;
+            color: #667eea;
+            margin-bottom: 8px;
+        }
+        .q-text {
+            font-size: 14px;
+            font-weight: 700;
+            color: #1e1b4b;
+            line-height: 1.55;
+            margin-bottom: 6px;
+        }
+        .q-hint {
+            font-size: 12.5px;
+            color: #94a3b8;
+            line-height: 1.6;
+            margin-bottom: 18px;
+        }
+
+        /* === Options — vertical list === */
+        .options-list {
+            display: flex;
+            flex-direction: column;
+            gap: 9px;
+            margin-bottom: 18px;
+        }
+        .option-tile {
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 13px 15px;
+            cursor: pointer;
+            text-align: left;
+            background: white;
+            font-family: inherit;
+            transition: border-color 0.18s, background 0.18s;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            width: 100%;
+        }
+        .option-tile:hover:not(:disabled) { border-color: #667eea; background: #f8fafc; }
+        .option-letter {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: #f1f5f9;
+            color: #64748b;
+            font-size: 11px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: background 0.18s, color 0.18s;
+        }
+        .option-text { font-size: 13px; color: #374151; line-height: 1.5; text-align: left; }
+
+        /* States */
+        .option-tile.active-selection { border-color: #667eea; background: #f0f4ff; }
+        .option-tile.active-selection .option-letter { background: #667eea; color: white; }
+
+        .option-tile.selected-correct { border-color: #16a34a; background: #f0fdf4; }
+        .option-tile.selected-correct .option-letter { background: #16a34a; color: white; }
+
+        .option-tile.selected-wrong { border-color: #dc2626; background: #fef2f2; }
+        .option-tile.selected-wrong .option-letter { background: #dc2626; color: white; }
+
+        .option-tile.dimmed { opacity: 0.35; }
+
+        /* === Feedback === */
+        .feedback {
+            display: none;
+            border-radius: 10px;
+            padding: 16px 18px;
+            margin-bottom: 16px;
+            animation: fadeUp 0.25s ease;
+        }
+        .feedback.visible { display: block; }
+        .feedback.correct { background: #f0fdf4; border: 1px solid #86efac; }
+        .feedback.wrong   { background: #fef2f2; border: 1px solid #fca5a5; }
+
+        .feedback-heading { font-size: 14px; font-weight: 800; margin-bottom: 5px; }
+        .feedback.correct .feedback-heading { color: #16a34a; }
+        .feedback.wrong   .feedback-heading { color: #dc2626; }
+        .feedback-body { font-size: 13px; color: #374151; line-height: 1.7; }
+
+        /* === Action buttons === */
+        .action-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .btn-submit {
+            padding: 10px 22px;
+            background: #1e1b4b;
+            color: white;
+            border: none;
+            border-radius: 9px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: inherit;
+            transition: opacity 0.18s;
+        }
+        .btn-submit:disabled { opacity: 0.35; cursor: default; }
+        .btn-submit:not(:disabled):hover { opacity: 0.85; }
+
+        .btn-next {
+            padding: 10px 22px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 9px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: inherit;
+            display: none;
+            transition: opacity 0.18s;
+        }
+        .btn-next:hover { opacity: 0.87; }
+
+        /* === End screen === */
+        .end-screen {
+            display: none;
+            text-align: center;
+            padding: 32px 0;
+            animation: fadeUp 0.3s ease;
+        }
+        .end-screen.visible { display: block; }
+        .score-circle {
+            width: 86px;
+            height: 86px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 18px;
+        }
+        .score-num   { font-size: 26px; font-weight: 800; line-height: 1; }
+        .score-denom { font-size: 11px; opacity: 0.75; }
+        .end-title   { font-size: 20px; font-weight: 800; color: #1e1b4b; margin-bottom: 8px; }
+        .end-body    { font-size: 13px; color: #6b7280; line-height: 1.7; max-width: 480px; margin: 0 auto 22px; }
+
+        .btn-restart {
+            padding: 11px 26px;
+            background: #1e1b4b;
+            color: white;
+            border: none;
+            border-radius: 9px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: inherit;
+            margin-right: 10px;
+        }
+        .btn-restart:hover { opacity: 0.85; }
+        .btn-back-nav {
+            padding: 11px 26px;
+            background: #f1f5f9;
+            color: #475569;
+            border: none;
+            border-radius: 9px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: inherit;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .btn-back-nav:hover { background: #e2e8f0; }
+
+        .btn-continue {
+            padding: 11px 26px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 9px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: inherit;
+            text-decoration: none;
+            display: inline-block;
+            margin-left: 10px;
+        }
+        .btn-continue:hover { opacity: 0.87; }
+
+        .source-note { margin-top: 28px; font-size: 11px; color: #cbd5e1; text-align: center; line-height: 1.6; }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(10px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 600px) {
+            .container { padding: 22px 16px; }
+            .steps { flex-direction: column; }
+            .step-chip { border-right: none; border-bottom: 1px solid #e2e8f0; }
+            .step-chip:last-child { border-bottom: none; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <a href="know.html" class="back-link">&larr; Back to Know</a>
+
+    <div class="assess-tag">Knowledge check</div>
+    <h1 class="page-title">Something is wrong with this AI output</h1>
+    <p class="page-subtitle">You will read a student's conversation with ChatGPT and spot a problem: the AI produced specific statistics that may be entirely made up. Answer three questions about why this happened and what a better approach would have been.</p>
+
+    <div class="steps">
+        <div class="step-chip">
+            <div class="step-num">1</div>
+            <div class="step-text"><strong>Read the chat</strong>Follow the conversation and notice what the AI claims.</div>
+        </div>
+        <div class="step-chip">
+            <div class="step-num">2</div>
+            <div class="step-text"><strong>Spot the problem</strong>What looks suspicious about the response?</div>
+        </div>
+        <div class="step-chip">
+            <div class="step-num">3</div>
+            <div class="step-text"><strong>Answer the questions</strong>Apply what you know about how AI tools work.</div>
+        </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- Scenario — always visible -->
+    <div class="section-label">The conversation</div>
+
+    <div class="case-card">
+        <div class="card-tag">Student scenario</div>
+        <div class="case-title">Elif, 1st-year Psychology</div>
+        <div class="case-body">Elif is writing her first literature review on <strong>working memory and academic stress</strong>. Her lecturer mentioned a Baddeley &amp; Hitch follow-up study in class. She wants to include its key findings and turns to ChatGPT to quickly retrieve the statistics.</div>
+    </div>
+
+    <div class="chat-mock-wrap">
+        <div class="cm-topbar">
+            <div class="cm-title-row">
+                <div class="cm-icon">G</div>
+                <span class="cm-tool-name">ChatGPT</span>
+                <span class="cm-model-badge">GPT-4o</span>
+            </div>
+            <span class="cm-sim-tag">Simulated interface</span>
+        </div>
+        <div class="cm-messages">
+            <div class="cm-user-msg">
+                What were the main findings and statistics in the Baddeley &amp; Hitch 2022 follow-up study on working memory and exam stress in university students?
+            </div>
+            <div class="cm-ai-row">
+                <div class="cm-ai-icon">G</div>
+                <div class="cm-ai-body">
+                    The <strong>Baddeley &amp; Hitch (2022)</strong> follow-up study examined working memory capacity under exam-related stress in <strong>412 undergraduate students</strong> at the University of York. Key findings:
+                    <ul>
+                        <li>Students under high exam stress showed a <strong>31% reduction</strong> in overall working memory capacity compared to a low-stress baseline</li>
+                        <li>The <strong>phonological loop</strong> was the most affected component (38% reduction); the visuospatial sketchpad showed a more modest 19% decline</li>
+                        <li>The effect was partially mediated by cortisol levels (<em>&beta;&thinsp;=&thinsp;0.43, p &lt; .001</em>)</li>
+                        <li>Students who practised mindfulness showed significantly smaller working memory decrements (17% vs 31%)</li>
+                    </ul>
+                    <br>
+                    Baddeley &amp; Hitch concluded that exam stress impairs working memory primarily through the phonological loop, and recommended mindfulness-based interventions as targeted student support.
+                </div>
+            </div>
+        </div>
+        <div class="cm-input-bar">Message ChatGPT&hellip;</div>
+    </div>
+
+    <div class="tool-callout">
+        <div class="icon">&#128161;</div>
+        <div>
+            <strong>What to notice:</strong> The response looks authoritative — it gives a sample size, specific percentages, and even a beta coefficient. But none of these figures can be verified without locating the actual paper. Confident-sounding output is not the same as accurate output.
+        </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- Quiz area — rendered by JS -->
+    <div id="quiz-area"></div>
+
+    <!-- End screen -->
+    <div class="end-screen" id="end-screen">
+        <div class="score-circle">
+            <div class="score-num" id="score-num">–</div>
+            <div class="score-denom" id="score-denom">/ 3</div>
+        </div>
+        <div class="end-title" id="end-title">–</div>
+        <div class="end-body" id="end-body">–</div>
+        <button class="btn-restart" onclick="startQuiz()">Try again</button>
+        <a href="know.html" class="btn-back-nav">Back to Know</a>
+        <a href="../use.html" class="btn-continue">Continue to Use &rsaquo;</a>
+    </div>
+
+    <p class="source-note">
+        The chat interaction shown is a simulated example for learning purposes. The study referenced does not correspond to verified published findings.
+    </p>
+
+</div>
+
+<script>
+/* ============================================================
+   QUESTION BANK — 3 questions in fixed order
+   ============================================================ */
+const QUESTIONS = [
+
+    /* ─── Q1: Why did ChatGPT generate specific but unverifiable statistics? ─── */
+    {
+        qText: 'ChatGPT listed specific numbers — 412 students, a 31% reduction, a beta coefficient — that may not match any real study. What is the main reason AI produces this kind of confident-sounding but unverified detail?',
+        qHint: 'Think about what AI does when it writes a response: it is predicting what words come next, not looking something up.',
+        correct: 1,
+        feedback: {
+            correct: 'Correct. ChatGPT generates text by predicting which words and phrases are likely to follow one another, based on patterns it learned during training. When asked about a specific study, it produces numbers that fit the pattern of academic writing — but without checking whether those numbers are real. It has no way to verify the statistics it outputs. This is called hallucination: the AI sounds confident, but the detail may be entirely fabricated.',
+            wrong: 'Not quite. Remember: ChatGPT does not search a database or look up a paper when you ask it a question. It generates the most plausible-sounding continuation of your prompt. Why would that process produce specific-sounding numbers that might not be real?'
+        },
+        options: [
+            { letter: 'A', text: 'ChatGPT searched an online database but may have retrieved the wrong paper' },
+            { letter: 'B', text: 'ChatGPT generates text by predicting plausible word sequences — producing realistic-sounding numbers without verifying them against any real source' },
+            { letter: 'C', text: 'ChatGPT rounds real statistics to make them easier to understand' },
+            { letter: 'D', text: 'ChatGPT uses a built-in research library that is sometimes out of date' }
+        ]
+    },
+
+    /* ─── Q2: Why was ChatGPT the wrong tool for this type of request? ─── */
+    {
+        qText: 'Even setting aside how AI generates text, why was ChatGPT a poor tool choice for this specific request — looking up exact statistics from a named study?',
+        qHint: 'Think about what type of tool ChatGPT is — general-purpose chat — and what this task actually requires: accurate retrieval from a specific publication.',
+        correct: 2,
+        feedback: {
+            correct: 'Correct. ChatGPT is a general-purpose conversational assistant. It can explain concepts, help with writing, and brainstorm ideas — but it was not designed to retrieve specific, citation-level data from named academic studies. It has no live connection to academic databases and no way to check whether the statistics it generates match a real publication. Using it for this task is a mismatch between what the tool does and what the student needs.',
+            wrong: 'Look again. The issue is not about word limits, copyright, or training dates — it is about the type of task ChatGPT is designed for. It is a general-purpose chat tool, not a literature retrieval system. What does that mismatch mean for requests that need accurate, specific academic data?'
+        },
+        options: [
+            { letter: 'A', text: 'ChatGPT cannot process long research papers because of its response length limit' },
+            { letter: 'B', text: 'Academic journals do not give OpenAI permission to reproduce study statistics' },
+            { letter: 'C', text: 'ChatGPT is a general-purpose conversational assistant with no live access to academic databases — it is not designed for retrieving specific data from named publications' },
+            { letter: 'D', text: 'ChatGPT only has reliable knowledge of studies published before 2021, so recent research is always unreliable' }
+        ]
+    },
+
+    /* ─── Q3: Tool selection scenario ─── */
+    {
+        qText: 'Elif has now found and downloaded the actual PDF of the study she was looking for. She needs to summarise its key findings for an annotated bibliography entry. Which tool is the best fit?',
+        qHint: 'Elif already has the document. Which type of tool is specifically designed for questions about a document you provide — rather than generating answers from its training data?',
+        correct: 3,
+        feedback: {
+            correct: 'Correct. When you already have the source document, a document-chat tool like ChatPDF is the right choice. You upload the PDF, and the tool answers questions based on text that actually exists in the document. This means it cannot silently invent statistics that are not there. It does not eliminate all errors — the tool might still misread a table — but every answer it gives can be traced back to something written in the actual document. That is a much safer starting point than asking a general-purpose assistant to recall a study from memory.',
+            wrong: 'Think about what Elif actually needs here: she has the original document. She does not need a web search or a general answer from training data — she needs help working with a specific file she already holds. Which type of tool is designed exactly for that?'
+        },
+        options: [
+            { letter: 'A', text: 'Perplexity — it searches the web in real time and will find a reliable summary of the paper from an academic source' },
+            { letter: 'B', text: 'ChatGPT — with a clear, detailed prompt, it can recall the paper accurately from its training data' },
+            { letter: 'C', text: 'Google Gemini — it is the best option for working with long documents because of its extended context window' },
+            { letter: 'D', text: 'ChatPDF or a comparable document-chat tool — uploading the PDF means every answer is grounded in what the document actually says, not what the AI expects it to say' }
+        ]
+    }
+];
+
+/* ============================================================
+   STATE
+   ============================================================ */
+let currentQ  = 0;
+let score     = 0;
+let selected  = null;
+let submitted = false;
+let firstTry  = true;
+
+/* ============================================================
+   INIT
+   ============================================================ */
+function startQuiz() {
+    currentQ  = 0;
+    score     = 0;
+    selected  = null;
+    submitted = false;
+    document.getElementById('end-screen').classList.remove('visible');
+    document.getElementById('quiz-area').style.display = '';
+    renderQuestion();
+}
+
+/* ============================================================
+   RENDER
+   ============================================================ */
+function renderQuestion() {
+    const q     = QUESTIONS[currentQ];
+    const total = QUESTIONS.length;
+    selected  = null;
+    submitted = false;
+    firstTry  = true;
+
+    // Progress
+    const pct = (currentQ / total) * 100;
+    document.getElementById('progress-fill') &&
+        (document.getElementById('progress-fill').style.width = pct + '%');
+
+    const area = document.getElementById('quiz-area');
+    area.style.display = '';
+    area.innerHTML = '';
+    area.style.animation = 'none';
+    area.offsetHeight; // reflow
+    area.style.animation = 'fadeUp 0.3s ease';
+
+    // Progress row (rendered inside quiz area so it scrolls naturally)
+    const pr = document.createElement('div');
+    pr.className = 'progress-row';
+    pr.innerHTML = `
+        <div class="progress-bar-wrap">
+            <div class="progress-bar-fill" id="progress-fill" style="width:${pct}%"></div>
+        </div>
+        <div class="progress-text">Question ${currentQ + 1} of ${total}</div>`;
+    area.appendChild(pr);
+
+    // Question card
+    const card = document.createElement('div');
+    card.className = 'question-card';
+
+    const qNum = document.createElement('div');
+    qNum.className = 'q-number';
+    qNum.textContent = `Question ${currentQ + 1} of ${total}`;
+    card.appendChild(qNum);
+
+    const qText = document.createElement('div');
+    qText.className = 'q-text';
+    qText.textContent = q.qText;
+    card.appendChild(qText);
+
+    const qHint = document.createElement('div');
+    qHint.className = 'q-hint';
+    qHint.textContent = q.qHint;
+    card.appendChild(qHint);
+
+    // Options list (vertical)
+    const list = document.createElement('div');
+    list.className = 'options-list';
+    list.id = 'options-list';
+    q.options.forEach((opt, idx) => {
+        const btn = document.createElement('button');
+        btn.className = 'option-tile';
+        btn.dataset.idx = idx;
+        btn.innerHTML = `<div class="option-letter">${opt.letter}</div><div class="option-text">${escHtml(opt.text)}</div>`;
+        btn.onclick = () => selectOption(idx);
+        list.appendChild(btn);
+    });
+    card.appendChild(list);
+
+    // Feedback
+    const fb = document.createElement('div');
+    fb.className = 'feedback';
+    fb.id = 'feedback-box';
+    card.appendChild(fb);
+
+    // Actions
+    const actionRow = document.createElement('div');
+    actionRow.className = 'action-row';
+    const isLast = currentQ >= total - 1;
+    actionRow.innerHTML = `
+        <button class="btn-submit" id="btn-submit" disabled onclick="submitAnswer()">Check answer</button>
+        <button class="btn-next"   id="btn-next"   onclick="nextQuestion()">${isLast ? 'See results &rsaquo;' : 'Next question &rsaquo;'}</button>`;
+    card.appendChild(actionRow);
+
+    area.appendChild(card);
+}
+
+/* ============================================================
+   INTERACTION
+   ============================================================ */
+function selectOption(idx) {
+    if (submitted) return;
+    selected = idx;
+    document.querySelectorAll('.option-tile').forEach((t, i) => {
+        t.classList.toggle('active-selection', i === idx);
+    });
+    document.getElementById('btn-submit').disabled = false;
+}
+
+function submitAnswer() {
+    if (selected === null || submitted) return;
+
+    const q       = QUESTIONS[currentQ];
+    const correct = selected === q.correct;
+    const tiles   = document.querySelectorAll('.option-tile');
+    const chosen  = tiles[selected];
+    chosen.classList.remove('active-selection');
+
+    if (!correct) {
+        chosen.classList.add('selected-wrong');
+        chosen.disabled = true;
+        firstTry = false;
+
+        const fb = document.getElementById('feedback-box');
+        fb.className = 'feedback visible wrong';
+        fb.innerHTML = `
+            <div class="feedback-heading">Not quite &mdash; try again</div>
+            <div class="feedback-body">${q.feedback.wrong}</div>`;
+
+        selected = null;
+        document.getElementById('btn-submit').disabled = true;
+        return;
+    }
+
+    // ── Correct ──
+    submitted = true;
+    if (firstTry) score++;
+
+    tiles.forEach((t, i) => {
+        t.classList.remove('active-selection');
+        t.disabled = true;
+        if (i === selected) {
+            t.classList.add('selected-correct');
+        } else if (!t.classList.contains('selected-wrong')) {
+            t.classList.add('dimmed');
+        }
+    });
+
+    const fb = document.getElementById('feedback-box');
+    fb.className = 'feedback visible correct';
+    fb.innerHTML = `
+        <div class="feedback-heading">Correct</div>
+        <div class="feedback-body">${q.feedback.correct}</div>`;
+
+    document.getElementById('btn-submit').style.display = 'none';
+    document.getElementById('btn-next').style.display   = 'inline-block';
+}
+
+function nextQuestion() {
+    currentQ++;
+    if (currentQ >= QUESTIONS.length) {
+        showEndScreen();
+    } else {
+        renderQuestion();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+}
+
+/* ============================================================
+   END SCREEN
+   ============================================================ */
+function showEndScreen() {
+    document.getElementById('quiz-area').style.display = 'none';
+
+    const total = QUESTIONS.length;
+    const pct   = score / total;
+    let title, body;
+
+    if (pct === 1) {
+        title = 'Full marks';
+        body  = 'Well done — you understood why this hallucination happened, why ChatGPT was the wrong tool for the task, and which tool would have been better. These are exactly the judgements that help you use AI responsibly in your studies.';
+    } else if (pct >= 0.67) {
+        title = 'Almost there';
+        body  = 'Good work overall. Review the question you missed — particularly the difference between what ChatGPT is designed to do and what this student asked it to do. These are related but separate points, and both matter for avoiding this kind of error.';
+    } else {
+        title = 'Keep going';
+        body  = 'Go back to the Know section — especially the parts on how AI generates text and the overview of different tool types. Then come back and try again. Understanding why AI gets things wrong is just as important as knowing how to use it well.';
+    }
+
+    document.getElementById('score-num').textContent   = score;
+    document.getElementById('score-denom').textContent = `/ ${total}`;
+    document.getElementById('end-title').textContent   = title;
+    document.getElementById('end-body').textContent    = body;
+    document.getElementById('end-screen').classList.add('visible');
+}
+
+/* ============================================================
+   UTILS
+   ============================================================ */
+function escHtml(str) {
+    return str
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
+}
+
+/* ── Init ── */
+startQuiz();
+</script>
+</body>
+</html>
