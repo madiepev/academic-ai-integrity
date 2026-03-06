@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prompt Engineering Navigator</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 900px;
+            width: 100%;
+            padding: 40px;
+            margin: 20px auto;
+        }
+
+        /* === Header === */
+        .header { margin-bottom: 28px; }
+        .header h1 {
+            font-size: 26px;
+            color: #1e1b4b;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .header p {
+            color: #6b7280;
+            font-size: 14px;
+            line-height: 1.6;
+            max-width: 680px;
+        }
+
+        /* === Breadcrumb === */
+        .breadcrumb {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 6px;
+            padding: 10px 14px;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            margin-bottom: 24px;
+            font-size: 12px;
+            color: #94a3b8;
+            transition: all 0.3s ease;
+        }
+        .breadcrumb.hidden { display: none; }
+        .crumb {
+            color: #64748b;
+            max-width: 240px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .crumb-first { color: #94a3b8; }
+        .crumb-sep { color: #cbd5e1; flex-shrink: 0; }
+
+        /* === Step === */
+        .step { animation: fadeUp 0.3s ease; }
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(14px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        .step-question {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1e1b4b;
+            margin-bottom: 6px;
+            line-height: 1.4;
+        }
+        .step-hint {
+            font-size: 13px;
+            color: #94a3b8;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        /* === Category badge (sub-questions) === */
+        .cat-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 3px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            color: white;
+            margin-bottom: 14px;
+            text-transform: uppercase;
+        }
+        .badge-structured  { background: #3b82f6; }
+        .badge-rolebased   { background: #8b5cf6; }
+        .badge-contextual  { background: #0d9488; }
+        .badge-cot         { background: #f59e0b; }
+        .badge-unstructured{ background: #ec4899; }
+
+        /* === Option cards === */
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+        .options-grid.wide { grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); }
+
+        .option-card {
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 16px 18px;
+            cursor: pointer;
+            transition: border-color 0.2s, background 0.2s, transform 0.15s, box-shadow 0.2s;
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            background: white;
+            text-align: left;
+        }
+        .option-card:hover {
+            border-color: var(--highlight, #667eea);
+            background: var(--highlight-bg, #f5f3ff);
+            box-shadow: 0 4px 18px rgba(102,126,234,0.14);
+            transform: translateY(-2px);
+        }
+        .option-card:focus-visible {
+            outline: 3px solid var(--highlight, #667eea);
+            outline-offset: 2px;
+        }
+
+        .option-icon { font-size: 22px; flex-shrink: 0; margin-top: 1px; }
+        .option-label {
+            font-size: 14px;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 3px;
+            line-height: 1.35;
+        }
+        .option-desc { font-size: 12px; color: #94a3b8; line-height: 1.4; }
+
+        /* Root-level cards are a bit bigger */
+        .root-level .option-card { padding: 20px 18px; }
+        .root-level .option-icon { font-size: 26px; }
+        .root-level .option-label { font-size: 15px; }
+
+        /* Per-category colours via CSS custom properties */
+        .c-structured   { --highlight: #3b82f6; --highlight-bg: #eff6ff; }
+        .c-rolebased    { --highlight: #8b5cf6; --highlight-bg: #f5f3ff; }
+        .c-contextual   { --highlight: #0d9488; --highlight-bg: #f0fdfa; }
+        .c-cot          { --highlight: #f59e0b; --highlight-bg: #fffbeb; }
+        .c-unstructured { --highlight: #ec4899; --highlight-bg: #fdf2f8; }
+
+        /* Result card colours (set on the card element itself) */
+        .c-structured.result-card   { --rc: #3b82f6; --rc-bg: #eff6ff; }
+        .c-rolebased.result-card    { --rc: #8b5cf6; --rc-bg: #f5f3ff; }
+        .c-contextual.result-card   { --rc: #0d9488; --rc-bg: #f0fdfa; }
+        .c-cot.result-card          { --rc: #f59e0b; --rc-bg: #fffbeb; }
+        .c-unstructured.result-card { --rc: #ec4899; --rc-bg: #fdf2f8; }
+
+        /* === Result card === */
+        .result-card {
+            border: 2px solid var(--rc, #667eea);
+            border-radius: 16px;
+            padding: 28px;
+            background: linear-gradient(135deg, white 60%, var(--rc-bg, #f5f3ff));
+            margin-bottom: 24px;
+        }
+        .result-technique {
+            font-size: 22px;
+            font-weight: 800;
+            color: #1e1b4b;
+            margin-bottom: 8px;
+        }
+        .result-description {
+            font-size: 14px;
+            color: #374151;
+            margin-bottom: 18px;
+            line-height: 1.65;
+        }
+        .result-feature {
+            background: white;
+            border-left: 3px solid var(--rc, #667eea);
+            border-radius: 0 8px 8px 0;
+            padding: 10px 14px;
+            margin-bottom: 18px;
+        }
+        .result-feature-label {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--rc, #667eea);
+            margin-bottom: 3px;
+        }
+        .result-feature-text { font-size: 13px; color: #4b5563; }
+
+        .result-example {
+            background: #1e1b4b;
+            border-radius: 12px;
+            padding: 16px 54px 16px 18px;
+            margin-bottom: 18px;
+            position: relative;
+        }
+        .result-example-label {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: #a5b4fc;
+            margin-bottom: 6px;
+        }
+        .result-example-text {
+            font-size: 15px;
+            color: #f1f5f9;
+            font-style: italic;
+            line-height: 1.55;
+        }
+        .copy-btn {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: #e2e8f0;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-family: inherit;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .copy-btn:hover { background: rgba(255,255,255,0.2); }
+
+        .result-ped {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 12px 16px;
+        }
+        .result-ped-label {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: #94a3b8;
+            margin-bottom: 4px;
+        }
+        .result-ped-text { font-size: 13px; color: #374151; line-height: 1.6; }
+
+        /* === Nav buttons === */
+        .nav-row {
+            display: flex;
+            gap: 10px;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+        .btn {
+            padding: 10px 22px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: none;
+            font-family: inherit;
+        }
+        .btn-back { background: #f1f5f9; color: #475569; }
+        .btn-back:hover:not(:disabled) { background: #e2e8f0; }
+        .btn-back:disabled { opacity: 0.35; cursor: default; }
+        .btn-restart { background: #667eea; color: white; }
+        .btn-restart:hover { background: #5a6fd6; }
+
+        /* === Source === */
+        .source-note {
+            margin-top: 24px;
+            font-size: 11px;
+            color: #cbd5e1;
+            text-align: center;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 600px) {
+            .container { padding: 24px 18px; }
+            .options-grid, .options-grid.wide { grid-template-columns: 1fr; }
+            .step-question { font-size: 17px; }
+            .result-technique { font-size: 18px; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>🧭 Prompt Engineering Navigator</h1>
+        <p>Answer a few questions about your intent to find the right prompting technique — including an example prompt and guidance on how to use it in your learning.</p>
+    </div>
+
+    <div class="breadcrumb hidden" id="breadcrumb"></div>
+    <div id="step-display"></div>
+
+    <div class="nav-row">
+        <button class="btn btn-back" id="back-btn" onclick="goBack()" disabled>← Back</button>
+        <button class="btn btn-restart" onclick="restart()">↺ Start over</button>
+    </div>
+
+    <p class="source-note">
+        Based on Table 1 from: Qian, Y. (2025). Prompt Engineering in Education: A Systematic Review of Approaches and Educational Applications.
+        <em>Journal of Educational Computing Research, 63</em>(7-8), 1782–1818. <a href="https://doi.org/10.1177/07356331251365189" style="color:#a5b4fc;">https://doi.org/10.1177/07356331251365189</a>
+    </p>
+</div>
+
+<script>
+/* =========================================================
+   DATA — mirrors Table 1 (Qian, 2025) exactly
+   ========================================================= */
+const NODES = {
+
+    /* ── ROOT ─────────────────────────────────────────── */
+    root: {
+        question: 'What is your main goal when writing this prompt?',
+        hint: 'Choose the option that best reflects what you want your prompt to do.',
+        options: [
+            { label: 'Guide AI using examples or output constraints',
+              icon: '📋', desc: 'Provide examples, define formats, or build in evaluation criteria',
+              next: 'structured', category: 'structured' },
+            { label: 'Assign AI a specific role or persona',
+              icon: '🎭', desc: 'Have AI act as a teacher, domain expert, or other identity',
+              next: 'rolebased', category: 'rolebased' },
+            { label: 'Add context or adapt the language to your audience',
+              icon: '🔍', desc: 'Ground the prompt in background info or tailor it to a reading level',
+              next: 'contextual', category: 'contextual' },
+            { label: 'Walk AI through step-by-step reasoning',
+              icon: '🔗', desc: 'Break complex problems into logical steps or foster structured thinking',
+              next: 'cot', category: 'cot' },
+            { label: 'Keep it simple, direct, or exploratory',
+              icon: '💬', desc: 'Ask an open, creative, or straightforward question without scaffolding',
+              next: 'unstructured', category: 'unstructured' },
+        ],
+    },
+
+    /* ── STRUCTURED ───────────────────────────────────── */
+    structured: {
+        category: 'structured',
+        categoryLabel: 'Structured Prompting',
+        question: 'How do you want to structure the prompt?',
+        hint: 'Structured prompting uses predefined patterns — examples, constraints, or evaluation criteria — to steer AI responses.',
+        options: [
+            { label: 'Show AI one or more examples of the expected response',
+              icon: '📄', desc: 'Use worked examples to demonstrate the output format or reasoning style',
+              next: 'structured_examples' },
+            { label: 'Constrain the output format, logic, or scenario',
+              icon: '🔒', desc: 'Narrow the range of AI responses using rules, conditions, or context',
+              next: 'structured_constraints' },
+            { label: 'Apply an evaluation or scoring framework',
+              icon: '✅', desc: 'Structure output through rubrics, ranking, or multiple-choice criteria',
+              next: 'structured_evaluation' },
+        ],
+    },
+
+    structured_examples: {
+        category: 'structured',
+        categoryLabel: 'Structured Prompting',
+        question: 'How many examples will you provide?',
+        hint: 'More examples give AI more context to match the expected style and output.',
+        options: [
+            { label: 'One example',
+              icon: '1️⃣', desc: 'A single worked example sets the pattern with minimal input',
+              next: 'leaf_one_shot' },
+            { label: 'Multiple examples (3–5)',
+              icon: '📚', desc: 'Several examples allow deeper generalisation and pattern recognition',
+              next: 'leaf_few_shot' },
+        ],
+    },
+
+    structured_constraints: {
+        category: 'structured',
+        categoryLabel: 'Structured Prompting',
+        question: 'What type of constraint do you need?',
+        hint: 'Constraints prevent AI from straying outside your intended scope or format.',
+        options: [
+            { label: 'Format or structure constraint',
+              icon: '📊', desc: 'Specify layout — e.g. "List your answer in bullet points"',
+              next: 'leaf_format' },
+            { label: 'Logical or conditional constraint',
+              icon: '🔀', desc: 'Build in conditions — e.g. "If X is true, then what follows?"',
+              next: 'leaf_conditional' },
+            { label: 'Scenario-specific constraint',
+              icon: '🏗️', desc: 'Set a realistic context — e.g. "Given a €500 budget, create a plan"',
+              next: 'leaf_scenario' },
+        ],
+    },
+
+    structured_evaluation: {
+        category: 'structured',
+        categoryLabel: 'Structured Prompting',
+        question: 'What type of evaluation framework do you need?',
+        hint: 'These prompt types let you assess, rank, or score AI output consistently.',
+        options: [
+            { label: 'Multiple-choice selection',
+              icon: '🔘', desc: 'Have AI choose the best answer from a set of options',
+              next: 'leaf_mc' },
+            { label: 'Ranking from most to least effective',
+              icon: '📈', desc: 'Have AI prioritise or order a list of items',
+              next: 'leaf_ranking' },
+            { label: 'Rubric or metric-based scoring',
+              icon: '📝', desc: 'Apply predefined criteria — e.g. a rubric or quality metric',
+              next: 'leaf_rubric' },
+        ],
+    },
+
+    /* ── ROLE-BASED ───────────────────────────────────── */
+    rolebased: {
+        category: 'rolebased',
+        categoryLabel: 'Role-based / Persona Prompting',
+        question: 'What kind of role or persona should AI take on?',
+        hint: 'Role-based prompting aligns AI tone, language, and behaviour with a specific identity.',
+        options: [
+            { label: 'An educational role — mentor, tutor, or peer guide',
+              icon: '👩‍🏫', desc: 'For learning support, personalised feedback, and dialogic engagement',
+              next: 'leaf_edu_role' },
+            { label: 'A professional or domain expert',
+              icon: '🩺', desc: 'For specialist reasoning in clinical, scientific, or professional contexts',
+              next: 'leaf_expert_role' },
+            { label: 'A social or identity-based perspective',
+              icon: '🌐', desc: 'To explore viewpoints, perspective-taking, or ethical bias',
+              next: 'leaf_social_role' },
+            { label: 'A communicator simplifying content for non-experts',
+              icon: '💊', desc: 'To translate complex knowledge into accessible language for lay audiences',
+              next: 'leaf_health_edu' },
+        ],
+    },
+
+    /* ── CONTEXTUAL ───────────────────────────────────── */
+    contextual: {
+        category: 'contextual',
+        categoryLabel: 'Contextual Priming & Linguistic Clarity',
+        question: 'What do you need to add to your prompt?',
+        hint: 'Contextual prompting grounds AI responses in relevant background knowledge or audience awareness.',
+        options: [
+            { label: 'Domain-specific or situational context',
+              icon: '🧩', desc: 'Supply background details, case information, or situational cues',
+              next: 'leaf_ctx_priming' },
+            { label: 'External knowledge from documents or databases',
+              icon: '🗄️', desc: 'Retrieve and embed factual sources into the prompt (RAG)',
+              next: 'leaf_rag' },
+            { label: 'Language adapted to your audience\'s level',
+              icon: '🗣️', desc: 'Specify reading level, vocabulary, or tone for accessibility',
+              next: 'leaf_linguistic' },
+        ],
+    },
+
+    /* ── CHAIN-OF-THOUGHT ─────────────────────────────── */
+    cot: {
+        category: 'cot',
+        categoryLabel: 'Chain-of-Thought Reasoning',
+        question: 'What type of reasoning process do you need?',
+        hint: 'Chain-of-thought prompting guides AI through logical, multi-step reasoning — with many variants for different cognitive goals.',
+        options: [
+            { label: 'Simple step-by-step reasoning',
+              icon: '1️⃣', desc: '"Let\'s solve this step by step" — the most direct CoT approach',
+              next: 'leaf_std_cot' },
+            { label: 'Structured reasoning with pre-defined steps',
+              icon: '📐', desc: 'Add guided sub-steps before the reasoning begins',
+              next: 'leaf_mod_cot' },
+            { label: 'Explore multiple solution paths, then choose best',
+              icon: '🌳', desc: 'Tree-of-Thought or Self-Consistency — surface alternative approaches',
+              next: 'leaf_tot' },
+            { label: 'Aggregate consensus from multiple paths',
+              icon: '🗳️', desc: 'Generate several solutions and converge on the most common conclusion',
+              next: 'leaf_majority' },
+            { label: 'Reflective, dialogic self-questioning',
+              icon: '💭', desc: 'Socratic CoT — foster metacognition through iterative self-inquiry',
+              next: 'leaf_socratic' },
+            { label: 'Multi-stage decision-making across a complex task',
+              icon: '🔄', desc: 'Chain multiple decision points for business reasoning or structured planning',
+              next: 'leaf_multi_cot' },
+        ],
+    },
+
+    /* ── UNSTRUCTURED ─────────────────────────────────── */
+    unstructured: {
+        category: 'unstructured',
+        categoryLabel: 'Unstructured Prompting',
+        question: 'What type of open or direct prompt do you need?',
+        hint: 'Unstructured prompts are simple and flexible — ideal for exploration, creative tasks, or quick questions.',
+        options: [
+            { label: 'No examples — rely on AI\'s general knowledge',
+              icon: '🎯', desc: 'Zero-shot: let AI respond based purely on what it already knows',
+              next: 'leaf_zero_shot' },
+            { label: 'A clear, direct instruction',
+              icon: '➡️', desc: 'Tell AI exactly what to do — simple language, no scaffolding',
+              next: 'leaf_direct' },
+            { label: 'A specific task with minimal guidance',
+              icon: '📌', desc: 'Define the task clearly but leave the process and format to AI',
+              next: 'leaf_explicit' },
+            { label: 'An open, exploratory question',
+              icon: '🔭', desc: 'Invite broad, creative, or speculative responses without constraints',
+              next: 'leaf_open_ended' },
+        ],
+    },
+
+    /* =========================================================
+       LEAF NODES — one per technique in Table 1
+       ========================================================= */
+
+    /* Structured: examples */
+    leaf_one_shot: {
+        isLeaf: true, category: 'structured', categoryLabel: 'Structured Prompting',
+        technique: 'One-shot Prompting',
+        feature: 'Guide model behaviour using example-based scaffolds',
+        description: 'Provide a single worked example to demonstrate the desired response format or reasoning style. The model uses that one example to replicate the pattern.',
+        example: '"Here is one example. Now try a similar one."',
+        pedUse: 'Support learning transfer with worked examples; fine-tune model output with minimal input.',
+    },
+    leaf_few_shot: {
+        isLeaf: true, category: 'structured', categoryLabel: 'Structured Prompting',
+        technique: 'Few-shot Prompting',
+        feature: 'Guide model behaviour using example-based scaffolds',
+        description: 'Provide 3–5 worked examples so AI can generalise the expected style, format, or reasoning approach across a range of inputs.',
+        example: '"Here are three examples. Use them to solve the next task."',
+        pedUse: 'Deepen understanding by comparing and generalising from multiple examples.',
+    },
+
+    /* Structured: constraints */
+    leaf_format: {
+        isLeaf: true, category: 'structured', categoryLabel: 'Structured Prompting',
+        technique: 'Format / Structure Constraints',
+        feature: 'Narrow output with format, logical, or scenario constraints',
+        description: 'Direct AI to respond in a specific layout or structure, such as bullet points, numbered steps, or a table. This shapes how information is organised and presented.',
+        example: '"List your answer in bullet points."',
+        pedUse: 'Help students organise thinking and present responses clearly under a defined structure.',
+    },
+    leaf_conditional: {
+        isLeaf: true, category: 'structured', categoryLabel: 'Structured Prompting',
+        technique: 'Conditional Constraints',
+        feature: 'Narrow output with format, logical, or scenario constraints',
+        description: 'Restrict AI responses by building in logical conditions or reasoning steps that must be followed — useful for procedural or scientific tasks.',
+        example: '"If X is true, then what follows?"',
+        pedUse: 'Support procedural thinking in logic or scientific reasoning.',
+    },
+    leaf_scenario: {
+        isLeaf: true, category: 'structured', categoryLabel: 'Structured Prompting',
+        technique: 'Scenario Constraints',
+        feature: 'Narrow output with format, logical, or scenario constraints',
+        description: 'Ground AI\'s response within a defined, realistic scenario with specific parameters — budget, time, audience, or context. Keeps output practical and relevant.',
+        example: '"Given a €500 budget, create a plan."',
+        pedUse: 'Align outputs to real-world constraints; automate scenario-based assessment.',
+    },
+
+    /* Structured: evaluation */
+    leaf_mc: {
+        isLeaf: true, category: 'structured', categoryLabel: 'Structured Prompting',
+        technique: 'Multiple-choice Assessment',
+        feature: 'Structure output through evaluation frameworks',
+        description: 'Ask AI to select the best answer from a set of predefined options. Useful for diagnostic tasks, assessments, and situations requiring one correct answer.',
+        example: '"Choose the best diagnosis from the list."',
+        pedUse: 'Automate assessment and align outputs to evaluation standards.',
+    },
+    leaf_ranking: {
+        isLeaf: true, category: 'structured', categoryLabel: 'Structured Prompting',
+        technique: 'Ranking',
+        feature: 'Structure output through evaluation frameworks',
+        description: 'Have AI order a set of items from most to least according to a given criterion. Supports evaluative and prioritisation tasks.',
+        example: '"Rank these ideas from most to least effective."',
+        pedUse: 'Encourage evaluative thinking and prioritisation.',
+    },
+    leaf_rubric: {
+        isLeaf: true, category: 'structured', categoryLabel: 'Structured Prompting',
+        technique: 'Rubric / Metric-based Assessment',
+        feature: 'Structure output through evaluation frameworks',
+        description: 'Provide AI with a rubric or scoring criteria to evaluate a response consistently against predefined standards of quality.',
+        example: '"Use the rubric to rate this response on clarity and completeness."',
+        pedUse: 'Provide consistent, criteria-based feedback on student outputs.',
+    },
+
+    /* Role-based */
+    leaf_edu_role: {
+        isLeaf: true, category: 'rolebased', categoryLabel: 'Role-based / Persona Prompting',
+        technique: 'Educational Role',
+        feature: 'Support learner engagement through pedagogical identities',
+        description: 'Instruct AI to take on a teacher, mentor, tutor, or inquiry guide identity to support learning through personalised, dialogic interaction.',
+        example: '"Act as a mentor helping with a project."',
+        pedUse: 'Foster reflection, personalised learning, and dialogic engagement in education.',
+    },
+    leaf_expert_role: {
+        isLeaf: true, category: 'rolebased', categoryLabel: 'Role-based / Persona Prompting',
+        technique: 'Expert / Professional Role',
+        feature: 'Simulate expert reasoning in clinical/professional domains',
+        description: 'Have AI adopt the persona of a domain specialist — such as a clinician, scientist, or policy analyst — to simulate expert-level explanation and reasoning.',
+        example: '"You are an ophthalmologist. Explain this case."',
+        pedUse: 'Train domain-specific reasoning; simulate case analysis and expert explanation.',
+    },
+    leaf_social_role: {
+        isLeaf: true, category: 'rolebased', categoryLabel: 'Role-based / Persona Prompting',
+        technique: 'Social Identity Role',
+        feature: 'Explore the influence of social identity perspectives',
+        description: 'Assign AI a social, cultural, or ideological identity to explore perspective-taking, potential bias, or ethical implications of different viewpoints.',
+        example: '"As a conservative user, evaluate this headline."',
+        pedUse: 'Examine cognitive bias and ethical implications of identity framing.',
+    },
+    leaf_health_edu: {
+        isLeaf: true, category: 'rolebased', categoryLabel: 'Role-based / Persona Prompting',
+        technique: 'Health Educator / Communicator Role',
+        feature: 'Simplify professional knowledge for lay audiences',
+        description: 'Direct AI to act as a communicator who translates complex or technical content into accessible language for non-expert audiences.',
+        example: '"Explain this lab result in patient-friendly terms."',
+        pedUse: 'Improve communication of health content; foster health literacy.',
+    },
+
+    /* Contextual */
+    leaf_ctx_priming: {
+        isLeaf: true, category: 'contextual', categoryLabel: 'Contextual Priming & Linguistic Clarity',
+        technique: 'Contextual Priming',
+        feature: 'Build domain- or task-specific context to guide output',
+        description: 'Embed situational background, case details, or domain-specific information into the prompt so AI can simulate situational awareness and produce more relevant responses.',
+        example: '"Based on the case details, what is the next step?"',
+        pedUse: 'Tailor outputs to instructional context; simulate real-world conditions.',
+    },
+    leaf_rag: {
+        isLeaf: true, category: 'contextual', categoryLabel: 'Contextual Priming & Linguistic Clarity',
+        technique: 'Retrieval-Augmented Generation (RAG)',
+        feature: 'Combine prompt with external knowledge sources',
+        description: 'Supplement the prompt with information retrieved from external documents, databases, or knowledge bases to improve factual depth and accuracy.',
+        example: '"Use this database to answer the question."',
+        pedUse: 'Enhance factual accuracy and depth; scaffold domain-specific reasoning.',
+    },
+    leaf_linguistic: {
+        isLeaf: true, category: 'contextual', categoryLabel: 'Contextual Priming & Linguistic Clarity',
+        technique: 'Linguistic Clarity',
+        feature: 'Use context- and/or audience-specific language for clarity',
+        description: 'Specify tone, reading level, or vocabulary complexity so AI output is appropriately accessible for your target audience.',
+        example: '"Explain in a way a middle schooler would understand."',
+        pedUse: 'Support language learners and improve accessibility of explanations.',
+    },
+
+    /* Chain-of-Thought */
+    leaf_std_cot: {
+        isLeaf: true, category: 'cot', categoryLabel: 'Chain-of-Thought Reasoning',
+        technique: 'Standard Chain-of-Thought (CoT)',
+        feature: 'Encourage stepwise reasoning from prompt to output',
+        description: 'Instruct AI to work through a problem step by step before delivering the final answer. The most direct form of CoT — explicit and transparent.',
+        example: '"Let\'s solve this step by step."',
+        pedUse: 'Enable step-by-step problem-solving in STEM or logic tasks.',
+    },
+    leaf_mod_cot: {
+        isLeaf: true, category: 'cot', categoryLabel: 'Chain-of-Thought Reasoning',
+        technique: 'Modified Chain-of-Thought (mCoT)',
+        feature: 'Add structural guidance before reasoning begins',
+        description: 'Provide a structured scaffold — such as defining key terms first — that guides AI through defined sub-steps before the main solution, adding order to the reasoning process.',
+        example: '"First define key terms, then solve."',
+        pedUse: 'Teach structured thinking and ordered problem resolution.',
+    },
+    leaf_tot: {
+        isLeaf: true, category: 'cot', categoryLabel: 'Chain-of-Thought Reasoning',
+        technique: 'Tree-of-Thought / Self-Consistency',
+        feature: 'Explore multiple solution branches before answering',
+        description: 'Prompt AI to generate several alternative reasoning paths or approaches, then evaluate and select the best one. Reveals the full solution space.',
+        example: '"Try different approaches and pick the best."',
+        pedUse: 'Reveal different approaches to open-ended problems.',
+    },
+    leaf_majority: {
+        isLeaf: true, category: 'cot', categoryLabel: 'Chain-of-Thought Reasoning',
+        technique: 'Majority Voting',
+        feature: 'Use consensus across multiple reasoning paths',
+        description: 'Have AI generate multiple independent solutions for the same problem, then select the conclusion that appears most frequently across those paths.',
+        example: '"Aggregate multiple solutions and decide."',
+        pedUse: 'Support consensus-building and collective reasoning processes.',
+    },
+    leaf_socratic: {
+        isLeaf: true, category: 'cot', categoryLabel: 'Chain-of-Thought Reasoning',
+        technique: 'Socratic CoT',
+        feature: 'Model iterative questioning and response refinement',
+        description: 'Use a dialogic, question-driven approach where AI iteratively questions and refines its own thinking — fostering metacognition and reflective engagement.',
+        example: '"What might be a better way to respond?"',
+        pedUse: 'Foster critical thinking and metacognition through dialogic reflection.',
+    },
+    leaf_multi_cot: {
+        isLeaf: true, category: 'cot', categoryLabel: 'Chain-of-Thought Reasoning',
+        technique: 'Multi-CoT',
+        feature: 'Chain decision points for reflective business reasoning',
+        description: 'Chain multiple reasoning prompts together to simulate complex, multi-stage decision-making across an extended task or project.',
+        example: '"Evaluate the idea, then assess risk and market."',
+        pedUse: 'Support iterative thinking, planning, and business model development.',
+    },
+
+    /* Unstructured */
+    leaf_zero_shot: {
+        isLeaf: true, category: 'unstructured', categoryLabel: 'Unstructured Prompting',
+        technique: 'Zero-shot Prompt',
+        feature: 'Use no prior examples; rely on the model\'s general capability',
+        description: 'Ask AI to complete a task without any examples or scaffolding, relying entirely on its trained knowledge. Useful for gauging baseline capability.',
+        example: '"Write a short summary of this article."',
+        pedUse: 'Assess general language ability or initial understanding.',
+    },
+    leaf_direct: {
+        isLeaf: true, category: 'unstructured', categoryLabel: 'Unstructured Prompting',
+        technique: 'Direct Prompt',
+        feature: 'Explicitly instruct AI using direct or open instructions',
+        description: 'Give AI a clear, unambiguous instruction in plain language — no examples, constraints, or scaffolding. Fast and simple.',
+        example: '"Translate this paragraph into simple language."',
+        pedUse: 'Give clear, direct instructions for general, fact-based responses.',
+    },
+    leaf_explicit: {
+        isLeaf: true, category: 'unstructured', categoryLabel: 'Unstructured Prompting',
+        technique: 'Explicit Prompt',
+        feature: 'Provide specific tasks without structured reasoning',
+        description: 'State the task clearly but leave the process, format, and logic up to AI. More specific than open-ended but without prescribed structure.',
+        example: '"Give three reasons for your position."',
+        pedUse: 'Assign basic exercises or tasks without over-specifying process.',
+    },
+    leaf_open_ended: {
+        isLeaf: true, category: 'unstructured', categoryLabel: 'Unstructured Prompting',
+        technique: 'Open-ended Prompt',
+        feature: 'Leave model to infer output format and logic',
+        description: 'Invite AI to respond broadly, creatively, or speculatively. Ideal for exploratory thinking, brainstorming, or when diverse perspectives are valued.',
+        example: '"What do you think is happening here?"',
+        pedUse: 'Encourage exploratory and creative thinking.',
+    },
+};
+
+/* =========================================================
+   CATEGORY META
+   ========================================================= */
+const CAT_META = {
+    structured:   { label: 'Structured Prompting',                  icon: '📋' },
+    rolebased:    { label: 'Role-based / Persona Prompting',         icon: '🎭' },
+    contextual:   { label: 'Contextual Priming & Linguistic Clarity', icon: '🔍' },
+    cot:          { label: 'Chain-of-Thought Reasoning',             icon: '🔗' },
+    unstructured: { label: 'Unstructured Prompting',                 icon: '💬' },
+};
+
+/* =========================================================
+   STATE
+   ========================================================= */
+let stack        = ['root']; // visited node IDs
+let choiceLabels = [];       // display labels of choices made
+
+/* =========================================================
+   RENDER
+   ========================================================= */
+function render() {
+    const nodeId  = stack[stack.length - 1];
+    const node    = NODES[nodeId];
+    const display = document.getElementById('step-display');
+
+    // Animate by replacing the element
+    display.style.animation = 'none';
+    display.offsetHeight; // reflow
+    display.style.animation = '';
+
+    if (node.isLeaf) {
+        renderLeaf(node, display);
+    } else {
+        renderQuestion(node, display);
+    }
+
+    // Breadcrumb
+    renderBreadcrumb();
+
+    // Back button
+    document.getElementById('back-btn').disabled = stack.length <= 1;
+}
+
+function renderQuestion(node, container) {
+    const isRoot = stack.length === 1;
+    const catClass = node.category ? `c-${node.category}` : '';
+
+    const badge = node.category
+        ? `<span class="cat-badge badge-${node.category}">${CAT_META[node.category].icon} ${node.categoryLabel}</span>`
+        : '';
+
+    const gridClass = node.options.length >= 5 ? 'options-grid wide' : 'options-grid';
+
+    const cards = node.options.map((opt, i) => {
+        const cardCat = opt.category || node.category || '';
+        return `
+        <button class="option-card c-${cardCat}" onclick="choose('${opt.next}', ${JSON.stringify(opt.label).replace(/'/g, "\\'")})" 
+                tabindex="0" aria-label="${opt.label}">
+            <span class="option-icon">${opt.icon}</span>
+            <span class="option-text">
+                <span class="option-label">${opt.label}</span>
+                <span class="option-desc">${opt.desc}</span>
+            </span>
+        </button>`;
+    }).join('');
+
+    container.innerHTML = `
+        <div class="step ${isRoot ? 'root-level' : ''}">
+            ${badge}
+            <div class="step-question">${node.question}</div>
+            <div class="step-hint">${node.hint}</div>
+            <div class="${gridClass}">${cards}</div>
+        </div>`;
+}
+
+function renderLeaf(node, container) {
+    container.innerHTML = `
+        <div class="step">
+            <span class="cat-badge badge-${node.category}">${CAT_META[node.category].icon} ${node.categoryLabel}</span>
+            <div class="result-card c-${node.category}">
+                <div class="result-technique">${node.technique}</div>
+                <div class="result-description">${node.description}</div>
+
+                <div class="result-feature">
+                    <div class="result-feature-label">Key feature</div>
+                    <div class="result-feature-text">${node.feature}</div>
+                </div>
+
+                <div class="result-example">
+                    <div class="result-example-label">Example prompt</div>
+                    <div class="result-example-text" id="example-text">${node.example}</div>
+                    <button class="copy-btn" onclick="copyExample()" title="Copy example prompt">Copy</button>
+                </div>
+
+                <div class="result-ped">
+                    <div class="result-ped-label">Why use it — pedagogical purpose</div>
+                    <div class="result-ped-text">${node.pedUse}</div>
+                </div>
+            </div>
+        </div>`;
+}
+
+function renderBreadcrumb() {
+    const bc = document.getElementById('breadcrumb');
+    if (choiceLabels.length === 0) {
+        bc.classList.add('hidden');
+        return;
+    }
+    bc.classList.remove('hidden');
+
+    const parts = ['<span class="crumb-first">Start</span>'];
+    choiceLabels.forEach(label => {
+        parts.push('<span class="crumb-sep">›</span>');
+        const short = label.length > 45 ? label.slice(0, 43) + '…' : label;
+        parts.push(`<span class="crumb">${short}</span>`);
+    });
+    bc.innerHTML = parts.join('');
+}
+
+/* =========================================================
+   INTERACTION
+   ========================================================= */
+function choose(nextId, label) {
+    stack.push(nextId);
+    choiceLabels.push(label);
+    render();
+}
+
+function goBack() {
+    if (stack.length <= 1) return;
+    stack.pop();
+    choiceLabels.pop();
+    render();
+}
+
+function restart() {
+    stack        = ['root'];
+    choiceLabels = [];
+    render();
+}
+
+function copyExample() {
+    const text = document.getElementById('example-text');
+    if (!text) return;
+    const raw = text.textContent.replace(/^"|"$/g, '').trim();
+    navigator.clipboard.writeText(raw).then(() => {
+        const btn = document.querySelector('.copy-btn');
+        if (btn) { btn.textContent = 'Copied!'; setTimeout(() => btn.textContent = 'Copy', 1800); }
+    }).catch(() => {
+        // Fallback for browsers without clipboard API
+        const ta = document.createElement('textarea');
+        ta.value = raw;
+        ta.style.position = 'fixed';
+        ta.style.opacity  = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        const btn = document.querySelector('.copy-btn');
+        if (btn) { btn.textContent = 'Copied!'; setTimeout(() => btn.textContent = 'Copy', 1800); }
+    });
+}
+
+/* =========================================================
+   INIT
+   ========================================================= */
+render();
+</script>
+</body>
+</html>
