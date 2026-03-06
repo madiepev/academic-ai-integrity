@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prompt practice — Pilot</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 860px;
+            width: 100%;
+            padding: 36px;
+            margin: 20px auto;
+        }
+
+        /* === Back link === */
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #94a3b8;
+            text-decoration: none;
+            margin-bottom: 22px;
+        }
+        .back-link:hover { color: #667eea; }
+
+        /* === Header === */
+        .assess-tag {
+            display: inline-block;
+            background: #f0f4ff;
+            color: #667eea;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            padding: 3px 10px;
+            border-radius: 20px;
+            margin-bottom: 10px;
+        }
+        .page-title {
+            font-size: 24px;
+            font-weight: 800;
+            color: #1e1b4b;
+            margin-bottom: 8px;
+        }
+        .page-subtitle {
+            font-size: 13px;
+            color: #6b7280;
+            line-height: 1.7;
+            max-width: 660px;
+            margin-bottom: 28px;
+        }
+
+        hr.divider { border: none; border-top: 1px solid #f1f5f9; margin: 0 0 28px; }
+
+        /* === Step chips === */
+        .steps {
+            display: flex;
+            gap: 0;
+            margin-bottom: 28px;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        .step-chip {
+            flex: 1;
+            padding: 12px 14px;
+            border-right: 1px solid #e2e8f0;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+        .step-chip:last-child { border-right: none; }
+        .step-num {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: #1e1b4b;
+            color: white;
+            font-size: 11px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+        .step-text { font-size: 12px; color: #374151; line-height: 1.5; }
+        .step-text strong { display: block; font-size: 11px; font-weight: 700; color: #1e1b4b; margin-bottom: 2px; }
+
+        /* === Case card === */
+        .case-card {
+            border: 1px solid #e2e8f0;
+            border-left: 4px solid #667eea;
+            border-radius: 0 12px 12px 0;
+            padding: 20px 22px;
+            margin-bottom: 24px;
+            background: #f8fafc;
+        }
+        .card-tag {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: #667eea;
+            margin-bottom: 8px;
+        }
+        .case-title { font-size: 16px; font-weight: 800; color: #1e1b4b; margin-bottom: 10px; }
+        .case-body { font-size: 13px; color: #374151; line-height: 1.75; }
+        .case-body strong { color: #1e1b4b; }
+
+        /* === Tool callout === */
+        .tool-callout {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            background: #faf5ff;
+            border: 1px solid #e9d5ff;
+            border-radius: 10px;
+            padding: 14px 16px;
+            margin-bottom: 24px;
+            font-size: 13px;
+            color: #374151;
+            line-height: 1.65;
+        }
+        .tool-callout .icon {
+            font-size: 18px;
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+        .tool-callout a { color: #7c3aed; font-weight: 600; }
+
+        /* === Output section === */
+        .section-label {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.07em;
+            color: #94a3b8;
+            margin-bottom: 12px;
+        }
+
+        .output-card {
+            background: #1e1b4b;
+            border-radius: 14px;
+            padding: 22px;
+            margin-bottom: 28px;
+        }
+        .output-label {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.07em;
+            color: #a5b4fc;
+            margin-bottom: 10px;
+        }
+        .output-text {
+            font-size: 13.5px;
+            color: #f1f5f9;
+            line-height: 1.85;
+            white-space: pre-wrap;
+        }
+
+        /* === Diagram image === */
+        .diagram-wrap {
+            background: #0f0d2a;
+            border-radius: 14px;
+            padding: 22px;
+            margin-bottom: 28px;
+        }
+        .diagram-wrap .output-label { margin-bottom: 14px; }
+        .diagram-box {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            padding: 28px 24px;
+        }
+
+        /* Mermaid-style conceptual diagram rendered as styled HTML */
+        .concept-diagram {
+            font-size: 12.5px;
+            color: #1e1b4b;
+            line-height: 1.6;
+        }
+        .cd-title {
+            text-align: center;
+            font-size: 14px;
+            font-weight: 800;
+            color: #1e1b4b;
+            margin-bottom: 22px;
+            letter-spacing: 0.01em;
+        }
+        .cd-row {
+            display: flex;
+            justify-content: center;
+            align-items: stretch;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        .cd-node {
+            border-radius: 8px;
+            padding: 10px 14px;
+            text-align: center;
+            font-size: 11.5px;
+            font-weight: 600;
+            min-width: 110px;
+            flex: 1;
+            max-width: 160px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .cd-node.root {
+            background: #1e1b4b;
+            color: white;
+            font-size: 13px;
+            font-weight: 800;
+            max-width: 260px;
+            min-width: 220px;
+            padding: 14px 20px;
+            border-radius: 12px;
+        }
+        .cd-node.level1 { background: #ede9fe; color: #4c1d95; border: 1.5px solid #c4b5fd; }
+        .cd-node.level2 { background: #f0f9ff; color: #0c4a6e; border: 1.5px solid #bae6fd; font-size: 11px; font-weight: 500; }
+        .cd-node.level2-alt { background: #fefce8; color: #713f12; border: 1.5px solid #fde68a; font-size: 11px; font-weight: 500; }
+        .cd-node.level2-green { background: #f0fdf4; color: #14532d; border: 1.5px solid #bbf7d0; font-size: 11px; font-weight: 500; }
+
+        .cd-arrow-down {
+            text-align: center;
+            color: #94a3b8;
+            font-size: 16px;
+            margin: 2px 0;
+        }
+        .cd-arrow-row {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 2px;
+        }
+        .cd-arrow-row span {
+            flex: 1;
+            max-width: 160px;
+            min-width: 110px;
+            text-align: center;
+            color: #94a3b8;
+            font-size: 14px;
+        }
+        .cd-legend {
+            margin-top: 20px;
+            padding-top: 14px;
+            border-top: 1px solid #f1f5f9;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            justify-content: center;
+        }
+        .cd-legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 11px;
+            color: #6b7280;
+        }
+        .cd-legend-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+
+        /* === Practice section === */
+        .practice-card {
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 22px;
+            margin-bottom: 20px;
+        }
+        .practice-heading {
+            font-size: 15px;
+            font-weight: 800;
+            color: #1e1b4b;
+            margin-bottom: 6px;
+        }
+        .practice-subtext {
+            font-size: 13px;
+            color: #6b7280;
+            line-height: 1.65;
+            margin-bottom: 16px;
+        }
+        .practice-subtext a { color: #667eea; font-weight: 600; }
+
+        .prompt-textarea {
+            width: 100%;
+            min-height: 120px;
+            padding: 13px 15px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 13px;
+            color: #1e1b4b;
+            line-height: 1.65;
+            resize: vertical;
+            transition: border-color 0.18s;
+            outline: none;
+        }
+        .prompt-textarea:focus { border-color: #667eea; }
+        .prompt-textarea::placeholder { color: #cbd5e1; }
+
+        .char-hint {
+            font-size: 11px;
+            color: #cbd5e1;
+            margin-top: 6px;
+            text-align: right;
+            transition: color 0.2s;
+        }
+        .char-hint.ready { color: #16a34a; font-weight: 600; }
+
+        /* === Reveal button === */
+        .reveal-row {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-top: 18px;
+            flex-wrap: wrap;
+        }
+        .btn-reveal {
+            padding: 11px 22px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 9px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: inherit;
+            transition: opacity 0.18s;
+        }
+        .btn-reveal:disabled {
+            background: #e2e8f0;
+            color: #94a3b8;
+            cursor: not-allowed;
+        }
+        .btn-reveal:not(:disabled):hover { opacity: 0.86; }
+        .reveal-hint {
+            font-size: 12px;
+            color: #94a3b8;
+            font-style: italic;
+        }
+        .reveal-hint.ready { color: #16a34a; font-style: normal; font-weight: 600; }
+
+        /* === Revealed prompt === */
+        .revealed-prompt {
+            display: none;
+            margin-top: 24px;
+            animation: fadeUp 0.3s ease;
+        }
+        .revealed-prompt.visible { display: block; }
+
+        .revealed-card {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-left: 4px solid #667eea;
+            border-radius: 0 12px 12px 0;
+            padding: 20px 22px;
+            margin-bottom: 14px;
+        }
+        .revealed-label {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.07em;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+        .revealed-text {
+            font-size: 13px;
+            color: #1e1b4b;
+            line-height: 1.75;
+            white-space: pre-wrap;
+        }
+
+        .reflection-card {
+            background: #faf5ff;
+            border: 1px solid #e9d5ff;
+            border-radius: 12px;
+            padding: 18px 20px;
+        }
+        .reflection-heading {
+            font-size: 13px;
+            font-weight: 800;
+            color: #4c1d95;
+            margin-bottom: 8px;
+        }
+        .reflection-body {
+            font-size: 13px;
+            color: #374151;
+            line-height: 1.75;
+        }
+        .reflection-body ul {
+            margin: 8px 0 0 18px;
+        }
+        .reflection-body li { margin-bottom: 5px; }
+
+        /* === Source note === */
+        .source-note { margin-top: 28px; font-size: 11px; color: #cbd5e1; text-align: center; line-height: 1.6; }
+
+        /* === Exercise structure === */
+        .exercise-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        .exercise-badge {
+            display: inline-block;
+            background: #1e1b4b;
+            color: white;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 0.07em;
+            text-transform: uppercase;
+            padding: 4px 12px;
+            border-radius: 20px;
+        }
+        .exercise-theme {
+            font-size: 13px;
+            color: #94a3b8;
+            font-weight: 500;
+        }
+        .exercise-divider {
+            border: none;
+            border-top: 2px dashed #e2e8f0;
+            margin: 40px 0 34px;
+        }
+
+        /* === Synthesis table === */
+        .synth-table-wrap { margin-bottom: 28px; }
+        .synth-table-label {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.07em;
+            color: #94a3b8;
+            margin-bottom: 10px;
+        }
+        .synth-table-scroll {
+            overflow-x: auto;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+        }
+        .synth-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12px;
+            min-width: 700px;
+        }
+        .synth-table thead tr { background: #1e1b4b; }
+        .synth-table thead th {
+            padding: 11px 14px;
+            text-align: left;
+            font-size: 11px;
+            font-weight: 700;
+            color: #c7d2fe;
+            letter-spacing: 0.03em;
+            white-space: nowrap;
+        }
+        .synth-table tbody tr:nth-child(odd)  { background: #f8fafc; }
+        .synth-table tbody tr:nth-child(even) { background: white; }
+        .synth-table tbody tr:hover { background: #f0f4ff; transition: background 0.12s; }
+        .synth-table tbody td {
+            padding: 10px 14px;
+            color: #374151;
+            line-height: 1.6;
+            border-bottom: 1px solid #f1f5f9;
+            vertical-align: top;
+        }
+        .synth-table .td-study { font-weight: 700; color: #1e1b4b; white-space: nowrap; }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(10px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        @media (max-width: 600px) {
+            .container { padding: 22px 16px; }
+            .steps { flex-direction: column; }
+            .step-chip { border-right: none; border-bottom: 1px solid #e2e8f0; }
+            .step-chip:last-child { border-bottom: none; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <a href="use.html" class="back-link">&larr; Back to explorer</a>
+
+    <div class="assess-tag">Practice task</div>
+    <h1 class="page-title">Can you prompt your way to this output?</h1>
+    <p class="page-subtitle">You will get a student scenario and an AI-generated output. Your task is to figure out a prompt that produces a similar result — then compare your approach to the original prompt that generated it.</p>
+
+    <div class="steps">
+        <div class="step-chip">
+            <div class="step-num">1</div>
+            <div class="step-text"><strong>Read the case</strong>Study the student's situation and goal.</div>
+        </div>
+        <div class="step-chip">
+            <div class="step-num">2</div>
+            <div class="step-text"><strong>Study the output</strong>What kind of response is this? What does it require from a prompt?</div>
+        </div>
+        <div class="step-chip">
+            <div class="step-num">3</div>
+            <div class="step-text"><strong>Try it yourself</strong>Open Copilot and prompt for a similar output.</div>
+        </div>
+        <div class="step-chip">
+            <div class="step-num">4</div>
+            <div class="step-text"><strong>Paste &amp; reveal</strong>Paste your prompt, then reveal the original.</div>
+        </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- Exercise 1 -->
+    <div class="exercise-header">
+        <span class="exercise-badge">Exercise 1 of 2</span>
+        <span class="exercise-theme">Literature synthesis &mdash; table output</span>
+    </div>
+
+    <div class="section-label">Student scenario</div>
+    <div class="case-card">
+        <div class="card-tag">Case</div>
+        <div class="case-title">Kofi, 2nd-year Psychology</div>
+        <div class="case-body">
+            Kofi is writing the literature review section of his research proposal on <strong>social media use and adolescent mental health</strong>. He has identified four relevant studies and taken notes on each one. He now needs to present them as a <strong>synthesis table</strong> — a structured comparison format commonly used in academic writing to map sources side by side across consistent dimensions.
+            <br><br>
+            He wants to use AI to take his rough study notes and transform them into a clean, ready-to-use table. He will review the output for accuracy and adjust any errors before including it in his draft.
+        </div>
+    </div>
+
+    <div class="tool-callout">
+        <div class="icon">&#128187;</div>
+        <div>
+            <strong>Recommended tool: Microsoft 365 Copilot</strong><br>
+            Sign in at <a href="https://copilot.microsoft.com" target="_blank">copilot.microsoft.com</a> using your VU student account (<em>your-student-id@student.vu.nl</em>). Any AI tool works — but remember: when you provide the source material <em>in</em> your prompt, the AI is reorganising <em>your</em> information, not retrieving data from its training. Still verify key details against the original papers.
+        </div>
+    </div>
+
+    <div class="section-label">The output Kofi received</div>
+
+    <div class="synth-table-wrap">
+        <div class="synth-table-label">AI-generated synthesis table</div>
+        <div class="synth-table-scroll">
+            <table class="synth-table">
+                <thead>
+                    <tr>
+                        <th>Study</th>
+                        <th>Research Focus</th>
+                        <th>Sample</th>
+                        <th>Method</th>
+                        <th>Key Finding</th>
+                        <th>Limitation</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="td-study">Twenge et al. (2018)</td>
+                        <td>Trends in adolescent depression linked to digital media use</td>
+                        <td>500,000 US adolescents aged 13&ndash;18 (2010&ndash;2015)</td>
+                        <td>Longitudinal survey (Monitoring the Future dataset)</td>
+                        <td>Social media use correlated with increased depressive symptoms, especially in girls</td>
+                        <td>Correlational design; cannot establish causation</td>
+                    </tr>
+                    <tr>
+                        <td class="td-study">Valkenburg et al. (2022)</td>
+                        <td>Individual differences in how social media affects adolescent wellbeing</td>
+                        <td>2,155 Dutch adolescents</td>
+                        <td>Daily diary study over 6 weeks</td>
+                        <td>Effects were highly individual &mdash; positive for some adolescents, negative for others</td>
+                        <td>Self-report diary; relatively short observation window</td>
+                    </tr>
+                    <tr>
+                        <td class="td-study">Odgers &amp; Jensen (2020)</td>
+                        <td>Strength of evidence linking screen time to mental health outcomes</td>
+                        <td>Systematic review of 40 studies</td>
+                        <td>Systematic review</td>
+                        <td>Evidence for harmful effects is minimal and inconsistent across the included studies</td>
+                        <td>Heterogeneous study designs limit direct comparability</td>
+                    </tr>
+                    <tr>
+                        <td class="td-study">Kelly et al. (2019)</td>
+                        <td>Heavy social media use and wellbeing in adolescents</td>
+                        <td>10,904 UK adolescents aged 13&ndash;16</td>
+                        <td>Cross-sectional survey</td>
+                        <td>Using social media &gt;3 hrs/day associated with poor sleep and body image concerns, particularly in girls</td>
+                        <td>Cross-sectional design; causal direction cannot be established</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="practice-card">
+        <div class="practice-heading">Your turn</div>
+        <div class="practice-subtext">
+            Open <a href="https://copilot.microsoft.com" target="_blank">Microsoft 365 Copilot</a> (or another AI tool) and write a prompt that generates a similar synthesis table. You can feed it the same four studies &mdash; copy their details from the table above &mdash; or substitute studies from your own field or research topic.
+            <br><br>
+            Focus on getting AI to produce the same <em>kind</em> of output: a structured table with consistent columns. Paste the prompt you used once you have a result you&rsquo;re satisfied with.
+        </div>
+        <textarea
+            class="prompt-textarea"
+            id="prompt-input-1"
+            placeholder="Paste your prompt here&hellip;"
+            oninput="onPromptInput(1)"
+        ></textarea>
+        <div class="char-hint" id="char-hint-1">Paste your prompt to unlock the reveal button</div>
+
+        <div class="reveal-row">
+            <button class="btn-reveal" id="btn-reveal-1" disabled onclick="revealPrompt(1)">
+                Reveal original prompt
+            </button>
+            <span class="reveal-hint" id="reveal-hint-1">Paste your prompt first</span>
+        </div>
+    </div>
+
+    <div class="revealed-prompt" id="revealed-prompt-1">
+        <div class="section-label">The original prompt</div>
+        <div class="revealed-card">
+            <div class="revealed-label">Prompt used to generate this output</div>
+            <div class="revealed-text">I'm writing a literature review on social media use and adolescent mental health. I've found four studies I want to synthesize. Please organize them into a comparison table with these columns: Study (Author &amp; Year), Research Focus, Sample, Method, Key Finding, Limitation.
+
+Here are the studies:
+- Twenge et al. (2018): Longitudinal survey of 500,000 US adolescents (aged 13–18), 2010–2015. Used Monitoring the Future dataset. Found that social media use significantly correlated with increased depressive symptoms, particularly in girls. Limitation: correlational design.
+- Valkenburg et al. (2022): Daily diary study with 2,155 Dutch adolescents over 6 weeks. Found highly individual effects — positive for some adolescents, negative for others. Limitation: self-report diary; short observation window.
+- Odgers &amp; Jensen (2020): Systematic review of 40 studies on screen time and adolescent mental health. Found that evidence for harmful effects is minimal and inconsistent. Limitation: heterogeneous study designs limit comparison.
+- Kelly et al. (2019): Cross-sectional survey of 10,904 UK adolescents (aged 13–16). Found that using social media more than 3 hours per day was associated with poor sleep and body image concerns, especially in girls. Limitation: cross-sectional design.
+
+Keep each cell to 1–2 sentences maximum. Use plain academic language.</div>
+        </div>
+
+        <div class="reflection-card">
+            <div class="reflection-heading">What to notice when comparing</div>
+            <div class="reflection-body">
+                Look at the original prompt and compare it to your approach:
+                <ul>
+                    <li><strong>Column specification:</strong> The original lists exactly which columns to use. If you did the same, your table likely turned out consistently structured. If you asked for &ldquo;a synthesis table&rdquo; without naming columns, AI may have chosen different ones &mdash; sometimes useful, sometimes not what you need.</li>
+                    <li><strong>Source material in the prompt:</strong> This is a <em>context-rich prompt</em> &mdash; the studies are embedded as input data. The AI is reorganising information you provided, not retrieving it from its training. This makes the output more reliable and easier to verify against original sources.</li>
+                    <li><strong>Cell-length constraint:</strong> &ldquo;1&ndash;2 sentences maximum&rdquo; keeps the table scannable. Without it, AI often writes paragraph-length cells that make the table cluttered and harder to use as a study aid.</li>
+                    <li><strong>What technique is this?</strong> This is <em>structured output formatting</em> combined with <em>context injection</em> &mdash; you supply the raw material and define the output shape. The AI&rsquo;s role is data transformation, not knowledge retrieval. That distinction matters for how much you can trust the result.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <hr class="exercise-divider">
+
+    <!-- Exercise 2 -->
+    <div class="exercise-header">
+        <span class="exercise-badge">Exercise 2 of 2</span>
+        <span class="exercise-theme">Conceptual mapping &mdash; diagram output</span>
+    </div>
+
+    <div class="section-label">Student scenario</div>
+    <div class="case-card">
+        <div class="card-tag">Case</div>
+        <div class="case-title">Yasmin, 1st-year Communication Science</div>
+        <div class="case-body">
+            Yasmin is preparing for a research methods seminar in which students are expected to understand the difference between three research paradigms: <strong>positivism</strong>, <strong>interpretivism</strong>, and <strong>critical theory</strong>. She has read the relevant chapter but finds the abstract definitions hard to hold in her head simultaneously.
+            <br><br>
+            She wants to use AI to produce a <strong>structured conceptual diagram</strong> that maps the three paradigms side by side across four dimensions: their view of reality (ontology), how knowledge is obtained (epistemology), what counts as valid research (methodology), and what the purpose of research is (aim). The diagram should be clear enough to use as a study aid and to bring to the seminar.
+        </div>
+    </div>
+
+    <!-- Tool callout -->
+    <div class="tool-callout">
+        <div class="icon">&#128187;</div>
+        <div>
+            <strong>Recommended tool: Microsoft 365 Copilot</strong><br>
+            Sign in at <a href="https://copilot.microsoft.com" target="_blank">copilot.microsoft.com</a> using your VU student account (<em>your-student-id@student.vu.nl</em>). This gives you access to the full Copilot experience through VU's institutional licence.
+            Any AI tool works for this exercise, but Copilot is the one VU recommends for academic use.
+        </div>
+    </div>
+
+    <!-- Output -->
+    <div class="section-label">The output Yasmin received</div>
+
+    <div class="diagram-wrap">
+        <div class="output-label">AI-generated conceptual diagram (rendered from text output)</div>
+        <div class="diagram-box">
+            <div class="concept-diagram">
+                <div class="cd-title">Research Paradigms: A Conceptual Comparison</div>
+
+                <!-- Root -->
+                <div class="cd-row">
+                    <div class="cd-node root">Research Paradigm</div>
+                </div>
+                <div class="cd-arrow-down">&#8595;</div>
+
+                <!-- Level 1: three paradigms -->
+                <div class="cd-row">
+                    <div class="cd-node level1">Positivism</div>
+                    <div class="cd-node level1">Interpretivism</div>
+                    <div class="cd-node level1">Critical Theory</div>
+                </div>
+                <div class="cd-arrow-row">
+                    <span>&#8595;</span><span>&#8595;</span><span>&#8595;</span>
+                </div>
+
+                <!-- Ontology row -->
+                <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#94a3b8;text-align:center;margin-bottom:6px;">Ontology — view of reality</div>
+                <div class="cd-row">
+                    <div class="cd-node level2">Reality is objective &amp; independent of the observer</div>
+                    <div class="cd-node level2-alt">Reality is socially constructed &amp; context-dependent</div>
+                    <div class="cd-node level2-green">Reality is shaped by power structures &amp; historical forces</div>
+                </div>
+                <div style="margin-bottom:14px;"></div>
+
+                <!-- Epistemology row -->
+                <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#94a3b8;text-align:center;margin-bottom:6px;">Epistemology — how knowledge is obtained</div>
+                <div class="cd-row">
+                    <div class="cd-node level2">Knowledge through measurement &amp; observation; researcher is neutral</div>
+                    <div class="cd-node level2-alt">Knowledge through interpretation of meaning; researcher is part of the process</div>
+                    <div class="cd-node level2-green">Knowledge is value-laden; the researcher takes a critical, reflexive stance</div>
+                </div>
+                <div style="margin-bottom:14px;"></div>
+
+                <!-- Methodology row -->
+                <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#94a3b8;text-align:center;margin-bottom:6px;">Methodology — what counts as valid research</div>
+                <div class="cd-row">
+                    <div class="cd-node level2">Experiments, surveys, statistical analysis; quantitative</div>
+                    <div class="cd-node level2-alt">Interviews, ethnography, discourse analysis; qualitative</div>
+                    <div class="cd-node level2-green">Participatory research, ideology critique; mixed or action-oriented</div>
+                </div>
+                <div style="margin-bottom:14px;"></div>
+
+                <!-- Aim row -->
+                <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#94a3b8;text-align:center;margin-bottom:6px;">Aim — purpose of research</div>
+                <div class="cd-row">
+                    <div class="cd-node level2">Explanation &amp; prediction; discover universal laws</div>
+                    <div class="cd-node level2-alt">Understanding &amp; interpretation; capture lived experience</div>
+                    <div class="cd-node level2-green">Emancipation &amp; social change; challenge oppressive structures</div>
+                </div>
+
+                <div class="cd-legend">
+                    <div class="cd-legend-item"><div class="cd-legend-dot" style="background:#c4b5fd;"></div>Positivism</div>
+                    <div class="cd-legend-item"><div class="cd-legend-dot" style="background:#fde68a;"></div>Interpretivism</div>
+                    <div class="cd-legend-item"><div class="cd-legend-dot" style="background:#bbf7d0;"></div>Critical Theory</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Practice -->
+    <div class="practice-card">
+        <div class="practice-heading">Your turn</div>
+        <div class="practice-subtext">
+            Open <a href="https://copilot.microsoft.com" target="_blank">Microsoft 365 Copilot</a> (or another AI tool) and write a prompt that gets you a similar structured comparison of the three research paradigms across these four dimensions. Your output does not need to look identical — focus on getting AI to produce the same <em>kind</em> of content: a structured, side-by-side conceptual breakdown.
+            <br><br>
+            Once you have a prompt that works, paste it in the box below.
+        </div>
+        <textarea
+            class="prompt-textarea"
+            id="prompt-input-2"
+            placeholder="Paste your prompt here&hellip;"
+            oninput="onPromptInput(2)"
+        ></textarea>
+        <div class="char-hint" id="char-hint-2">Paste your prompt to unlock the reveal button</div>
+
+        <div class="reveal-row">
+            <button class="btn-reveal" id="btn-reveal-2" disabled onclick="revealPrompt(2)">
+                Reveal original prompt
+            </button>
+            <span class="reveal-hint" id="reveal-hint-2">Paste your prompt first</span>
+        </div>
+    </div>
+
+    <!-- Revealed prompt exercise 2 -->
+    <div class="revealed-prompt" id="revealed-prompt-2">
+        <div class="section-label">The original prompt</div>
+        <div class="revealed-card">
+            <div class="revealed-label">Prompt used to generate this output</div>
+            <div class="revealed-text">Create a structured conceptual diagram comparing three research paradigms — positivism, interpretivism, and critical theory — across four dimensions:
+
+1. Ontology: their view of reality
+2. Epistemology: how knowledge is obtained
+3. Methodology: what counts as valid research
+4. Aim: the purpose of research
+
+Format the output as a clear comparison table or structured breakdown that could be used as a study aid. For each paradigm, give a concise label (2–10 words) for each dimension. Use plain language suitable for a first-year student encountering these concepts for the first time.</div>
+        </div>
+
+        <div class="reflection-card">
+            <div class="reflection-heading">What to notice when comparing</div>
+            <div class="reflection-body">
+                Look at the prompt above and compare it to yours. A few things worth reflecting on:
+                <ul>
+                    <li><strong>Specificity of the dimensions:</strong> The original names all four dimensions explicitly. If you named them too, your output was likely more structured; if you left them implicit, AI probably still covered them but less consistently.</li>
+                    <li><strong>Format instruction:</strong> The prompt asks explicitly for a "comparison table or structured breakdown." Without this, AI may produce flowing prose instead — content-equivalent but harder to use as a study aid.</li>
+                    <li><strong>Audience specification:</strong> "Plain language suitable for a first-year student" calibrates the vocabulary. If you omitted this, the output may have been more technical.</li>
+                    <li><strong>What technique is this?</strong> This is a <em>structured prompt</em> — it imposes output constraints (format, dimensions, word-length per cell) to make the response predictable and reusable. Compare it to an open prompt ("explain the three paradigms") and notice the difference in output shape.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <p class="source-note">
+        Research paradigm content is standard methodology curriculum. Prompt design based on techniques from: Qian, Y. (2025).
+        <em>Journal of Educational Computing Research, 63</em>(7-8), 1782–1818.
+    </p>
+
+</div>
+
+<script>
+const MIN_CHARS = 30;
+
+function onPromptInput(n) {
+    const val  = document.getElementById('prompt-input-' + n).value.trim();
+    const len  = val.length;
+    const hint = document.getElementById('char-hint-' + n);
+    const btn  = document.getElementById('btn-reveal-' + n);
+    const rh   = document.getElementById('reveal-hint-' + n);
+
+    if (len >= MIN_CHARS) {
+        hint.textContent = 'Ready — you can reveal the original prompt.';
+        hint.classList.add('ready');
+        btn.disabled = false;
+        rh.textContent = 'Click to see how the original prompt compares to yours.';
+        rh.classList.add('ready');
+    } else {
+        const remaining = MIN_CHARS - len;
+        hint.textContent = len === 0
+            ? 'Paste your prompt to unlock the reveal button'
+            : `Keep going — ${remaining} more character${remaining !== 1 ? 's' : ''} to unlock`;
+        hint.classList.remove('ready');
+        btn.disabled = true;
+        rh.textContent = 'Paste your prompt first';
+        rh.classList.remove('ready');
+    }
+}
+
+function revealPrompt(n) {
+    const revealed = document.getElementById('revealed-prompt-' + n);
+    revealed.classList.add('visible');
+    document.getElementById('btn-reveal-' + n).disabled = true;
+    document.getElementById('btn-reveal-' + n).textContent = 'Revealed';
+    setTimeout(() => {
+        revealed.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 100);
+}
+</script>
+</body>
+</html>

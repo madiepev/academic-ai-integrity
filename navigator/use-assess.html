@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prompt Engineering — Assessment</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 900px;
+            width: 100%;
+            padding: 36px;
+            margin: 20px auto;
+        }
+
+        /* === Back link === */
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #94a3b8;
+            text-decoration: none;
+            margin-bottom: 22px;
+        }
+        .back-link:hover { color: #667eea; }
+
+        /* === Header === */
+        .assess-tag {
+            display: inline-block;
+            background: #f0f4ff;
+            color: #667eea;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            padding: 3px 10px;
+            border-radius: 20px;
+            margin-bottom: 10px;
+        }
+        .page-title {
+            font-size: 24px;
+            font-weight: 800;
+            color: #1e1b4b;
+            margin-bottom: 6px;
+        }
+        .page-subtitle {
+            font-size: 13px;
+            color: #6b7280;
+            line-height: 1.65;
+            max-width: 640px;
+            margin-bottom: 28px;
+        }
+
+        /* === Case study card === */
+        .case-card {
+            border: 1px solid #e2e8f0;
+            border-left: 4px solid #667eea;
+            border-radius: 0 12px 12px 0;
+            padding: 20px 22px;
+            margin-bottom: 28px;
+            background: #f8fafc;
+        }
+        .case-tag {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: #667eea;
+            margin-bottom: 8px;
+        }
+        .case-title {
+            font-size: 16px;
+            font-weight: 800;
+            color: #1e1b4b;
+            margin-bottom: 10px;
+        }
+        .case-body {
+            font-size: 13px;
+            color: #374151;
+            line-height: 1.75;
+        }
+        .case-body strong { color: #1e1b4b; }
+
+        /* === Output section === */
+        .section-label {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.07em;
+            color: #94a3b8;
+            margin-bottom: 12px;
+        }
+
+        .output-card {
+            background: #1e1b4b;
+            border-radius: 14px;
+            padding: 22px 22px 22px 22px;
+            margin-bottom: 28px;
+            position: relative;
+        }
+        .output-label {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.07em;
+            color: #a5b4fc;
+            margin-bottom: 10px;
+        }
+        .output-text {
+            font-size: 13.5px;
+            color: #f1f5f9;
+            line-height: 1.8;
+            white-space: pre-wrap;
+        }
+
+        /* === Question === */
+        .question-label {
+            font-size: 15px;
+            font-weight: 700;
+            color: #1e1b4b;
+            margin-bottom: 6px;
+        }
+        .question-hint {
+            font-size: 13px;
+            color: #94a3b8;
+            margin-bottom: 18px;
+            line-height: 1.6;
+        }
+
+        /* === Prompt grid === */
+        .prompt-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 28px;
+        }
+
+        .prompt-tile {
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 14px 15px;
+            cursor: pointer;
+            text-align: left;
+            background: white;
+            font-family: inherit;
+            transition: border-color 0.18s, background 0.18s, box-shadow 0.18s;
+        }
+        .prompt-tile:hover:not(:disabled) { border-color: #667eea; background: #f8fafc; }
+
+        .prompt-tile .tile-technique {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            margin-bottom: 6px;
+        }
+        .prompt-tile .tile-text {
+            font-size: 12px;
+            color: #374151;
+            line-height: 1.55;
+        }
+
+        /* States after submission */
+        .prompt-tile.selected-correct {
+            border-color: #16a34a;
+            background: #f0fdf4;
+        }
+        .prompt-tile.selected-wrong {
+            border-color: #dc2626;
+            background: #fef2f2;
+        }
+        .prompt-tile.reveal-correct {
+            border-color: #16a34a;
+            background: #f0fdf4;
+            opacity: 0.7;
+        }
+        .prompt-tile.dimmed { opacity: 0.35; }
+
+        .prompt-tile .tile-badge {
+            display: none;
+            font-size: 10px;
+            font-weight: 700;
+            margin-top: 8px;
+            padding: 2px 8px;
+            border-radius: 20px;
+        }
+        .prompt-tile.selected-correct .tile-badge,
+        .prompt-tile.reveal-correct  .tile-badge { display: inline-block; background: #dcfce7; color: #16a34a; }
+        .prompt-tile.selected-wrong  .tile-badge { display: inline-block; background: #fee2e2; color: #dc2626; }
+
+        /* Technique colour dots */
+        .dot-structured  { color: #3b82f6; }
+        .dot-rolebased   { color: #8b5cf6; }
+        .dot-contextual  { color: #0d9488; }
+        .dot-cot         { color: #f59e0b; }
+        .dot-open        { color: #ec4899; }
+
+        /* === Feedback === */
+        .feedback {
+            display: none;
+            border-radius: 12px;
+            padding: 18px 20px;
+            margin-bottom: 22px;
+            animation: fadeUp 0.25s ease;
+        }
+        .feedback.visible { display: block; }
+        .feedback.correct { background: #f0fdf4; border: 1px solid #86efac; }
+        .feedback.wrong   { background: #fef2f2; border: 1px solid #fca5a5; }
+
+        .feedback-heading {
+            font-size: 15px;
+            font-weight: 800;
+            margin-bottom: 6px;
+        }
+        .feedback.correct .feedback-heading { color: #16a34a; }
+        .feedback.wrong   .feedback-heading { color: #dc2626; }
+
+        .feedback-body { font-size: 13px; color: #374151; line-height: 1.7; }
+
+        /* === Action row === */
+        .action-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 14px;
+        }
+        .btn-submit {
+            padding: 11px 24px;
+            background: #1e1b4b;
+            color: white;
+            border: none;
+            border-radius: 9px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: inherit;
+            transition: opacity 0.18s;
+        }
+        .btn-submit:disabled { opacity: 0.35; cursor: default; }
+        .btn-submit:not(:disabled):hover { opacity: 0.85; }
+
+        .btn-next {
+            padding: 11px 24px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 9px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: inherit;
+            display: none;
+            transition: opacity 0.18s;
+        }
+        .btn-next:hover { opacity: 0.87; }
+
+        .btn-reset {
+            padding: 9px 18px;
+            background: #f1f5f9;
+            color: #475569;
+            border: none;
+            border-radius: 9px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: inherit;
+            display: none;
+        }
+        .btn-reset:hover { background: #e2e8f0; }
+
+        /* === Progress === */
+        .progress-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 28px;
+        }
+        .progress-bar-wrap {
+            flex: 1;
+            background: #f1f5f9;
+            border-radius: 99px;
+            height: 6px;
+            overflow: hidden;
+        }
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            border-radius: 99px;
+            transition: width 0.4s ease;
+        }
+        .progress-text {
+            font-size: 11px;
+            font-weight: 700;
+            color: #94a3b8;
+            white-space: nowrap;
+        }
+
+        /* === Score / end screen === */
+        .end-screen {
+            display: none;
+            text-align: center;
+            padding: 30px 0;
+            animation: fadeUp 0.3s ease;
+        }
+        .end-screen.visible { display: block; }
+        .score-circle {
+            width: 86px;
+            height: 86px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 18px;
+        }
+        .score-num { font-size: 26px; font-weight: 800; line-height: 1; }
+        .score-denom { font-size: 11px; opacity: 0.75; }
+        .end-title { font-size: 20px; font-weight: 800; color: #1e1b4b; margin-bottom: 8px; }
+        .end-body { font-size: 13px; color: #6b7280; line-height: 1.7; max-width: 480px; margin: 0 auto 22px; }
+        .btn-restart {
+            padding: 11px 26px;
+            background: #1e1b4b;
+            color: white;
+            border: none;
+            border-radius: 9px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: inherit;
+            margin-right: 10px;
+        }
+        .btn-restart:hover { opacity: 0.85; }
+        .btn-back-nav {
+            padding: 11px 26px;
+            background: #f1f5f9;
+            color: #475569;
+            border: none;
+            border-radius: 9px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: inherit;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .btn-back-nav:hover { background: #e2e8f0; }
+
+        /* Source note */
+        .source-note { margin-top: 28px; font-size: 11px; color: #cbd5e1; text-align: center; line-height: 1.6; }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(10px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        @media (max-width: 640px) {
+            .prompt-grid { grid-template-columns: 1fr 1fr; }
+            .container { padding: 22px 16px; }
+        }
+        @media (max-width: 400px) {
+            .prompt-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <a href="use.html" class="back-link">&larr; Back to explorer</a>
+
+    <div class="assess-tag">Assessment</div>
+    <h1 class="page-title">Which prompt got this response?</h1>
+    <p class="page-subtitle">Read the student scenario, study the AI output, then select the prompt from the grid that you think produced it. This trains you to reason backwards: from the response you want to the prompt that creates it.</p>
+
+    <div class="progress-row">
+        <div class="progress-bar-wrap">
+            <div class="progress-bar-fill" id="progress-fill" style="width:0%"></div>
+        </div>
+        <div class="progress-text" id="progress-text">Question 1 of 4</div>
+    </div>
+
+    <!-- Quiz area — rendered by JS -->
+    <div id="quiz-area"></div>
+
+    <!-- End screen -->
+    <div class="end-screen" id="end-screen">
+        <div class="score-circle">
+            <div class="score-num" id="score-num">–</div>
+            <div class="score-denom" id="score-denom">/ 4</div>
+        </div>
+        <div class="end-title" id="end-title">–</div>
+        <div class="end-body" id="end-body">–</div>
+        <button class="btn-restart" onclick="startQuiz()">Try again</button>
+        <a href="use.html" class="btn-back-nav">Back to explorer</a>
+    </div>
+
+    <p class="source-note">
+        Prompts and technique taxonomy based on: Qian, Y. (2025). <em>Journal of Educational Computing Research, 63</em>(7-8), 1782–1818.
+    </p>
+
+</div>
+
+<script>
+/* ============================================================
+   QUESTION BANK
+   Each question:
+     case     – student description
+     output   – the pre-generated AI response shown to the student
+     correct  – index (0–8) of the right tile
+     feedback – explanation shown after answering
+     tiles    – 9 prompt tiles; each: { technique, cls, text }
+   ============================================================ */
+const QUESTIONS = [
+    /* ─── Q1: Social sciences student, structure & planning ─── */
+    {
+        case: {
+            student: 'Lena, 2nd-year Sociology',
+            situation: `Lena has been assigned a 2,500-word essay on how digital surveillance affects civic behaviour. She has done some background reading but is not sure how to structure her argument. Her deadline is in three weeks and she wants a solid outline before she starts writing.`,
+            goal: `She wants AI to produce a <strong>detailed section-by-section outline</strong> she can hand to her supervisor for feedback.`
+        },
+        output: `Here is a structured outline for your essay:
+
+1. Introduction (approx. 250 words)
+Purpose: Establish the tension between security and civic freedom; state your central argument.
+
+2. Conceptual framework (approx. 400 words)
+Purpose: Define digital surveillance and civic behaviour; introduce the theoretical lens (e.g. chilling effect theory or Foucauldian surveillance).
+
+3. Mechanisms of influence (approx. 600 words)
+Purpose: Analyse how surveillance shapes self-censorship, protest participation, and online expression — with evidence from empirical studies.
+
+4. Counter-arguments and limitations (approx. 400 words)
+Purpose: Address claims that surveillance increases civic safety or has no measurable chilling effect; evaluate the quality of that evidence.
+
+5. Implications (approx. 550 words)
+Purpose: What does this mean for democratic participation, policy design, and digital rights?
+
+6. Conclusion (approx. 300 words)
+Purpose: Restate the argument, synthesise the evidence chain, and close with a forward-looking claim.
+
+Note: Adjust section lengths proportionally to your actual word count. Your supervisor may want to see a one-sentence thesis statement added to section 1 before the outline is finalised.`,
+        correct: 2,
+        feedback: {
+            correct: `Correct. Lena wanted a section-by-section outline in a fixed format — a structured prompt with explicit output constraints ("numbered list of sections, each with one sentence describing its purpose") is exactly what produces this kind of organised, reusable scaffold. Role-based and open prompts produce more conversational output; they would not reliably deliver the numbered structure shown.`,
+            wrong: `Not quite. Look at the output: it is a numbered section list, each with a purpose statement and an approximate word count. This is a tightly formatted, predictable output. That predictability comes from giving AI an explicit output format to follow — the hallmark of a structured (few-shot / constrained) prompt. Which tile on the grid imposes that kind of format?`
+        },
+        tiles: [
+            // Row 1
+            {
+                technique: 'Role-based', cls: 'dot-rolebased',
+                text: `Act as my academic supervisor. I'm writing a 2,500-word essay on digital surveillance and civic behaviour. Ask me three probing questions about my argument before we discuss structure.`
+            },
+            {
+                technique: 'Open / direct', cls: 'dot-open',
+                text: `How should I structure an essay on digital surveillance and civic behaviour?`
+            },
+            {
+                technique: 'Structured', cls: 'dot-structured',
+                text: `Create a detailed outline for a 2,500-word sociology essay on digital surveillance and civic behaviour. Present the outline as a numbered list of sections, each with one sentence describing its purpose and an approximate word count.`
+            },
+            // Row 2
+            {
+                technique: 'Add context', cls: 'dot-contextual',
+                text: `I've been reading about chilling effects and Foucauldian surveillance theory. My essay is on digital surveillance and civic behaviour, 2,500 words, due in three weeks. What structure would work best given this theoretical framing?`
+            },
+            {
+                technique: 'Step-by-step', cls: 'dot-cot',
+                text: `Let's plan my essay step by step. Step 1: What is the essay asking me to do? Step 2: What do I need to know first? Step 3: What is the logical sequence of sections? Essay topic: digital surveillance and civic behaviour, 2,500 words.`
+            },
+            {
+                technique: 'Role-based', cls: 'dot-rolebased',
+                text: `You are a writing tutor who specialises in social science essays. Review the following draft outline and tell me what is missing, what is in the wrong order, and what I should cut. [outline to be pasted]`
+            },
+            // Row 3
+            {
+                technique: 'Open / direct', cls: 'dot-open',
+                text: `Draft a 2,500-word essay on digital surveillance and civic behaviour.`
+            },
+            {
+                technique: 'Add context', cls: 'dot-contextual',
+                text: `Here are my reading notes on three key sources about digital surveillance. Based on these themes, what research gaps or essay angles am I missing? [notes to be pasted]`
+            },
+            {
+                technique: 'Step-by-step', cls: 'dot-cot',
+                text: `Think step by step: what would the strongest possible argument look like for an essay claiming that digital surveillance reduces civic participation? What evidence would I need and what counter-arguments must I address?`
+            }
+        ]
+    },
+
+    /* ─── Q2: Law student, literature review ─── */
+    {
+        case: {
+            student: 'Marcus, 3rd-year Law',
+            situation: `Marcus is writing a literature review on algorithmic decision-making in criminal sentencing. He has collected eight sources but is struggling to see how they connect — some seem to contradict each other and he is not sure whether to report the disagreement or smooth it over.`,
+            goal: `He wants AI to help him <strong>synthesise the sources into a coherent argument</strong>, specifically addressing where they agree, where they disagree, and what gap they collectively point to.`
+        },
+        output: `Research on algorithmic sentencing has grown rapidly, with emerging consensus on several points but persistent disagreement on others. Studies consistently find that risk assessment instruments produce racially disparate outcomes when trained on historically biased data — a finding replicated across COMPAS, PSA, and Arnold tool evaluations. However, findings diverge sharply on whether algorithmic tools are more or less accurate than judicial discretion alone: while Dressel and Farid (2018) found human predictions comparably accurate, larger studies report meaningful accuracy advantages for validated instruments in specific offence categories.
+
+This tension reveals a deeper methodological divide: studies measuring accuracy against re-offence statistics inherit whatever biases shaped those statistics in the first place. The measurement problem is not incidental — it is constitutive. None of your eight sources directly address how accuracy should be defined when the ground truth is itself contested. That absence is the most significant gap your review can identify.
+
+Central argument for your review: "While algorithmic sentencing tools are consistently shown to produce racial disparities, the debate over their accuracy relative to judicial discretion cannot be resolved without first settling what 'accuracy' means when applied to a morally contested outcome."`,
+        correct: 5,
+        feedback: {
+            correct: `Correct. Marcus pasted his actual source notes and asked for synthesis — not a general overview, but an argument built from his specific materials. A contextual prompt grounds AI in your own reading. This is what produces responses that reference your specific sources by name rather than generating plausible-but-generic claims about "the literature."`,
+            wrong: `Look again at the output: it references Marcus's specific sources (including Dressel & Farid, 2018) and builds an argument directly from them. This only happens when you give AI your actual materials to work with. A role-based or step-by-step prompt without the source content would produce a general synthesis of the topic — not this specific, evidence-grounded argument. Which tile grounds AI in Marcus's own notes?`
+        },
+        tiles: [
+            // Row 1
+            {
+                technique: 'Open / direct', cls: 'dot-open',
+                text: `Summarise the main debates in the literature on algorithmic decision-making in criminal sentencing.`
+            },
+            {
+                technique: 'Step-by-step', cls: 'dot-cot',
+                text: `Help me synthesise my literature on algorithmic sentencing step by step. Step 1: What do my sources agree on? Step 2: Where do they disagree? Step 3: What does this pattern reveal? Step 4: What central argument can I make?`
+            },
+            {
+                technique: 'Role-based', cls: 'dot-rolebased',
+                text: `Act as an expert reviewer in law and technology. I'll share my reading list on algorithmic sentencing. Tell me what important perspectives are missing and what I should read first.`
+            },
+            // Row 2
+            {
+                technique: 'Structured', cls: 'dot-structured',
+                text: `Compare the following two abstracts on algorithmic sentencing and produce a structured comparison table with columns: Research question | Method | Key finding | Limitation | Relevance to fairness in sentencing. [Abstracts to be pasted]`
+            },
+            {
+                technique: 'Open / direct', cls: 'dot-open',
+                text: `What are the strongest arguments for and against using algorithmic tools in criminal sentencing?`
+            },
+            {
+                technique: 'Add context', cls: 'dot-contextual',
+                text: `Here are my summarised notes from eight sources on algorithmic decision-making in criminal sentencing. Synthesise these into one coherent literature review paragraph that identifies what the sources agree on, where they disagree, and what gap they collectively point to. Do not summarise each source — build an analytical argument across them. [Notes to be pasted]`
+            },
+            // Row 3
+            {
+                technique: 'Step-by-step', cls: 'dot-cot',
+                text: `Think step by step about whether I should include this source in my review: Step 1: Is it relevant to algorithmic sentencing? Step 2: Is the method credible? Step 3: Are findings trustworthy? Step 4: Does it add something my other sources don't cover? [Abstract to be pasted]`
+            },
+            {
+                technique: 'Role-based', cls: 'dot-rolebased',
+                text: `You are an academic librarian. My topic is algorithmic decision-making in criminal sentencing. Help me design a systematic search strategy: key terms, Boolean combinations, databases, and inclusion/exclusion criteria.`
+            },
+            {
+                technique: 'Structured', cls: 'dot-structured',
+                text: `Evaluate this abstract using four criteria: 1. Relevance to algorithmic fairness in sentencing. 2. Methodological quality. 3. Recency. 4. Transferability. Rate each 1–3 with a one-sentence justification. [Abstract to be pasted]`
+            }
+        ]
+    },
+
+    /* ─── Q3: Biology student, idea generation ─── */
+    {
+        case: {
+            student: 'Priya, MSc Ecology',
+            situation: `Priya is writing her master's thesis proposal and needs to define a research question. She has a broad interest in the effect of urban heat islands on insect biodiversity but has not found a specific angle. She has read five papers but cannot identify what they are all pointing toward as the key gap.`,
+            goal: `She wants AI to reason through her problem <strong>step by step</strong> — first establishing what is known, then what is contested, then articulating the gap, and finally formulating a testable research question.`
+        },
+        output: `Step 1 — What is well established:
+Urban heat islands consistently elevate local temperatures by 2–8°C compared with surrounding rural areas. This thermal modification is well-documented and accepted across urban ecology literature. It is also established that insect communities respond to temperature at the species level — phenological shifts, range contractions, and body-size reduction are all documented.
+
+Step 2 — What is actively contested:
+Whether urban warming produces net biodiversity loss or facilitates thermal-tolerant species at the cost of specialists remains debated. Some studies report higher overall diversity in warmer urban cores for certain taxa; others document collapse of cold-adapted species with no compensatory gain. The direction of effect appears taxon-specific and scale-dependent.
+
+Step 3 — What has not yet been studied:
+The interaction between urban heat and habitat fragmentation as co-drivers of insect community change has received little integrated empirical attention. Most studies treat them as independent variables; their combined effect — particularly for flying insects dependent on connectivity — is unstudied at fine spatial scales in European cities.
+
+Step 4 — Research question:
+"How does the interaction between urban heat island intensity and habitat patch connectivity predict flying insect species richness and functional diversity in medium-sized European cities?"
+
+This question is empirically feasible for a master's project, targets a genuine gap, and has clear methodological implications: a multi-site sampling design across a connectivity-by-temperature gradient.`,
+        correct: 7,
+        feedback: {
+            correct: `Correct. Priya explicitly wanted AI to reason through the problem in a sequence: what's known → what's contested → what's missing → what question to ask. That chain of reasoning is the defining feature of a chain-of-thought (step-by-step) prompt. Notice how the output mirrors the four steps she asked for — each section heading corresponds directly to a step in the prompt.`,
+            wrong: `Look at the structure of the output: it is divided into four numbered steps, each building on the last, culminating in a research question. This kind of sequential reasoning chain doesn't happen with an open or contextual prompt — it requires explicitly instructing AI to reason step by step. Which tile on the grid does that?`
+        },
+        tiles: [
+            // Row 1
+            {
+                technique: 'Open / direct', cls: 'dot-open',
+                text: `What are the most under-researched topics in urban insect ecology right now?`
+            },
+            {
+                technique: 'Add context', cls: 'dot-contextual',
+                text: `I've been reading about urban heat islands, insect biodiversity, and habitat fragmentation. Here are my reading notes from five papers. What research questions sit at the intersection of these themes that haven't been adequately addressed? [Notes to be pasted]`
+            },
+            {
+                technique: 'Role-based', cls: 'dot-rolebased',
+                text: `Act as a senior urban ecologist reviewing my draft research question. Ask me three probing questions that expose weaknesses I should address before writing my proposal.`
+            },
+            // Row 2
+            {
+                technique: 'Structured', cls: 'dot-structured',
+                text: `Generate three specific, empirically testable research questions about urban heat islands and insect biodiversity. Format each as: — Question — Why it matters — What evidence would answer it.`
+            },
+            {
+                technique: 'Role-based', cls: 'dot-rolebased',
+                text: `You are a critical reviewer of master's thesis proposals in ecology. I'll share my draft research question on urban heat islands and insect biodiversity. Identify its three main weaknesses — scope, feasibility, and theoretical grounding — and suggest a revised version. [Draft question to be added]`
+            },
+            {
+                technique: 'Open / direct', cls: 'dot-open',
+                text: `Give me five possible research questions about urban heat islands and insect biodiversity that are realistically scoped for a master's thesis — specific, feasible within one year, and connected to an actual gap in the literature.`
+            },
+            // Row 3
+            {
+                technique: 'Add context', cls: 'dot-contextual',
+                text: `Read the following abstract. Identify what the authors flag as limitations or future directions, then reformulate each into a concrete, testable research question. [Abstract to be pasted]`
+            },
+            {
+                technique: 'Step-by-step', cls: 'dot-cot',
+                text: `Let's identify a research gap step by step for the topic of urban heat islands and insect biodiversity. Step 1: What is well established? Step 2: What is actively debated? Step 3: What has not yet been studied? Step 4: Formulate one research question targeting that gap.`
+            },
+            {
+                technique: 'Structured', cls: 'dot-structured',
+                text: `Here are two examples of clearly stated research gaps in urban ecology. Using this format, write a research gap statement for the topic of urban heat islands and insect biodiversity in European cities. [Examples to be added]`
+            }
+        ]
+    },
+
+    /* ─── Q4: Psychology student, writing feedback ─── */
+    {
+        case: {
+            student: 'Tariq, 3rd-year Psychology',
+            situation: `Tariq is revising a discussion section for his research methods course. His marker's feedback said the argument was "descriptive rather than analytical" and that he was "listing findings without evaluating them." He wants to fix the problem before resubmission but is not sure what that actually means in practice.`,
+            goal: `He wants AI to <strong>act as a critical editor</strong> who identifies specific problems with his paragraph and gives actionable suggestions — not a rewrite, but a diagnosis with recommendations.`
+        },
+        output: `Here are three specific, actionable suggestions:
+
+1. Clarity of argument: Your main claim is buried in the fourth sentence. In academic writing, each paragraph should open with its conclusion — the point the evidence in the paragraph is building toward. Move your claim to the first sentence. The reader should not have to read to the end to understand what you are arguing.
+
+2. Quality of evidence use: You cite three studies but write "research shows" before each one without specifying what each study actually demonstrates. Replace "research shows that X" with "Author (Year) found that [specific finding], which supports the claim that [your point]." The diagnostic test: if the citation could be removed without changing the sentence's meaning, it is not doing analytical work.
+
+3. Academic register — descriptive vs. analytical: Your sentences describe what studies found ("Study A found X, Study B found Y") without evaluating that evidence or connecting it to your argument. Add an evaluative move after each piece of evidence: "This suggests...", "However, this finding is limited by...", or "Taken together, these studies indicate...". The difference between description and analysis is the interpretive sentence that tells the reader what the evidence means.`,
+        correct: 1,
+        feedback: {
+            correct: `Correct. Tariq wanted a specific editorial role — not a general writing tip, but targeted diagnosis by someone acting as an experienced academic editor who knows what "analytical writing" looks like. The output addresses exactly three named criteria (argument clarity, evidence use, register) with specific, actionable suggestions. That level of structured, role-specific critique is what a role-based prompt produces.`,
+            wrong: `Look at the output: it is addressed to Tariq as if from a named professional role ("here are three specific, actionable suggestions"), with exactly the criteria he needed — argument clarity, evidence use, and academic register. This kind of targeted, role-specific diagnosis requires telling AI to assume a professional identity. Which tile on the grid does that?`
+        },
+        tiles: [
+            // Row 1
+            {
+                technique: 'Open / direct', cls: 'dot-open',
+                text: `Improve my discussion section to make it more analytical rather than descriptive. [Paragraph to be pasted]`
+            },
+            {
+                technique: 'Role-based', cls: 'dot-rolebased',
+                text: `You are an experienced academic editor working on a psychology research methods essay. Review the following paragraph and give me three specific, actionable suggestions to improve it — focusing on: (1) clarity of argument, (2) quality of evidence use, and (3) academic register. [Paragraph to be pasted]`
+            },
+            {
+                technique: 'Step-by-step', cls: 'dot-cot',
+                text: `This paragraph is not working but I'm not sure why. Help me diagnose it step by step. Step 1: What is this paragraph trying to do? Step 2: Does every sentence contribute? Step 3: Is the evidence being used correctly? Step 4: Write a revised version. [Paragraph to be pasted]`
+            },
+            // Row 2
+            {
+                technique: 'Add context', cls: 'dot-contextual',
+                text: `Here is the marking criterion I'm trying to address: "Discussion demonstrates analytical engagement with findings, not merely description." Here is my paragraph. How well does my draft address this criterion? What should I add, remove, or change? [Paragraph to be pasted]`
+            },
+            {
+                technique: 'Structured', cls: 'dot-structured',
+                text: `Write a discussion paragraph for a psychology study on [topic] in approximately 200 words in formal academic English. It must include: a topic sentence, evaluation of at least two pieces of evidence, acknowledgement of one limitation, and a transition sentence.`
+            },
+            {
+                technique: 'Open / direct', cls: 'dot-open',
+                text: `What is the difference between descriptive and analytical writing in psychology essays? Give me an example of each.`
+            },
+            // Row 3
+            {
+                technique: 'Step-by-step', cls: 'dot-cot',
+                text: `Let's check my argument step by step. Step 1: State my central claim in one sentence. Step 2: List the evidence I provide. Step 3: Identify logical gaps between evidence and claim. Step 4: Suggest how to close those gaps. [Paragraph to be pasted]`
+            },
+            {
+                technique: 'Role-based', cls: 'dot-rolebased',
+                text: `Act as a critical, sceptical reader of my psychology essay. Identify: (1) any logical gaps or unsupported leaps, (2) any claims made without evidence, and (3) the one counter-argument I haven't addressed. [Paragraph to be pasted]`
+            },
+            {
+                technique: 'Add context', cls: 'dot-contextual',
+                text: `I've written this paragraph for my research methods course. My marker said it is "descriptive rather than analytical." Revise it to be more analytical, keeping the same content but adding evaluative language and explicit connections to my argument. [Paragraph to be pasted]`
+            }
+        ]
+    }
+];
+
+/* ============================================================
+   STATE
+   ============================================================ */
+let currentQ   = 0;
+let score      = 0;
+let selected   = null;   // tile index
+let submitted  = false;
+let firstTry   = true;   // still on first attempt for this question
+let order      = [];     // shuffled question indices
+
+function shuffle(arr) {
+    const a = [...arr];
+    for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+}
+
+function startQuiz() {
+    currentQ  = 0;
+    score     = 0;
+    selected  = null;
+    submitted = false;
+    order     = shuffle(QUESTIONS.map((_, i) => i));
+    document.getElementById('end-screen').classList.remove('visible');
+    document.getElementById('quiz-area').style.display = '';
+    renderQuestion();
+}
+
+/* ============================================================
+   RENDER
+   ============================================================ */
+function renderQuestion() {
+    const q      = QUESTIONS[order[currentQ]];
+    const total  = order.length;
+    selected     = null;
+    submitted    = false;
+    firstTry     = true;
+
+    // Progress
+    const pct = (currentQ / total) * 100;
+    document.getElementById('progress-fill').style.width = pct + '%';
+    document.getElementById('progress-text').textContent = `Question ${currentQ + 1} of ${total}`;
+
+    const area = document.getElementById('quiz-area');
+    area.style.display = '';
+    area.innerHTML = '';
+    area.style.animation = 'none';
+    area.offsetHeight;
+    area.style.animation = 'fadeUp 0.3s ease';
+
+    // Case card
+    const caseEl = document.createElement('div');
+    caseEl.className = 'case-card';
+    caseEl.innerHTML = `
+        <div class="case-tag">Student scenario</div>
+        <div class="case-title">${q.case.student}</div>
+        <div class="case-body">${q.case.situation}<br><br>${q.case.goal}</div>`;
+    area.appendChild(caseEl);
+
+    // Output
+    const outLabel = document.createElement('div');
+    outLabel.className = 'section-label';
+    outLabel.textContent = 'AI output received';
+    area.appendChild(outLabel);
+
+    const outCard = document.createElement('div');
+    outCard.className = 'output-card';
+    outCard.innerHTML = `<div class="output-label">Response</div><div class="output-text">${escHtml(q.output)}</div>`;
+    area.appendChild(outCard);
+
+    // Question
+    const qLabel = document.createElement('div');
+    qLabel.className = 'question-label';
+    qLabel.textContent = 'Which prompt produced this output?';
+    area.appendChild(qLabel);
+
+    const qHint = document.createElement('div');
+    qHint.className = 'question-hint';
+    qHint.textContent = 'Select the prompt from the grid below that you think generated the response above. Consider the technique, specificity, and wording.';
+    area.appendChild(qHint);
+
+    // Tile grid
+    const grid = document.createElement('div');
+    grid.className = 'prompt-grid';
+    grid.id = 'tile-grid';
+    q.tiles.forEach((tile, idx) => {
+        const btn = document.createElement('button');
+        btn.className = 'prompt-tile';
+        btn.dataset.idx = idx;
+        btn.innerHTML = `
+            <div class="tile-technique ${tile.cls}">${tile.technique}</div>
+            <div class="tile-text">${escHtml(tile.text)}</div>
+            <div class="tile-badge"></div>`;
+        btn.onclick = () => selectTile(idx);
+        grid.appendChild(btn);
+    });
+    area.appendChild(grid);
+
+    // Feedback box
+    const fb = document.createElement('div');
+    fb.className = 'feedback';
+    fb.id = 'feedback-box';
+    area.appendChild(fb);
+
+    // Action row
+    const actionRow = document.createElement('div');
+    actionRow.className = 'action-row';
+    actionRow.innerHTML = `
+        <button class="btn-submit" id="btn-submit" disabled onclick="submitAnswer()">Check answer</button>
+        <button class="btn-next"   id="btn-next"   onclick="nextQuestion()">${currentQ < total - 1 ? 'Next question &rsaquo;' : 'See results &rsaquo;'}</button>
+        <button class="btn-reset"  id="btn-reset"  onclick="resetSelection()">Change selection</button>`;
+    area.appendChild(actionRow);
+}
+
+function selectTile(idx) {
+    if (submitted) return;
+    selected = idx;
+    document.querySelectorAll('.prompt-tile').forEach((t, i) => {
+        t.classList.toggle('active-selection', i === idx);
+        t.style.borderColor = i === idx ? '#667eea' : '';
+        t.style.background  = i === idx ? '#f0f4ff' : '';
+    });
+    document.getElementById('btn-submit').disabled = false;
+    document.getElementById('btn-reset').style.display = 'inline-block';
+}
+
+function resetSelection() {
+    if (submitted) return;
+    selected = null;
+    document.querySelectorAll('.prompt-tile').forEach(t => {
+        t.style.borderColor = '';
+        t.style.background  = '';
+        t.classList.remove('active-selection');
+    });
+    document.getElementById('btn-submit').disabled = true;
+    document.getElementById('btn-reset').style.display = 'none';
+}
+
+function submitAnswer() {
+    if (selected === null || submitted) return;
+
+    const q       = QUESTIONS[order[currentQ]];
+    const correct = selected === q.correct;
+
+    // Clear active highlight from the chosen tile
+    const chosenTile = document.querySelectorAll('.prompt-tile')[selected];
+    chosenTile.style.borderColor = '';
+    chosenTile.style.background  = '';
+    chosenTile.classList.remove('active-selection');
+
+    if (!correct) {
+        // Mark tile as wrong and disable it so it can't be reselected
+        chosenTile.classList.add('selected-wrong');
+        chosenTile.querySelector('.tile-badge').textContent = 'Incorrect';
+        chosenTile.disabled = true;
+        firstTry = false;
+
+        // Show the hint without revealing the answer
+        const fb = document.getElementById('feedback-box');
+        fb.className = 'feedback visible wrong';
+        fb.innerHTML = `
+            <div class="feedback-heading">Not quite — try again</div>
+            <div class="feedback-body">${q.feedback.wrong}</div>`;
+
+        // Reset so student must pick again
+        selected = null;
+        document.getElementById('btn-submit').disabled = true;
+        document.getElementById('btn-reset').style.display = 'none';
+        return;
+    }
+
+    // ── Correct ──
+    submitted = true;
+    if (firstTry) score++;
+
+    const tiles = document.querySelectorAll('.prompt-tile');
+    tiles.forEach((t, i) => {
+        t.style.borderColor = '';
+        t.style.background  = '';
+        t.classList.remove('active-selection');
+        // Disable tiles that weren't already disabled (wrong ones already are)
+        t.disabled = true;
+
+        if (i === selected) {
+            t.classList.add('selected-correct');
+            t.querySelector('.tile-badge').textContent = firstTry ? 'Correct!' : 'Found it!';
+        } else if (!t.classList.contains('selected-wrong')) {
+            t.classList.add('dimmed');
+        }
+    });
+
+    const fb = document.getElementById('feedback-box');
+    fb.className = 'feedback visible correct';
+    fb.innerHTML = `
+        <div class="feedback-heading">Correct</div>
+        <div class="feedback-body">${q.feedback.correct}</div>`;
+
+    document.getElementById('btn-submit').style.display = 'none';
+    document.getElementById('btn-reset').style.display  = 'none';
+    document.getElementById('btn-next').style.display   = 'inline-block';
+}
+
+function nextQuestion() {
+    currentQ++;
+    if (currentQ >= order.length) {
+        showEndScreen();
+    } else {
+        renderQuestion();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+}
+
+function showEndScreen() {
+    document.getElementById('quiz-area').style.display = 'none';
+    document.getElementById('progress-fill').style.width = '100%';
+    document.getElementById('progress-text').textContent = `Completed`;
+
+    const total = order.length;
+    const pct   = score / total;
+    let title, body;
+    if (pct === 1) {
+        title = 'Perfect score';
+        body  = 'You correctly identified every prompt. You have a strong grasp of how different prompting techniques shape AI output — use this intuition when crafting your own prompts.';
+    } else if (pct >= 0.75) {
+        title = 'Strong result';
+        body  = 'You correctly identified most prompts. Review the questions you missed: pay attention to how the technique label alone does not determine the output — the specificity and structure of the wording matter just as much.';
+    } else if (pct >= 0.5) {
+        title = 'Getting there';
+        body  = 'You are developing the right instincts. Revisit the explorer and compare the prompts you found hardest to distinguish — notice especially the difference between role-based prompts (which assign an identity) and contextual prompts (which supply your own material).';
+    } else {
+        title = 'Keep practising';
+        body  = 'Prompt engineering takes practice. Go back to the explorer, try each technique in the same task category, and notice what changes in the output when only the technique changes. Then try this assessment again.';
+    }
+
+    document.getElementById('score-num').textContent  = score;
+    document.getElementById('score-denom').textContent = `/ ${total}`;
+    document.getElementById('end-title').textContent  = title;
+    document.getElementById('end-body').textContent   = body;
+    document.getElementById('end-screen').classList.add('visible');
+}
+
+function escHtml(str) {
+    return str
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/\n/g, '<br>');
+}
+
+/* ============================================================
+   INIT
+   ============================================================ */
+startQuiz();
+</script>
+</body>
+</html>
