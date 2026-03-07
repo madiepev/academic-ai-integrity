@@ -55,6 +55,7 @@
 #ai-tool-explorer .ate-tag.research { background: #dbeafe; color: #1e40af; }
 #ai-tool-explorer .ate-tag.document-chat { background: #dcfce7; color: #166534; }
 #ai-tool-explorer .ate-tag.vu-available { background: #fef3c7; color: #92400e; }
+#ai-tool-explorer .ate-tag.writing-tools { background: #e0f2fe; color: #0369a1; }
 
 /* No results */
 #ai-tool-explorer .ate-empty { display: none; text-align: center; padding: 28px; color: #9ca3af; font-size: 13px; border: 1px dashed #e5e7eb; border-radius: 10px; margin-bottom: 18px; }
@@ -103,7 +104,7 @@
 #ai-tool-explorer .mock-copilot { background: #f5f6f7; display: flex; flex-direction: column; min-height: 300px; }
 #ai-tool-explorer .mock-copilot-nav { background: white; padding: 8px 16px; border-bottom: 1px solid #e5e7eb; display: flex; align-items: center; gap: 8px; }
 #ai-tool-explorer .copilot-nav-logo { display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 700; color: #1f2937; }
-#ai-tool-explorer .copilot-icon { width: 22px; height: 22px; background: linear-gradient(135deg, #0078d4, #50e6ff); border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 11px; color: white; flex-shrink: 0; }
+#ai-tool-explorer .copilot-icon { width: 22px; height: 22px; background: linear-gradient(135deg, #cc4fc8, #f9961c); border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 11px; color: white; flex-shrink: 0; }
 #ai-tool-explorer .copilot-nav-auto { margin-left: auto; font-size: 11px; font-weight: 600; color: #374151; border: 1.5px solid #d1d5db; border-radius: 18px; padding: 3px 10px; }
 #ai-tool-explorer .mock-copilot-body { flex: 1; padding: 14px 20px; max-width: 700px; margin: 0 auto; width: 100%; display: flex; flex-direction: column; gap: 10px; }
 #ai-tool-explorer .copilot-date-sep { display: flex; align-items: center; gap: 8px; font-size: 10px; color: #9ca3af; }
@@ -123,22 +124,35 @@
 #ai-tool-explorer .mock-copilot-input .mock-input-box { border-radius: 20px; }
 
 /* --- Perplexity mock --- */
-#ai-tool-explorer .mock-perplexity { background: #1e2028; min-height: 300px; display: flex; flex-direction: column; }
-#ai-tool-explorer .mock-perplexity-nav { background: #16181f; padding: 9px 18px; display: flex; align-items: center; gap: 10px; }
-#ai-tool-explorer .perplexity-logo { font-size: 13px; font-weight: 800; color: white; display: flex; align-items: center; gap: 6px; }
-#ai-tool-explorer .perplexity-icon { width: 22px; height: 22px; background: linear-gradient(135deg,#20b2aa,#00d4ff); border-radius: 6px; flex-shrink: 0; }
-#ai-tool-explorer .perplexity-nav-btn { font-size: 11px; color: #6b7280; background: #1e2028; padding: 4px 10px; border-radius: 6px; }
-#ai-tool-explorer .mock-perplexity-body { flex: 1; padding: 18px; display: grid; grid-template-columns: 1fr 190px; gap: 14px; min-height: 230px; }
-#ai-tool-explorer .perplexity-main { display: flex; flex-direction: column; gap: 12px; }
-#ai-tool-explorer .perplexity-query { font-size: 15px; font-weight: 700; color: white; line-height: 1.4; padding-bottom: 10px; border-bottom: 1px solid #2e3040; }
-#ai-tool-explorer .perplexity-answer { font-size: 12px; color: #d1d5db; line-height: 1.75; }
-#ai-tool-explorer .perplexity-cite { display: inline-flex; align-items: center; justify-content: center; width: 15px; height: 15px; background: #2e3040; border-radius: 4px; font-size: 9px; color: #20b2aa; font-weight: 700; margin: 0 1px; vertical-align: middle; }
-#ai-tool-explorer .perplexity-sources-col { background: #16181f; border-radius: 9px; padding: 11px; }
-#ai-tool-explorer .sources-heading { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: #6b7280; margin-bottom: 9px; }
-#ai-tool-explorer .source-item { display: flex; gap: 7px; margin-bottom: 9px; align-items: flex-start; }
-#ai-tool-explorer .source-num { width: 16px; height: 16px; background: #2e3040; border-radius: 4px; font-size: 9px; color: #20b2aa; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-#ai-tool-explorer .source-text { font-size: 10.5px; color: #9ca3af; line-height: 1.5; }
-#ai-tool-explorer .source-text strong { color: #d1d5db; font-size: 10.5px; display: block; }
+#ai-tool-explorer .mock-perplexity { background: white; min-height: 300px; display: flex; flex-direction: column; }
+#ai-tool-explorer .mock-perplexity-nav { background: white; border-bottom: 1px solid #e5e7eb; padding: 0 18px; display: flex; align-items: center; gap: 4px; }
+#ai-tool-explorer .perplexity-tab { font-size: 12px; font-weight: 600; color: #6b7280; padding: 10px 12px; border-bottom: 2px solid transparent; margin-bottom: -1px; display: flex; align-items: center; gap: 5px; }
+#ai-tool-explorer .perplexity-tab.active { color: #111827; border-bottom-color: #111827; }
+#ai-tool-explorer .perplexity-tab-icon { font-size: 11px; }
+#ai-tool-explorer .perplexity-nav-right { margin-left: auto; display: flex; align-items: center; gap: 8px; }
+#ai-tool-explorer .perplexity-share-btn { font-size: 10.5px; color: #374151; border: 1px solid #d1d5db; border-radius: 6px; padding: 4px 10px; font-weight: 500; }
+#ai-tool-explorer .perplexity-dl-btn { font-size: 10.5px; color: white; background: #111827; border-radius: 6px; padding: 4px 10px; font-weight: 600; }
+#ai-tool-explorer .mock-perplexity-body { flex: 1; padding: 14px 22px 6px; display: flex; flex-direction: column; gap: 10px; overflow: hidden; }
+#ai-tool-explorer .perplexity-query-bubble { align-self: flex-end; background: #f1f5f9; border-radius: 18px; padding: 7px 14px; font-size: 12px; color: #1f2937; font-weight: 500; max-width: 80%; }
+#ai-tool-explorer .perplexity-answer { font-size: 12px; color: #1f2937; line-height: 1.75; }
+#ai-tool-explorer .perplexity-answer p { margin-bottom: 8px; }
+#ai-tool-explorer .perplexity-source-badge { display: inline-flex; align-items: center; gap: 3px; background: #f1f5f9; border: 1px solid #e5e7eb; border-radius: 10px; padding: 1px 7px; font-size: 9.5px; color: #374151; font-weight: 600; margin: 0 2px; vertical-align: middle; cursor: default; }
+#ai-tool-explorer .perplexity-source-badge .psb-dot { width: 7px; height: 7px; border-radius: 50%; background: #6366f1; flex-shrink: 0; }
+#ai-tool-explorer .perplexity-h2 { font-size: 13px; font-weight: 700; color: #111827; margin: 6px 0 4px; }
+#ai-tool-explorer .perplexity-answer ul { padding-left: 16px; list-style: disc; }
+#ai-tool-explorer .perplexity-answer li { margin-bottom: 5px; }
+#ai-tool-explorer .perplexity-source-tooltip { background: white; border: 1px solid #e5e7eb; border-radius: 10px; padding: 10px 12px; box-shadow: 0 4px 16px rgba(0,0,0,0.09); max-width: 280px; margin: 2px 0 6px; }
+#ai-tool-explorer .pst-header { display: flex; align-items: center; gap: 6px; margin-bottom: 6px; }
+#ai-tool-explorer .pst-nav { font-size: 10px; color: #6b7280; display: flex; align-items: center; gap: 4px; }
+#ai-tool-explorer .pst-sources-count { font-size: 10px; color: #6b7280; margin-left: auto; display: flex; align-items: center; gap: 4px; }
+#ai-tool-explorer .pst-model-icon { width: 14px; height: 14px; border-radius: 3px; background: linear-gradient(135deg,#6366f1,#8b5cf6); }
+#ai-tool-explorer .pst-source-icon { width: 18px; height: 18px; border-radius: 4px; background: #1a3a6b; display: flex; align-items: center; justify-content: center; font-size: 8px; font-weight: 800; color: white; flex-shrink: 0; }
+#ai-tool-explorer .pst-title { font-size: 11px; font-weight: 700; color: #111827; margin-bottom: 3px; }
+#ai-tool-explorer .pst-snippet { font-size: 10.5px; color: #6b7280; line-height: 1.5; }
+#ai-tool-explorer .mock-perplexity-input { border-top: 1px solid #e5e7eb; padding: 8px 16px; background: white; display: flex; align-items: center; gap: 8px; }
+#ai-tool-explorer .perplexity-followup-box { flex: 1; background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 8px; padding: 7px 11px; font-size: 11px; color: #9ca3af; }
+#ai-tool-explorer .perplexity-input-btns { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
+#ai-tool-explorer .perplexity-input-btn { width: 26px; height: 26px; border-radius: 50%; background: #18a461; display: flex; align-items: center; justify-content: center; font-size: 13px; color: white; }
 
 /* --- ChatPDF mock --- */
 #ai-tool-explorer .mock-chatpdf { display: flex; min-height: 300px; background: white; }
@@ -210,6 +224,104 @@
 #ai-tool-explorer .mock-gemini-input { border-top: 1px solid #e5e7eb; padding: 10px 22px; display: flex; align-items: center; gap: 10px; background: white; }
 #ai-tool-explorer .mock-gemini-input .mock-input-box { border-radius: 22px; }
 
+/* --- Jenni.ai mock --- */
+#ai-tool-explorer .mock-jenni { display: flex; min-height: 300px; background: white; }
+#ai-tool-explorer .jenni-library { width: 185px; background: #f9fafb; border-right: 1px solid #e5e7eb; display: flex; flex-direction: column; flex-shrink: 0; overflow: hidden; }
+#ai-tool-explorer .jenni-lib-header { padding: 9px 12px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #e5e7eb; background: white; }
+#ai-tool-explorer .jenni-lib-title { font-size: 13px; font-weight: 700; color: #111827; }
+#ai-tool-explorer .jenni-lib-add { width: 22px; height: 22px; background: #1d2d50; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 15px; color: white; line-height: 1; }
+#ai-tool-explorer .jenni-lib-tabs { display: flex; align-items: center; background: white; border-bottom: 1px solid #e5e7eb; padding: 0 7px; }
+#ai-tool-explorer .jenni-lib-tab { flex: 1; padding: 6px 0; text-align: center; font-size: 10.5px; font-weight: 600; color: #9ca3af; border-bottom: 2px solid transparent; margin-bottom: -1px; }
+#ai-tool-explorer .jenni-lib-tab.active { color: #111827; border-bottom-color: #111827; }
+#ai-tool-explorer .jenni-lib-filter-btn { font-size: 10px; color: #9ca3af; padding: 4px 5px; white-space: nowrap; }
+#ai-tool-explorer .jenni-lib-search { margin: 7px 9px; background: white; border: 1px solid #e5e7eb; border-radius: 6px; padding: 5px 9px; font-size: 10px; color: #b0b8c2; }
+#ai-tool-explorer .jenni-lib-item { padding: 8px 10px; border-bottom: 1px solid #f1f5f9; }
+#ai-tool-explorer .jenni-lib-item.active { background: #f0f4ff; border-bottom-color: #e0e7ff; }
+#ai-tool-explorer .jenni-lib-item-meta { display: flex; align-items: center; justify-content: space-between; margin-bottom: 2px; }
+#ai-tool-explorer .jenni-lib-item-type { font-size: 9.5px; color: #9ca3af; }
+#ai-tool-explorer .jenni-lib-item-oa { font-size: 9px; color: #059669; font-weight: 600; background: #d1fae5; padding: 1px 5px; border-radius: 8px; }
+#ai-tool-explorer .jenni-lib-item-title { font-size: 10.5px; color: #111827; font-weight: 600; line-height: 1.4; margin-bottom: 2px; }
+#ai-tool-explorer .jenni-lib-item-authors { font-size: 9.5px; color: #6b7280; }
+#ai-tool-explorer .jenni-main { flex: 1; display: flex; flex-direction: column; overflow: hidden; min-width: 0; }
+#ai-tool-explorer .jenni-main-topbar { padding: 8px 16px; border-bottom: 1px solid #e5e7eb; display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+#ai-tool-explorer .jenni-main-title { font-size: 12px; font-weight: 600; color: #111827; flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+#ai-tool-explorer .jenni-main-btns { display: flex; gap: 6px; flex-shrink: 0; }
+#ai-tool-explorer .jenni-btn { font-size: 10px; color: #374151; background: #f3f4f6; border-radius: 5px; padding: 3px 9px; }
+#ai-tool-explorer .jenni-main-body { flex: 1; display: flex; overflow: hidden; }
+#ai-tool-explorer .jenni-doc-col { flex: 1; padding: 16px 20px; overflow: hidden; border-right: 1px solid #e5e7eb; }
+#ai-tool-explorer .jenni-doc-h1 { font-size: 17px; font-weight: 800; color: #111827; margin-bottom: 12px; }
+#ai-tool-explorer .jenni-doc-text { font-size: 11.5px; color: #374151; line-height: 1.8; }
+#ai-tool-explorer .jenni-cite-chip { color: #4f46e5; font-size: 10.5px; background: #ede9fe; border-radius: 4px; padding: 1px 4px; border: 1px solid #ddd6fe; }
+#ai-tool-explorer .jenni-chat-col { width: 230px; flex-shrink: 0; display: flex; flex-direction: column; background: white; }
+#ai-tool-explorer .jenni-chat-header { padding: 8px 12px; border-bottom: 1px solid #e5e7eb; display: flex; align-items: center; justify-content: space-between; }
+#ai-tool-explorer .jenni-chat-title { font-size: 12px; font-weight: 700; color: #111827; }
+#ai-tool-explorer .jenni-chat-new { font-size: 16px; color: #9ca3af; }
+#ai-tool-explorer .jenni-chat-msgs { flex: 1; padding: 10px 12px; display: flex; flex-direction: column; gap: 9px; overflow: hidden; }
+#ai-tool-explorer .jenni-user-msg { align-self: flex-end; background: #f3f4f6; border-radius: 10px 10px 2px 10px; padding: 7px 9px; font-size: 11px; color: #1f2937; line-height: 1.5; max-width: 88%; }
+#ai-tool-explorer .jenni-ai-response { font-size: 11px; color: #374151; line-height: 1.65; }
+#ai-tool-explorer .jenni-cite-ref { color: #4f46e5; font-size: 10px; font-weight: 600; }
+#ai-tool-explorer .jenni-chat-context { padding: 6px 10px; border-top: 1px solid #e5e7eb; display: flex; flex-wrap: wrap; gap: 4px; background: #f9fafb; }
+#ai-tool-explorer .jenni-ctx-chip { font-size: 9.5px; color: #374151; background: white; border: 1px solid #d1d5db; border-radius: 12px; padding: 2px 7px; }
+#ai-tool-explorer .jenni-chat-input-row { border-top: 1px solid #e5e7eb; padding: 8px 10px; }
+#ai-tool-explorer .jenni-chat-input-row .mock-input-box { border-radius: 8px; font-size: 10.5px; }
+
+/* --- QuillBot mock --- */
+#ai-tool-explorer .mock-quillbot { display: flex; min-height: 300px; }
+#ai-tool-explorer .qb-sidebar { width: 72px; background: white; border-right: 1px solid #e5e7eb; display: flex; flex-direction: column; align-items: center; padding: 10px 0; gap: 2px; flex-shrink: 0; }
+#ai-tool-explorer .qb-sidebar-logo { width: 32px; height: 32px; background: #18a461; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 800; color: white; margin-bottom: 10px; }
+#ai-tool-explorer .qb-nav-item { display: flex; flex-direction: column; align-items: center; gap: 3px; padding: 6px 4px; border-radius: 8px; width: 62px; }
+#ai-tool-explorer .qb-nav-item.active { background: #f0fdf4; }
+#ai-tool-explorer .qb-nav-icon { font-size: 14px; color: #6b7280; line-height: 1; text-align: center; }
+#ai-tool-explorer .qb-nav-item.active .qb-nav-icon { color: #18a461; }
+#ai-tool-explorer .qb-nav-label { font-size: 9px; color: #6b7280; text-align: center; line-height: 1.3; }
+#ai-tool-explorer .qb-nav-item.active .qb-nav-label { color: #15803d; font-weight: 700; }
+#ai-tool-explorer .qb-main { flex: 1; background: #f4fdf8; display: flex; flex-direction: column; min-width: 0; }
+#ai-tool-explorer .qb-topbar { padding: 9px 14px; display: flex; justify-content: flex-end; }
+#ai-tool-explorer .qb-suggestion-chip { background: white; border: 1.5px solid #d1d5db; border-radius: 20px; padding: 5px 14px; font-size: 11px; color: #374151; font-weight: 500; }
+#ai-tool-explorer .qb-chat-area { flex: 1; padding: 4px 18px 8px; display: flex; flex-direction: column; gap: 6px; }
+#ai-tool-explorer .qb-msg { display: flex; gap: 10px; align-items: flex-start; }
+#ai-tool-explorer .qb-bot-icon { width: 28px; height: 28px; background: #18a461; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 800; color: white; flex-shrink: 0; }
+#ai-tool-explorer .qb-msg-body { font-size: 12px; color: #1f2937; line-height: 1.7; padding-top: 3px; }
+#ai-tool-explorer .qb-ai-label { font-size: 10px; color: #9ca3af; margin-left: 38px; margin-top: 2px; }
+#ai-tool-explorer .qb-feedback { display: flex; gap: 10px; margin-left: 38px; }
+#ai-tool-explorer .qb-feedback span { font-size: 12px; color: #9ca3af; }
+#ai-tool-explorer .qb-input-wrap { background: white; border: 1.5px solid #18a461; border-radius: 12px; margin: 10px 14px; padding: 9px 11px 8px; display: flex; flex-direction: column; gap: 7px; }
+#ai-tool-explorer .qb-input-text { font-size: 12px; color: #9ca3af; padding: 0 2px; }
+#ai-tool-explorer .qb-input-actions { display: flex; align-items: center; gap: 7px; }
+#ai-tool-explorer .qb-attach-btn { font-size: 13px; color: #6b7280; }
+#ai-tool-explorer .qb-input-sep { width: 1px; height: 13px; background: #e5e7eb; flex-shrink: 0; }
+#ai-tool-explorer .qb-tools-btn { font-size: 11px; color: #374151; font-weight: 500; }
+#ai-tool-explorer .qb-send-btn { width: 26px; height: 26px; background: #18a461; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; color: white; margin-left: auto; }
+
+/* --- SciFlow mock --- */
+#ai-tool-explorer .mock-sciflow { display: flex; flex-direction: column; background: white; min-height: 300px; }
+#ai-tool-explorer .sciflow-topbar { background: white; border-bottom: 1px solid #e5e7eb; padding: 7px 16px; display: flex; align-items: center; gap: 10px; }
+#ai-tool-explorer .sciflow-logo-icon { width: 26px; height: 26px; border-radius: 50%; border: 2.5px solid #0e6ead; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+#ai-tool-explorer .sciflow-logo-inner { width: 13px; height: 13px; border-radius: 50%; background: #0e6ead; }
+#ai-tool-explorer .sciflow-doctitle { flex: 1; text-align: center; font-size: 12px; color: #9ca3af; }
+#ai-tool-explorer .sciflow-topbar-btns { display: flex; gap: 6px; flex-shrink: 0; }
+#ai-tool-explorer .sciflow-btn-primary { background: #0e6ead; color: white; border-radius: 6px; padding: 4px 12px; font-size: 11px; font-weight: 600; }
+#ai-tool-explorer .sciflow-btn-secondary { background: white; color: #374151; border: 1px solid #d1d5db; border-radius: 6px; padding: 4px 12px; font-size: 11px; font-weight: 500; }
+#ai-tool-explorer .sciflow-btn-arrow { background: white; color: #374151; border: 1px solid #d1d5db; border-left: none; border-radius: 0 6px 6px 0; padding: 4px 7px; font-size: 11px; margin-left: -1px; }
+#ai-tool-explorer .sciflow-toolbar { background: white; border-bottom: 1px solid #e5e7eb; padding: 5px 14px; display: flex; align-items: center; gap: 7px; }
+#ai-tool-explorer .sciflow-tool-btn { font-size: 11px; font-weight: 700; color: #374151; padding: 2px 4px; }
+#ai-tool-explorer .sciflow-tool-sep { width: 1px; height: 14px; background: #e5e7eb; flex-shrink: 0; }
+#ai-tool-explorer .sciflow-tool-small { font-size: 10.5px; color: #6b7280; padding: 1px 3px; }
+#ai-tool-explorer .sciflow-body { flex: 1; display: flex; overflow: hidden; }
+#ai-tool-explorer .sciflow-left-margin { width: 55px; flex-shrink: 0; display: flex; flex-direction: column; align-items: flex-end; padding-top: 56px; gap: 30px; padding-right: 8px; }
+#ai-tool-explorer .sciflow-section-label { font-size: 9px; color: #9ca3af; white-space: nowrap; }
+#ai-tool-explorer .sciflow-doc-area { flex: 1; padding: 12px 18px; overflow: hidden; }
+#ai-tool-explorer .sciflow-add-block { display: flex; justify-content: center; margin: 6px 0; }
+#ai-tool-explorer .sciflow-add-btn { width: 20px; height: 20px; border: 1.5px solid #0e6ead; border-radius: 4px; color: #0e6ead; display: flex; align-items: center; justify-content: center; font-size: 14px; line-height: 1; }
+#ai-tool-explorer .sciflow-doc-title { font-size: 17px; font-weight: 700; color: #111827; text-align: center; margin-bottom: 12px; font-family: Georgia, serif; }
+#ai-tool-explorer .sciflow-abstract-block { border: 1px solid #e5e7eb; border-radius: 8px; overflow: hidden; }
+#ai-tool-explorer .sciflow-abstract-head { background: #f3f4f6; padding: 6px 14px; font-size: 13px; font-weight: 700; color: #111827; font-family: Georgia, serif; }
+#ai-tool-explorer .sciflow-abstract-body { padding: 9px 14px; font-size: 11px; color: #374151; line-height: 1.75; }
+#ai-tool-explorer .sciflow-keywords { font-style: italic; margin-top: 7px; font-size: 10.5px; color: #6b7280; }
+#ai-tool-explorer .sciflow-right-rail { width: 36px; background: #f9fafb; border-left: 1px solid #e5e7eb; display: flex; flex-direction: column; align-items: center; padding: 12px 0; gap: 14px; flex-shrink: 0; }
+#ai-tool-explorer .sciflow-rail-icon { font-size: 14px; color: #0e6ead; }
+#ai-tool-explorer .sciflow-no-chat-notice { background: #eff6ff; border-top: 1px solid #bfdbfe; padding: 6px 16px; font-size: 10.5px; color: #1e40af; text-align: center; }
+
 @media (max-width: 600px) {
   #ai-tool-explorer .ate-grid { grid-template-columns: 1fr 1fr; }
   #ai-tool-explorer .mock-chatgpt-sidebar { display: none; }
@@ -226,17 +338,20 @@
 <p class="ate-intro">Below is a curated overview of conversational AI tools relevant to academic work. These tools differ in how they interact with information — use the filters to browse by category:</p>
 <ul class="ate-intro" style="margin: -8px 0 16px 18px; color: #374151; font-size: 14px; line-height: 1.8;">
   <li><strong>General chat</strong> — open-ended assistants for brainstorming, drafting, or explaining concepts</li>
-  <li><strong>Research</strong> — tools that search the web in real time and cite their sources, suited for literature orientation</li>
+  <li><strong>Research</strong> — tools that perform structured, multi-step research with source retrieval and citations</li>
   <li><strong>Document chat</strong> — tools that let you upload a PDF and ask questions directly about its content</li>
+  <li><strong>Writing tools</strong> — dedicated editors for structuring and formatting academic manuscripts (no chat interface)</li>
   <li><strong>VU license available</strong> — tools you can access through your institutional account</li>
 </ul>
-<p class="ate-intro">Most tools offer a free version with core functionality, alongside a paid tier that unlocks additional features such as higher usage limits, more powerful models, or advanced capabilities. Select a tool to see a simulated example of what it looks like in practice.</p>
+<p class="ate-intro">Most tools offer a free version with core functionality, alongside a paid tier that unlocks additional features such as higher usage limits, more powerful models, or advanced capabilities. Select a tool to see a simulated example of what it looks like in practice. For a more comprehensive overview, see the <a href="https://buas.libguides.com/az/ai-tools" target="_blank" style="color:#6366f1;font-weight:600;">BUas AI Tools library guide ↗</a>.</p>
+
 
 <div class="ate-filters" id="ate-filters">
   <button class="ate-filter active" data-filter="all">All tools</button>
   <button class="ate-filter" data-filter="general-chat">General chat</button>
   <button class="ate-filter" data-filter="research">Research</button>
   <button class="ate-filter" data-filter="document-chat">Document chat</button>
+  <button class="ate-filter" data-filter="writing-tools">Writing tools</button>
   <button class="ate-filter" data-filter="vu-available">VU license available</button>
 </div>
 
@@ -253,7 +368,7 @@
 
   <div class="ate-card" data-tool="copilot" data-tags="general-chat vu-available" onclick="ateSelect(this)">
     <div class="ate-card-top">
-      <div class="ate-logo" style="background:linear-gradient(135deg,#0078d4,#50e6ff);">M</div>
+      <div class="ate-logo" style="background:linear-gradient(135deg,#cc4fc8,#f9961c);">M</div>
       <div><div class="ate-name">Microsoft Copilot</div><div class="ate-provider">Microsoft</div></div>
     </div>
     <div class="ate-desc">Microsoft's web-connected AI assistant, available to VU students via institutional account with data privacy protections.</div>
@@ -305,6 +420,36 @@
     <div class="ate-tags"><span class="ate-tag general-chat">General chat</span></div>
   </div>
 
+  <div class="ate-card" data-tool="jenni" data-tags="document-chat research" onclick="ateSelect(this)">
+    <div class="ate-card-top">
+      <div class="ate-logo" style="background:linear-gradient(135deg,#16a34a,#059669);">J</div>
+      <div><div class="ate-name">Jenni.ai</div><div class="ate-provider">Jenni</div></div>
+    </div>
+    <div class="ate-desc">An AI writing assistant built for academic work — manage your reference library, draft with inline citations, and chat with your sources in one workspace.</div>
+    <div class="ate-tags">
+      <span class="ate-tag document-chat">Document chat</span>
+      <span class="ate-tag research">Research</span>
+    </div>
+  </div>
+
+  <div class="ate-card" data-tool="quillbot" data-tags="general-chat" onclick="ateSelect(this)">
+    <div class="ate-card-top">
+      <div class="ate-logo" style="background:#18a461;">Q</div>
+      <div><div class="ate-name">QuillBot</div><div class="ate-provider">QuillBot AI</div></div>
+    </div>
+    <div class="ate-desc">A writing assistance suite with a paraphraser, grammar checker, plagiarism detector, and AI chat — designed to help you refine and polish academic writing.</div>
+    <div class="ate-tags"><span class="ate-tag general-chat">General chat</span></div>
+  </div>
+
+  <div class="ate-card" data-tool="sciflow" data-tags="writing-tools" onclick="ateSelect(this)">
+    <div class="ate-card-top">
+      <div class="ate-logo" style="background:#0e6ead;">S</div>
+      <div><div class="ate-name">SciFlow</div><div class="ate-provider">SciFlow GmbH</div></div>
+    </div>
+    <div class="ate-desc">A structured academic writing editor for manuscripts and theses — handles formatting, references, and journal export. No AI chat interface.</div>
+    <div class="ate-tags"><span class="ate-tag writing-tools">Writing tools</span></div>
+  </div>
+
 </div>
 
 <div class="ate-empty" id="ate-empty">No tools match this filter.</div>
@@ -339,7 +484,7 @@
     perplexity: {
       name: 'Perplexity',
       url: 'https://www.perplexity.ai',
-      html: '<div class="mock-perplexity"><div class="mock-perplexity-nav"><div class="perplexity-logo"><div class="perplexity-icon"></div>Perplexity</div><div class="perplexity-nav-btn">New thread +</div></div><div class="mock-perplexity-body"><div class="perplexity-main"><div class="perplexity-query">What are the current academic debates around AI hallucinations?</div><div class="perplexity-answer">Researchers are actively debating several aspects of large language model hallucinations&#160;<span class="perplexity-cite">1</span>. Key disagreements concern: (1)&#160;root causes &#8212; whether they stem from training data quality or the fundamental nature of next-token prediction&#160;<span class="perplexity-cite">2</span>; (2)&#160;how to reliably benchmark hallucination rates across tasks; and (3)&#160;whether retrieval-augmented generation (RAG) reduces hallucinations without introducing new citation accuracy tradeoffs&#160;<span class="perplexity-cite">3</span>.<br><br>Some researchers argue hallucinations are intrinsic to probabilistic language models and cannot be fully eliminated, while others contend that grounding models in verified knowledge bases brings rates to acceptable levels for specific academic use cases.</div></div><div class="perplexity-sources-col"><div class="sources-heading">Sources</div><div class="source-item"><div class="source-num">1</div><div class="source-text"><strong>Huang et al. (2023)</strong>A Survey on Hallucination in LLMs</div></div><div class="source-item"><div class="source-num">2</div><div class="source-text"><strong>Ji et al. (2023)</strong>Survey of Hallucination in NLG</div></div><div class="source-item"><div class="source-num">3</div><div class="source-text"><strong>Lewis et al. (2020)</strong>RAG for Knowledge-Intensive Tasks</div></div></div></div></div>'
+      html: '<div class="mock-perplexity"><div class="mock-perplexity-nav"><div class="perplexity-tab active"><span class="perplexity-tab-icon">&#9654;</span> Answer</div><div class="perplexity-tab"><span class="perplexity-tab-icon">&#128279;</span> Links</div><div class="perplexity-tab"><span class="perplexity-tab-icon">&#128444;</span> Images</div><div class="perplexity-nav-right"><div class="perplexity-share-btn">&#8679; Share</div><div class="perplexity-dl-btn">Download Comet</div></div></div><div class="mock-perplexity-body"><div class="perplexity-query-bubble">What are the academic debates around AI hallucinations?</div><div class="perplexity-answer"><p>AI hallucinations remain a contested research area, with scholars debating both causes and remedies. <span class="perplexity-source-badge"><span class="psb-dot"></span>arxiv +3</span></p><div class="perplexity-h2">Core debates</div><ul><li><strong>Root causes:</strong> Some researchers attribute hallucinations to training data gaps; others argue they are intrinsic to next-token prediction itself. <span class="perplexity-source-badge"><span class="psb-dot" style="background:#e55"></span>nature +2</span></li><li><strong>Benchmarking:</strong> There is no consensus on how to reliably measure hallucination rates across tasks and domains.</li><li><strong>RAG trade-offs:</strong> Retrieval-augmented generation reduces fabrication but can introduce new citation accuracy issues. <span class="perplexity-source-badge"><span class="psb-dot" style="background:#059669"></span>acl +4</span></li></ul><div class="perplexity-source-tooltip"><div class="pst-header"><div class="pst-nav">&#8249; 1/3 &#8250;</div><div class="pst-sources-count"><div class="pst-model-icon"></div><div class="pst-model-icon" style="background:linear-gradient(135deg,#f59e0b,#ef4444)"></div> 3 sources</div></div><div style="display:flex;gap:7px;align-items:flex-start"><div class="pst-source-icon">acl</div><div><div class="pst-title">Survey on Hallucination in Neural NLG &mdash; ACL Anthology</div><div class="pst-snippet">Hallucination in NLG refers to generated content that is nonsensical or unfaithful to source data. This survey categorises causes and mitigation strategies&#8230;</div></div></div></div></div><div class="mock-perplexity-input"><div class="perplexity-followup-box">Ask a follow-up</div><div class="perplexity-input-btns"><div class="perplexity-input-btn">&#8594;</div></div></div></div>'
     },
     chatpdf: {
       name: 'ChatPDF',
@@ -350,6 +495,21 @@
       name: 'Explain Paper',
       url: 'https://www.explainpaper.com',
       html: '<div class="mock-explainpaper"><div class="explainpaper-nav"><div class="explainpaper-logo"><div class="explainpaper-logo-icon">E</div>Explainpaper</div><div style="font-size:11px;color:#6b7280;">Highlight any text to explain it</div></div><div class="explainpaper-body"><div class="ep-paper-col"><div class="ep-section-head">3. Methods</div><p style="margin-bottom:8px;">Participants were randomly assigned to either the spaced repetition condition or the massed practice condition using a computer-generated allocation sequence concealed from the researchers until assignment.</p><div class="ep-annotate-bar">&#9646; Highlighted: &#8220;computer-generated allocation sequence concealed from the researchers&#8221;</div><p>Outcome measures consisted of a 50-item receptive vocabulary test administered at baseline, four weeks, and eight weeks. Retention scores were analysed using a mixed-effects model with condition and time as fixed predictors, controlling for baseline performance.</p></div><div class="ep-explanation-col"><div class="ep-explanation-head">Explanation</div><div class="ep-explanation-text">This phrase describes <em>concealed (blinded) allocation</em> &#8212; a method to prevent bias. The list assigning participants to groups was generated by a computer beforehand, hidden from the researchers until each person was enrolled. This ensures researchers could not &#8212; even unconsciously &#8212; steer participants toward the group they expected to perform better.<br><br>It is a key quality marker of a well-designed randomised controlled trial.</div><div class="ep-follow-up"><strong>Follow-up question</strong>&#8220;What is a mixed-effects model?&#8221;</div></div></div></div>'
+    },
+    jenni: {
+      name: 'Jenni.ai',
+      url: 'https://jenni.ai',
+      html: '<div class="mock-jenni"><div class="jenni-library"><div class="jenni-lib-header"><span class="jenni-lib-title">Library</span><span class="jenni-lib-add">+</span></div><div class="jenni-lib-tabs"><div class="jenni-lib-tab active">Sources</div><div class="jenni-lib-tab">Collections</div><div class="jenni-lib-filter-btn">&#9776; Filter</div></div><div class="jenni-lib-search">Search library&#8230;</div><div class="jenni-lib-item active"><div class="jenni-lib-item-meta"><span class="jenni-lib-item-type">Article &#183; IF 8.8</span><span class="jenni-lib-item-oa">Open Access</span></div><div class="jenni-lib-item-title">Prototyping Hardware &amp; Software for Teaching Digital Circuit Design</div><div class="jenni-lib-item-authors">Tro&#353;t, &#381;emva, Verderber &#183; 2021</div></div><div class="jenni-lib-item"><div class="jenni-lib-item-meta"><span class="jenni-lib-item-type">Article &#183; IF 2.9</span></div><div class="jenni-lib-item-title">AI in Autonomous Vehicles: Challenges and Opportunities</div><div class="jenni-lib-item-authors">Hall, Smith, Johnson &#183; 2021</div></div><div class="jenni-lib-item"><div class="jenni-lib-item-meta"><span class="jenni-lib-item-type">Preprint</span><span class="jenni-lib-item-oa">Open Access</span></div><div class="jenni-lib-item-title">Neural Networks in Natural Language Processing: A Survey</div><div class="jenni-lib-item-authors">Martinez and Clark &#183; 2021</div></div></div><div class="jenni-main"><div class="jenni-main-topbar"><span class="jenni-main-title">Hardware Prototyping for Digital Systems: A Review</span><div class="jenni-main-btns"><span class="jenni-btn">Publish</span><span class="jenni-btn">Export</span></div></div><div class="jenni-main-body"><div class="jenni-doc-col"><div class="jenni-doc-h1">Introduction</div><div class="jenni-doc-text">Traditional logic simulation has proven inadequate for comprehensive digital design verification due to its inability to interact with complete systems <span class="jenni-cite-chip">(Tro&#353;t et al., 2001)</span>. As a result, hardware prototyping has gained prominence as an essential verification step, which can range from simple 3D models to highly complex embedded configurations <span class="jenni-cite-chip">(Tro&#353;t et al., 2001)</span>.</div></div><div class="jenni-chat-col"><div class="jenni-chat-header"><span class="jenni-chat-title">&gt;&gt; AI Chat</span><span class="jenni-chat-new">+</span></div><div class="jenni-chat-msgs"><div class="jenni-user-msg">What did @trost et al conclude in this paper?</div><div class="jenni-ai-response">The paper <span class="jenni-cite-ref">(Tro&#353;t et al., 2001)</span> discusses a prototyping environment for teaching digital circuits. Key findings:<ul><li>FPGA modules provide flexibility for digital design tasks</li><li>Students progress from specification to their own design implementations</li><li>The CPLD interface handles standalone hardware verification</li></ul></div></div><div class="jenni-chat-context"><span class="jenni-ctx-chip">&#128196; Current document &#215;</span><span class="jenni-ctx-chip">&#127760; Web &#215;</span><span class="jenni-ctx-chip">Library &#215;</span></div><div class="jenni-chat-input-row"><div class="mock-input-box">Ask assistant, use @ to mention specific PDFs&#8230;</div></div></div></div></div></div>'
+    },
+    sciflow: {
+      name: 'SciFlow',
+      url: 'https://sciflow.net',
+      html: '<div class="mock-sciflow"><div class="sciflow-topbar"><div class="sciflow-logo-icon"><div class="sciflow-logo-inner"></div></div><div class="sciflow-doctitle">Document title</div><div class="sciflow-topbar-btns"><div class="sciflow-btn-primary">Invite authors</div><div class="sciflow-btn-secondary">Create revision</div><div class="sciflow-btn-arrow">&#9660;</div></div></div><div class="sciflow-toolbar"><span class="sciflow-tool-btn active">B</span><span class="sciflow-tool-btn"><em>I</em></span><span class="sciflow-tool-small">X&#178;</span><span class="sciflow-tool-small">X&#8322;</span><span class="sciflow-tool-sep"></span><span class="sciflow-tool-small">&#8220; &#8221;</span><span class="sciflow-tool-small">&#9776;</span><span class="sciflow-tool-small">&#8470;</span><span class="sciflow-tool-sep"></span><span class="sciflow-tool-small">cite</span><span class="sciflow-tool-small">&#9636;</span><span class="sciflow-tool-small">&#8721;</span><span class="sciflow-tool-small">&#128279;</span></div><div class="sciflow-body"><div class="sciflow-left-margin"><span class="sciflow-section-label">&mdash;</span><span class="sciflow-section-label">Abstract</span><span class="sciflow-section-label">&mdash;</span></div><div class="sciflow-doc-area"><div class="sciflow-doc-title">Effect of spaced repetition on long-term vocabulary retention</div><div class="sciflow-add-block"><div class="sciflow-add-btn">+</div></div><div class="sciflow-abstract-block"><div class="sciflow-abstract-head">Abstract</div><div class="sciflow-abstract-body">This study investigates whether spaced repetition outperforms massed practice for long-term vocabulary retention in second-language learners. Participants were randomly assigned to either condition over an eight-week intervention.<div class="sciflow-keywords"><em>Keywords:</em> spaced repetition, vocabulary acquisition, long-term retention, SLA</div></div></div><div class="sciflow-add-block"><div class="sciflow-add-btn">+</div></div></div><div class="sciflow-right-rail"><span class="sciflow-rail-icon">&#9783;</span><span class="sciflow-rail-icon">&#128101;</span><span class="sciflow-rail-icon">&#9635;</span><span class="sciflow-rail-icon">&#10003;</span><span class="sciflow-rail-icon">&#8214;</span></div></div><div class="sciflow-no-chat-notice">&#128274; No AI chat interface &mdash; SciFlow is a structured writing and formatting editor</div></div>'
+    },
+    quillbot: {
+      name: 'QuillBot',
+      url: 'https://quillbot.com',
+      html: '<div class="mock-quillbot"><div class="qb-sidebar"><div class="qb-sidebar-logo">Q</div><div class="qb-nav-item"><div class="qb-nav-icon">&#8635;</div><div class="qb-nav-label">Paraphraser</div></div><div class="qb-nav-item"><div class="qb-nav-icon">Aa</div><div class="qb-nav-label">Grammar Checker</div></div><div class="qb-nav-item"><div class="qb-nav-icon">&#9673;</div><div class="qb-nav-label">AI Detector</div></div><div class="qb-nav-item"><div class="qb-nav-icon">&#8801;</div><div class="qb-nav-label">Plagiarism Checker</div></div><div class="qb-nav-item active"><div class="qb-nav-icon">&#10022;</div><div class="qb-nav-label">AI Chat</div></div></div><div class="qb-main"><div class="qb-topbar"><div class="qb-suggestion-chip">Brainstorm a research idea</div></div><div class="qb-chat-area"><div class="qb-msg"><div class="qb-bot-icon">Q</div><div class="qb-msg-body">Sure! Could you please specify the area or topic you want the idea to be about? For example, <strong>AI in education</strong>, <strong>academic integrity</strong>, or <strong>research methods</strong>? This will help me tailor the brainstorming to your needs.</div></div><div class="qb-ai-label">AI Generated</div><div class="qb-feedback"><span>&#128203;</span><span>&#128077;</span><span>&#128078;</span></div><div style="align-self:flex-end;background:#e5e7eb;border-radius:10px 10px 2px 10px;padding:7px 10px;font-size:12px;color:#1f2937;line-height:1.5;max-width:85%;margin-top:6px;">I\'m a chemistry student at a Dutch university \u2014 what could I research?</div><div class="qb-msg" style="margin-top:4px;"><div class="qb-bot-icon">Q</div><div class="qb-msg-body">Here are a few thesis-worthy angles for a chemistry student:<br><br><strong>1. Green solvent alternatives</strong> \u2014 Evaluate bio-based solvents as replacements for hazardous ones in common organic synthesis protocols.<br><strong>2. Microplastics degradation</strong> \u2014 Investigate photocatalytic methods for breaking down microplastics in aquatic environments.<br><strong>3. Drug stability analysis</strong> \u2014 Study how temperature and humidity affect the shelf life of a common pharmaceutical compound.</div></div><div class="qb-ai-label">AI Generated</div></div><div class="qb-input-wrap"><div class="qb-input-text">Ask me anything</div><div class="qb-input-actions"><span class="qb-attach-btn">&#128206;</span><span class="qb-input-sep"></span><div class="qb-tools-btn">&#10022; Tools</div><div class="qb-send-btn">&#8594;</div></div></div></div></div>'
     },
     gemini: {
       name: 'Google Gemini',

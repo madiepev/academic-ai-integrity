@@ -80,9 +80,7 @@ AI literacy is not a single skill but a cluster of competencies: understanding h
 
 Not sure where to begin? Take the AI literacy check to find out which learning profile fits your current experience level, then follow the path that matches.
 
-<div style="text-align: center; margin: 20px 0 28px 0;">
-  <a href="assessment.html" style="display: inline-block; padding: 14px 36px; font-size: 15px; background: linear-gradient(135deg, #28a745, #1a7a30); color: white; border-radius: 8px; font-weight: 700; text-decoration: none; box-shadow: 0 4px 12px rgba(40,167,69,0.28);">Discover your level &rarr;</a>
-</div>
+
 
 <div style="display: flex; justify-content: center; align-items: stretch; gap: 20px; margin: 0 0 8px 0; flex-wrap: wrap;">
 

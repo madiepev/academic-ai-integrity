@@ -335,25 +335,26 @@
         <a href="https://doi.org/10.1177/07356331251365189" style="color:#a5b4fc;" target="_blank">https://doi.org/10.1177/07356331251365189</a>
     </p>
 
-    <div style="margin-top:28px; border-top:1px solid #f1f5f9; padding-top:22px; display:flex; justify-content:flex-end;">
-        <a href="use-assess.html" style="
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-            text-decoration: none;
-            padding: 12px 22px;
-            border-radius: 10px;
-            font-size: 14px;
-            font-weight: 700;
-            box-shadow: 0 4px 14px rgba(102,126,234,0.35);
-            transition: opacity 0.2s;
-        " onmouseover="this.style.opacity='0.88'" onmouseout="this.style.opacity='1'">
-            Test your understanding &rsaquo;
-        </a>
-    </div>
 
+</div>
+
+---
+
+## Check your knowledge
+
+Before moving on, test how well you've understood the prompt engineering techniques. Choose the path that best matches your experience level:
+
+<div style="display: flex; gap: 20px; margin: 24px 0; flex-wrap: wrap;">
+  <a href="navigator/use-assess.html" style="flex: 1; min-width: 220px; text-decoration: none; display: block; padding: 24px; border: 2px solid #667eea; border-radius: 12px; background: #f0f4ff; color: inherit;">
+    <div style="font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em; color: #667eea; margin-bottom: 8px;">Navigator track</div>
+    <div style="font-size: 16px; font-weight: 700; color: #1e1b4b; margin-bottom: 8px;">Foundation check →</div>
+    <div style="font-size: 13px; color: #475569; line-height: 1.6;">New to prompt engineering or building on the basics. 3 questions.</div>
+  </a>
+  <a href="pilot/use-assess.html" style="flex: 1; min-width: 220px; text-decoration: none; display: block; padding: 24px; border: 2px solid #d97706; border-radius: 12px; background: #fffbeb; color: inherit;">
+    <div style="font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em; color: #d97706; margin-bottom: 8px;">Pilot track</div>
+    <div style="font-size: 16px; font-weight: 700; color: #1e1b4b; margin-bottom: 8px;">Advanced check →</div>
+    <div style="font-size: 13px; color: #475569; line-height: 1.6;">Already familiar with prompt techniques and ready to test deeper knowledge. 5 tasks.</div>
+  </a>
 </div>
 
 <script>

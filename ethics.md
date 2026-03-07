@@ -410,7 +410,7 @@ Use the interactive viewer below to explore the five AI Assessment Scale levels.
 Now that you've explored VU policy and the AI Assessment Scale, put your reasoning to the test with real-world scenarios.
 
 <div style="margin: 24px 0;">
-	<button onclick="window.location.href='ethics-cases'" style="padding: 12px 28px; font-size: 15px; font-weight: 600; background-color: #ff6600; color: white; border: none; border-radius: 6px; cursor: pointer;">
+	<button onclick="window.location.href='cases/ethics-cases'" style="padding: 12px 28px; font-size: 15px; font-weight: 600; background-color: #ff6600; color: white; border: none; border-radius: 6px; cursor: pointer;">
 		Continue to practice cases →
 	</button>
 </div>
