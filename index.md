@@ -4,149 +4,156 @@ title: ""
 
 # Academic AI Integrity e-learning
 
-<div style="text-align: center; margin: 40px 0;">
-  <button onclick="switchContent('student')" style="padding: 15px 30px; margin: 10px; font-size: 16px; background-color: #0066cc; color: white; border: none; border-radius: 5px; cursor: pointer;">
-    Student information
-  </button>
-  <button onclick="switchContent('teacher')" style="padding: 15px 30px; margin: 10px; font-size: 16px; background-color: #0066cc; color: white; border: none; border-radius: 5px; cursor: pointer;">
-    Teacher information
-  </button>
+---
+
+## Introduction
+
+Generative AI tools are now a permanent part of the academic landscape. Students use them to draft, research, and think; teachers must decide when and how they belong in their courses. Neither unreflective adoption nor blanket prohibition serves learning well.
+
+This platform supports **critical, informed engagement** with AI in higher education. It is designed for students and teachers at Vrije Universiteit Amsterdam, though the underlying principles apply broadly. The three modules — Know, Use, and Ethics — build on each other, moving from understanding what AI is and how it works, to using it effectively for academic tasks, to reasoning about when and how it should or should not be used at all.
+
+---
+
+## Theoretical framework
+
+AI literacy is not a single skill but a cluster of competencies: understanding how AI systems work and where they fail, judging which tasks they are suited to, using them deliberately rather than reflexively, and being transparent about their role in your work. This platform draws on three intersecting frameworks.
+
+<div style="display: flex; flex-direction: column; gap: 12px; margin: 20px 0 28px 0;">
+
+  <div style="border-left: 4px solid #6366f1; padding: 14px 18px; background: #f8f8ff; border-radius: 0 8px 8px 0;">
+    <div style="font-weight: 700; font-size: 14px; color: #1e1b4b; margin-bottom: 4px;">AI literacy in higher education</div>
+    <div style="font-size: 13px; color: #374151; line-height: 1.65;">Drawing on Long &amp; Magerko (2020) and the UNESCO AI Competency Framework, we treat AI literacy as combining conceptual understanding (how models are trained, what hallucination means) with practical judgment (which tool fits which task, how to verify outputs).</div>
+  </div>
+
+  <div style="border-left: 4px solid #0ea5e9; padding: 14px 18px; background: #f0f9ff; border-radius: 0 8px 8px 0;">
+    <div style="font-weight: 700; font-size: 14px; color: #1e1b4b; margin-bottom: 4px;">Academic integrity as principled practice</div>
+    <div style="font-size: 13px; color: #374151; line-height: 1.65;">Rather than framing integrity solely as rule-compliance, this platform treats it as a set of values — honesty, responsibility, and fairness — that shape how you engage with sources, ideas, and tools. AI use that is permitted but undisclosed, or that replaces rather than supports your thinking, may be compliant without being principled.</div>
+  </div>
+
+  <div style="border-left: 4px solid #f59e0b; padding: 14px 18px; background: #fffbeb; border-radius: 0 8px 8px 0;">
+    <div style="font-weight: 700; font-size: 14px; color: #1e1b4b; margin-bottom: 4px;">The VU AI Assessment Scale (AIAS)</div>
+    <div style="font-size: 13px; color: #374151; line-height: 1.65;">VU policy defaults to no AI use unless a course explicitly permits it. The AI Assessment Scale structures that permission into five levels — from full prohibition to full AI integration — giving teachers a shared vocabulary for course design and giving students clear expectations for each context.</div>
+  </div>
+
 </div>
 
 ---
 
-## <span id="welcome-title">Welcome to the Academic AI Integrity e-learning platform</span>
+## Learning objectives, activities and knowledge checks
 
-<span id="welcome-text">This interactive learning platform is designed to help students and teachers navigate the evolving landscape of artificial intelligence in academic settings. Our goal is to promote responsible, ethical, and effective use of AI tools while maintaining academic integrity.</span>
-
-### Learning objectives
-
-By completing this e-learning module, you will:
-
-- **Understand** the fundamentals of AI literacy in academic contexts
-- **Recognize** appropriate and inappropriate uses of AI tools in academic work
-- **Apply** best practices for transparent AI usage and disclosure
-- **Develop** strategies for integrating AI tools responsibly into your learning or teaching practice
-- **Create** personalized guidelines that align with academic integrity standards
+<div style="overflow-x: auto; margin: 20px 0 32px 0;">
+<table style="width: 100%; border-collapse: collapse; font-size: 13px;">
+  <thead>
+    <tr style="background: #1e1b4b; color: white;">
+      <th style="padding: 12px 16px; text-align: left; font-weight: 700; width: 16%;">Module</th>
+      <th style="padding: 12px 16px; text-align: left; font-weight: 700; width: 30%;">Learning objectives</th>
+      <th style="padding: 12px 16px; text-align: left; font-weight: 700; width: 28%;">Activities</th>
+      <th style="padding: 12px 16px; text-align: left; font-weight: 700; width: 26%;">Knowledge check</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr style="border-bottom: 1px solid #e5e7eb;">
+      <td style="padding: 14px 16px; font-weight: 700; color: #1e1b4b; vertical-align: top;">Know</td>
+      <td style="padding: 14px 16px; color: #374151; vertical-align: top; line-height: 1.6;">Explain how large language models generate text; describe why hallucinations occur; identify which AI tools are suited to which academic tasks.</td>
+      <td style="padding: 14px 16px; color: #374151; vertical-align: top; line-height: 1.6;">Introductory video; interactive AI tool explorer with simulated interfaces; hallucination case analysis.</td>
+      <td style="padding: 14px 16px; color: #374151; vertical-align: top; line-height: 1.6;">Multiple-choice quiz (Navigator: 3 questions; Pilot: 5 questions). Branching feedback with explanations.</td>
+    </tr>
+    <tr style="border-bottom: 1px solid #e5e7eb; background: #fafbfc;">
+      <td style="padding: 14px 16px; font-weight: 700; color: #1e1b4b; vertical-align: top;">Use</td>
+      <td style="padding: 14px 16px; color: #374151; vertical-align: top; line-height: 1.6;">Construct effective prompts for academic tasks; apply iterative prompting strategies; evaluate and critically edit AI-generated output.</td>
+      <td style="padding: 14px 16px; color: #374151; vertical-align: top; line-height: 1.6;">Prompt engineering exercises across four task types: idea generation, planning, literature orientation, and writing support.</td>
+      <td style="padding: 14px 16px; color: #374151; vertical-align: top; line-height: 1.6;">Scenario-based assessment with annotated model answers.</td>
+    </tr>
+    <tr style="border-bottom: 1px solid #e5e7eb;">
+      <td style="padding: 14px 16px; font-weight: 700; color: #1e1b4b; vertical-align: top;">Ethics</td>
+      <td style="padding: 14px 16px; color: #374151; vertical-align: top; line-height: 1.6;">Apply the AI Assessment Scale to real course scenarios; reason through ethical edge cases; understand VU disclosure requirements.</td>
+      <td style="padding: 14px 16px; color: #374151; vertical-align: top; line-height: 1.6;">Interactive AIAS level explorer; three ethics cases with structured reflection questions covering authorship, fairness, and transparency.</td>
+      <td style="padding: 14px 16px; color: #374151; vertical-align: top; line-height: 1.6;">Case-based reflection with guided analysis prompts (no single correct answer).</td>
+    </tr>
+  </tbody>
+</table>
+</div>
 
 ---
 
-## Assess your AI literacy
+## AI literacy assessment
 
-We have developed assessments for each learning objective in two profiles: **AI Pilot** and **AI Navigator**. Not sure which profile fits you? Discover your current level first.
+Not sure where to begin? Take the AI literacy check to find out which learning profile fits your current experience level, then follow the path that matches.
 
-<div style="text-align: center; margin: 24px 0;">
-  <button onclick="window.location.href='assessment.html'" style="padding: 14px 36px; font-size: 15px; background: linear-gradient(135deg, #28a745, #1a7a30); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; box-shadow: 0 4px 12px rgba(40,167,69,0.28);">
-    Discover your level &rarr;
-  </button>
+<div style="text-align: center; margin: 20px 0 28px 0;">
+  <a href="assessment.html" style="display: inline-block; padding: 14px 36px; font-size: 15px; background: linear-gradient(135deg, #28a745, #1a7a30); color: white; border-radius: 8px; font-weight: 700; text-decoration: none; box-shadow: 0 4px 12px rgba(40,167,69,0.28);">Discover your level &rarr;</a>
 </div>
 
-<div style="display: flex; justify-content: center; align-items: stretch; gap: 20px; margin: 0 0 32px 0; flex-wrap: wrap;">
-  <div style="border: 2px solid #0066cc; border-radius: 10px; padding: 18px 20px; width: 280px; text-align: center;">
-    <h4 style="margin: 0 0 10px 0; color: #0066cc;">AI Pilot</h4>
-    <p style="font-size: 13px; color: #555; margin: 0;">
-      You've already explored AI in various contexts and are ready to refine your judgment on when and how AI use is appropriate or crosses ethical boundaries.
-    </p>
+<div style="display: flex; justify-content: center; align-items: stretch; gap: 20px; margin: 0 0 8px 0; flex-wrap: wrap;">
+
+  <div style="border: 2px solid #d97706; border-radius: 12px; padding: 22px 24px; flex: 1; min-width: 240px; max-width: 320px;">
+    <div style="font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.07em; color: #d97706; margin-bottom: 8px;">AI Pilot</div>
+    <div style="font-size: 15px; font-weight: 700; color: #1e1b4b; margin-bottom: 10px;">Already exploring AI</div>
+    <p style="font-size: 13px; color: #374151; margin: 0; line-height: 1.65;">You have already used AI tools in various contexts and are ready to sharpen your judgment about when and how AI use is appropriate, where the ethical boundaries lie, and how to be transparent about your practice.</p>
   </div>
-  <div style="border: 2px solid #ff6600; border-radius: 10px; padding: 18px 20px; width: 280px; text-align: center;">
-    <h4 style="margin: 0 0 10px 0; color: #ff6600;">AI Navigator</h4>
-    <p style="font-size: 13px; color: #555; margin: 0;">
-      You want to understand when AI use is appropriate in academic settings and build your skills in making well-informed, ethical judgments.
-    </p>
+
+  <div style="border: 2px solid #6366f1; border-radius: 12px; padding: 22px 24px; flex: 1; min-width: 240px; max-width: 320px;">
+    <div style="font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.07em; color: #6366f1; margin-bottom: 8px;">AI Navigator</div>
+    <div style="font-size: 15px; font-weight: 700; color: #1e1b4b; margin-bottom: 10px;">Building your foundation</div>
+    <p style="font-size: 13px; color: #374151; margin: 0; line-height: 1.65;">You want to understand what AI tools actually do, when their use is appropriate in academic settings, and how to make well-informed, ethical decisions as you encounter them in your studies or teaching.</p>
   </div>
+
 </div>
 
-For each learning objective below, choose which profile assessment you want to complete:
+---
 
-<div style="display: flex; flex-direction: column; gap: 14px; margin: 16px 0 36px 0;">
+## Modules
 
-  <div style="display: flex; align-items: center; justify-content: space-between; border: 1px solid #e2e8f0; border-radius: 10px; padding: 18px 22px; background: #fafbfc; flex-wrap: wrap; gap: 12px;">
+<div style="display: flex; flex-direction: column; gap: 12px; margin: 20px 0 32px 0;">
+
+  <a href="know" style="display: flex; align-items: center; justify-content: space-between; border: 1.5px solid #e5e7eb; border-radius: 10px; padding: 18px 22px; background: white; text-decoration: none; gap: 12px; flex-wrap: wrap; transition: border-color 0.15s;" onmouseover="this.style.borderColor='#6366f1'" onmouseout="this.style.borderColor='#e5e7eb'">
     <div style="flex: 1; min-width: 200px;">
-      <div style="font-weight: 700; font-size: 15px; color: #1e1b4b; margin-bottom: 4px;">Know: AI literacy in academic contexts</div>
-      <div style="font-size: 13px; color: #64748b;">Understanding AI tools, their limitations, and responsible use in academic work</div>
+      <div style="font-weight: 700; font-size: 15px; color: #1e1b4b; margin-bottom: 4px;">Know — Understanding AI and hallucinations</div>
+      <div style="font-size: 13px; color: #64748b;">How language models work, where they fail, and which tools suit which academic tasks</div>
     </div>
-    <div style="display: flex; gap: 10px; flex-shrink: 0;">
-      <a href="pilot/know" style="padding: 8px 18px; border-radius: 6px; background-color: #0066cc; color: white; text-decoration: none; font-size: 13px; font-weight: 600;">AI Pilot</a>
-      <a href="navigator/know" style="padding: 8px 18px; border-radius: 6px; background-color: #ff6600; color: white; text-decoration: none; font-size: 13px; font-weight: 600;">AI Navigator</a>
-    </div>
-  </div>
+    <div style="font-size: 13px; font-weight: 700; color: #6366f1; flex-shrink: 0;">Go to module &rsaquo;</div>
+  </a>
 
-  <div style="display: flex; align-items: center; justify-content: space-between; border: 1px solid #e2e8f0; border-radius: 10px; padding: 18px 22px; background: #fafbfc; flex-wrap: wrap; gap: 12px;">
+  <a href="use" style="display: flex; align-items: center; justify-content: space-between; border: 1.5px solid #e5e7eb; border-radius: 10px; padding: 18px 22px; background: white; text-decoration: none; gap: 12px; flex-wrap: wrap;" onmouseover="this.style.borderColor='#6366f1'" onmouseout="this.style.borderColor='#e5e7eb'">
     <div style="flex: 1; min-width: 200px;">
-      <div style="font-weight: 700; font-size: 15px; color: #1e1b4b; margin-bottom: 4px;">Use: Prompt engineering for academic tasks</div>
-      <div style="font-size: 13px; color: #64748b;">Structuring prompts for idea generation, planning, literature, and writing</div>
+      <div style="font-weight: 700; font-size: 15px; color: #1e1b4b; margin-bottom: 4px;">Use — Prompting for academic tasks</div>
+      <div style="font-size: 13px; color: #64748b;">Structuring prompts for idea generation, planning, literature orientation, and writing support</div>
     </div>
-    <div style="display: flex; gap: 10px; flex-shrink: 0;">
-      <a href="pilot/use-assess.html" style="padding: 8px 18px; border-radius: 6px; background-color: #0066cc; color: white; text-decoration: none; font-size: 13px; font-weight: 600;">AI Pilot</a>
-      <a href="navigator/use-assess.html" style="padding: 8px 18px; border-radius: 6px; background-color: #ff6600; color: white; text-decoration: none; font-size: 13px; font-weight: 600;">AI Navigator</a>
+    <div style="font-size: 13px; font-weight: 700; color: #6366f1; flex-shrink: 0;">Go to module &rsaquo;</div>
+  </a>
+
+  <a href="ethics" style="display: flex; align-items: center; justify-content: space-between; border: 1.5px solid #e5e7eb; border-radius: 10px; padding: 18px 22px; background: white; text-decoration: none; gap: 12px; flex-wrap: wrap;" onmouseover="this.style.borderColor='#6366f1'" onmouseout="this.style.borderColor='#e5e7eb'">
+    <div style="flex: 1; min-width: 200px;">
+      <div style="font-weight: 700; font-size: 15px; color: #1e1b4b; margin-bottom: 4px;">Ethics — VU policy and AI in assessment</div>
+      <div style="font-size: 13px; color: #64748b;">The AI Assessment Scale, VU policy, ethical frameworks, and practice cases</div>
     </div>
-  </div>
+    <div style="font-size: 13px; font-weight: 700; color: #6366f1; flex-shrink: 0;">Go to module &rsaquo;</div>
+  </a>
 
 </div>
 
 ---
 
-## Ethics and policy
+## Documentation tools
 
-<div style="background-color: #f0f4ff; padding: 20px; border-radius: 5px; margin-top: 10px;">
-  <h3 style="margin-top: 0;">Explore AI ethics and VU policy</h3>
-  <div style="display: flex; gap: 20px; flex-wrap: wrap; justify-content: center;">
-    <div>
-      <a href="navigator/ethics" style="color: #0066cc; text-decoration: none; font-size: 16px;">
-        Ethics: VU policy and AI in assessment
-      </a>
-      <p style="font-size: 13px; color: #666; margin: 5px 0 0 0;">Understand VU policy, the AI Assessment Scale, and ethical frameworks</p>
-    </div>
-    <div>
-      <a href="navigator/ethics-cases" style="color: #0066cc; text-decoration: none; font-size: 16px;">
-        Ethics: practice cases
-      </a>
-      <p style="font-size: 13px; color: #666; margin: 5px 0 0 0;">Explore real-world scenarios and reflect on ethical AI use</p>
-    </div>
-  </div>
+<div style="display: flex; gap: 16px; margin: 20px 0 40px 0; flex-wrap: wrap;">
+
+  <a href="disclosure.html" style="flex: 1; min-width: 220px; text-decoration: none; display: block; border: 1.5px solid #e5e7eb; border-radius: 10px; padding: 20px 22px; background: white;" onmouseover="this.style.borderColor='#0ea5e9'" onmouseout="this.style.borderColor='#e5e7eb'">
+    <div style="font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.07em; color: #0ea5e9; margin-bottom: 8px;">For students</div>
+    <div style="font-size: 15px; font-weight: 700; color: #1e1b4b; margin-bottom: 6px;">AI disclosure builder &rsaquo;</div>
+    <div style="font-size: 13px; color: #64748b; line-height: 1.6;">Generate a structured statement documenting how you used AI in your assignment, ready to include as an appendix.</div>
+  </a>
+
+  <a href="rationale.html" style="flex: 1; min-width: 220px; text-decoration: none; display: block; border: 1.5px solid #e5e7eb; border-radius: 10px; padding: 20px 22px; background: white;" onmouseover="this.style.borderColor='#f59e0b'" onmouseout="this.style.borderColor='#e5e7eb'">
+    <div style="font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.07em; color: #d97706; margin-bottom: 8px;">For teachers</div>
+    <div style="font-size: 15px; font-weight: 700; color: #1e1b4b; margin-bottom: 6px;">AI rationale builder &rsaquo;</div>
+    <div style="font-size: 13px; color: #64748b; line-height: 1.6;">Create clear AI usage guidelines for your course manual, aligned to the AI Assessment Scale and VU policy.</div>
+  </a>
+
 </div>
 
 ---
 
-## Quick access tools
-
-<div style="background-color: #f8f9fa; padding: 20px; border-radius: 5px; margin-top: 40px;">
-  <h3 style="margin-top: 0;">Need to create documentation?</h3>
-  <div style="display: flex; gap: 20px; flex-wrap: wrap; justify-content: center;">
-    <div>
-      <strong>For students:</strong><br>
-      <a href="disclosure.html" style="color: #0066cc; text-decoration: none; font-size: 16px;">
-        AI disclosure builder
-      </a>
-      <p style="font-size: 13px; color: #666; margin: 5px 0 0 0;">Document how you used AI in your assignment</p>
-    </div>
-    <div>
-      <strong>For teachers:</strong><br>
-      <a href="rationale.html" style="color: #0066cc; text-decoration: none; font-size: 16px;">
-        AI rationale builder
-      </a>
-      <p style="font-size: 13px; color: #666; margin: 5px 0 0 0;">Create AI usage guidelines for your course</p>
-    </div>
-  </div>
-</div>
-
----
-
-<footer style="text-align: center; margin-top: 60px; padding-top: 20px; border-top: 1px solid #ddd; color: #666; font-size: 12px;">
-  <p>Academic AI Integrity e-Learning Platform | © 2026</p>
+<footer style="text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid #e5e7eb; color: #9ca3af; font-size: 12px;">
+  <p>Academic AI Integrity e-Learning Platform | © 2026 Vrije Universiteit Amsterdam</p>
 </footer>
-
-<script>
-function switchContent(role) {
-  const titleElement = document.getElementById('welcome-title');
-  const textElement = document.getElementById('welcome-text');
-  
-  if (role === 'student') {
-    titleElement.textContent = 'Learn what Academic AI Integrity means for students';
-    textElement.textContent = 'As a student, understanding how to use AI tools responsibly is essential for your academic success. This platform will help you navigate the ethical use of AI in your assignments, develop transparent disclosure practices, and maintain academic integrity while leveraging AI as a learning tool.';
-  } else if (role === 'teacher') {
-    titleElement.textContent = 'Learn what Academic AI Integrity means for teachers';
-    textElement.textContent = 'As a teacher, guiding students in responsible AI use is crucial for maintaining academic standards. This platform will help you develop clear AI usage policies, create fair assessment strategies, and foster an environment where AI tools enhance learning while preserving academic integrity.';
-  }
-}
-</script>

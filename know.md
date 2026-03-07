@@ -100,16 +100,23 @@
 #ai-tool-explorer .mock-input-box { flex: 1; background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 8px; padding: 7px 11px; font-size: 11px; color: #9ca3af; }
 
 /* --- Copilot mock --- */
-#ai-tool-explorer .mock-copilot { background: #f3f4f6; display: flex; flex-direction: column; min-height: 300px; }
-#ai-tool-explorer .mock-copilot-nav { background: white; padding: 9px 18px; border-bottom: 1px solid #e5e7eb; display: flex; align-items: center; gap: 10px; }
-#ai-tool-explorer .copilot-nav-logo { display: flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 700; color: #1f2937; }
-#ai-tool-explorer .copilot-icon { width: 24px; height: 24px; background: linear-gradient(135deg, #0078d4, #50e6ff); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; color: white; flex-shrink: 0; }
-#ai-tool-explorer .mock-copilot-body { flex: 1; padding: 18px; max-width: 680px; margin: 0 auto; width: 100%; display: flex; flex-direction: column; gap: 14px; }
-#ai-tool-explorer .copilot-user-msg { align-self: flex-end; background: #ede9fe; border-radius: 12px 12px 2px 12px; padding: 9px 13px; max-width: 80%; font-size: 12px; color: #1f2937; line-height: 1.5; }
-#ai-tool-explorer .copilot-ai-msg { display: flex; gap: 10px; align-items: flex-start; }
-#ai-tool-explorer .copilot-ai-icon { width: 28px; height: 28px; background: linear-gradient(135deg,#0078d4,#50e6ff); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; flex-shrink: 0; }
-#ai-tool-explorer .copilot-ai-body { background: white; border: 1px solid #e5e7eb; border-radius: 2px 12px 12px 12px; padding: 11px 14px; font-size: 12px; color: #1f2937; line-height: 1.7; flex: 1; }
-#ai-tool-explorer .copilot-ai-body ol { padding-left: 18px; list-style: decimal; }
+#ai-tool-explorer .mock-copilot { background: #f5f6f7; display: flex; flex-direction: column; min-height: 300px; }
+#ai-tool-explorer .mock-copilot-nav { background: white; padding: 8px 16px; border-bottom: 1px solid #e5e7eb; display: flex; align-items: center; gap: 8px; }
+#ai-tool-explorer .copilot-nav-logo { display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 700; color: #1f2937; }
+#ai-tool-explorer .copilot-icon { width: 22px; height: 22px; background: linear-gradient(135deg, #0078d4, #50e6ff); border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 11px; color: white; flex-shrink: 0; }
+#ai-tool-explorer .copilot-nav-auto { margin-left: auto; font-size: 11px; font-weight: 600; color: #374151; border: 1.5px solid #d1d5db; border-radius: 18px; padding: 3px 10px; }
+#ai-tool-explorer .mock-copilot-body { flex: 1; padding: 14px 20px; max-width: 700px; margin: 0 auto; width: 100%; display: flex; flex-direction: column; gap: 10px; }
+#ai-tool-explorer .copilot-date-sep { display: flex; align-items: center; gap: 8px; font-size: 10px; color: #9ca3af; }
+#ai-tool-explorer .copilot-date-sep::before, #ai-tool-explorer .copilot-date-sep::after { content: ''; flex: 1; height: 1px; background: #e5e7eb; }
+#ai-tool-explorer .copilot-user-msg { align-self: flex-end; background: #e8eaed; border-radius: 12px 12px 2px 12px; padding: 9px 13px; max-width: 80%; font-size: 12px; color: #1f2937; line-height: 1.5; }
+#ai-tool-explorer .copilot-response-label { display: flex; align-items: center; gap: 7px; font-size: 13px; font-weight: 700; color: #111827; }
+#ai-tool-explorer .copilot-ai-body { font-size: 12px; color: #111827; line-height: 1.7; }
+#ai-tool-explorer .copilot-ai-body strong { color: #111827; }
+#ai-tool-explorer .copilot-ai-body ul { padding-left: 18px; list-style: disc; }
+#ai-tool-explorer .copilot-divider { border: none; border-top: 1px solid #e5e7eb; margin: 6px 0; }
+#ai-tool-explorer .copilot-section-head { font-size: 13px; font-weight: 700; color: #111827; margin: 6px 0; }
+#ai-tool-explorer .copilot-sub-head { font-size: 12px; font-weight: 700; color: #111827; margin: 7px 0 3px; }
+#ai-tool-explorer .copilot-example-label { font-style: italic; font-size: 11.5px; color: #6b7280; margin: 4px 0 2px; }
 #ai-tool-explorer .copilot-sources { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 9px; }
 #ai-tool-explorer .copilot-source-chip { background: #f1f5f9; border-radius: 6px; padding: 3px 8px; font-size: 10px; color: #6b7280; border: 1px solid #e5e7eb; }
 #ai-tool-explorer .mock-copilot-input { background: white; border-top: 1px solid #e5e7eb; padding: 10px 18px; display: flex; align-items: center; gap: 10px; }
@@ -188,15 +195,18 @@
 /* --- Gemini mock --- */
 #ai-tool-explorer .mock-gemini { background: white; min-height: 300px; display: flex; flex-direction: column; }
 #ai-tool-explorer .gemini-nav { background: white; border-bottom: 1px solid #e5e7eb; padding: 9px 18px; display: flex; align-items: center; gap: 10px; }
-#ai-tool-explorer .gemini-logo { display: flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 700; color: #1f2937; }
-#ai-tool-explorer .gemini-star { font-size: 20px; background: linear-gradient(135deg,#4285f4,#9c27b0,#e91e63); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+#ai-tool-explorer .gemini-logo { display: flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 700; color: #1f2937; flex-shrink: 0; }
+#ai-tool-explorer .gemini-star { font-size: 18px; color: #1a73e8; -webkit-text-fill-color: #1a73e8; }
+#ai-tool-explorer .gemini-nav-title { flex: 1; text-align: center; font-size: 12px; color: #374151; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 #ai-tool-explorer .gemini-body { flex: 1; padding: 18px 22px; max-width: 660px; margin: 0 auto; width: 100%; display: flex; flex-direction: column; gap: 13px; }
 #ai-tool-explorer .gemini-user-msg { align-self: flex-end; background: #e8f0fe; border-radius: 14px 14px 2px 14px; padding: 9px 13px; max-width: 80%; font-size: 12px; color: #1f2937; line-height: 1.5; }
 #ai-tool-explorer .gemini-ai-msg { display: flex; gap: 10px; align-items: flex-start; }
-#ai-tool-explorer .gemini-ai-icon { width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; background: linear-gradient(135deg,#4285f4 0%,#9c27b0 50%,#e91e63 100%); }
-#ai-tool-explorer .gemini-ai-body { flex: 1; font-size: 12px; color: #1f2937; line-height: 1.75; padding-top: 2px; }
+#ai-tool-explorer .gemini-ai-icon { width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; flex-shrink: 0; background: #1a73e8; color: white; }
+#ai-tool-explorer .gemini-ai-body { flex: 1; font-size: 12px; color: #111827; line-height: 1.75; padding-top: 2px; }
 #ai-tool-explorer .gemini-ai-body ul { padding-left: 18px; list-style: disc; }
-#ai-tool-explorer .gemini-week-badge { display: inline-block; background: #e8f0fe; color: #1a73e8; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 8px; margin-right: 3px; }
+#ai-tool-explorer .gemini-ai-body strong { color: #111827; }
+#ai-tool-explorer .gemini-section-head { font-size: 12.5px; font-weight: 700; color: #111827; margin: 10px 0 4px; }
+#ai-tool-explorer .gemini-divider { border: none; border-top: 1px solid #e5e7eb; margin: 8px 0; }
 #ai-tool-explorer .mock-gemini-input { border-top: 1px solid #e5e7eb; padding: 10px 22px; display: flex; align-items: center; gap: 10px; background: white; }
 #ai-tool-explorer .mock-gemini-input .mock-input-box { border-radius: 22px; }
 
@@ -324,7 +334,7 @@
     copilot: {
       name: 'Microsoft Copilot',
       url: 'https://copilot.microsoft.com',
-      html: '<div class="mock-copilot"><div class="mock-copilot-nav"><div class="copilot-nav-logo"><div class="copilot-icon">&#9671;</div>Microsoft Copilot</div></div><div class="mock-copilot-body"><div class="copilot-user-msg">Help me structure an essay introduction about the effectiveness of climate policy.</div><div class="copilot-ai-msg"><div class="copilot-ai-icon">&#9671;</div><div class="copilot-ai-body">Here is a suggested structure for your introduction:<ol><li><strong style="color:#0078d4">Hook</strong> &#8212; Open with a striking fact, e.g. &#8220;Global temperatures have now risen 1.2&#8201;&#176;C above pre-industrial levels, yet emission trajectories remain off-track.&#8221;</li><li><strong style="color:#0078d4">Context</strong> &#8212; Briefly situate climate policy within the scientific consensus and political landscape.</li><li><strong style="color:#0078d4">Issue</strong> &#8212; Identify the specific tension your essay addresses (e.g. the gap between policy ambition and measurable outcomes).</li><li><strong style="color:#0078d4">Thesis</strong> &#8212; State your central argument clearly in 1&#8211;2 sentences.</li></ol><div class="copilot-sources"><span class="copilot-source-chip">&#128279; IPCC AR6 Summary</span><span class="copilot-source-chip">&#128279; IEA Policy Review 2024</span></div></div></div></div><div class="mock-copilot-input"><div class="mock-input-box">Ask me anything&#8230;</div></div></div>'
+      html: '<div class="mock-copilot"><div class="mock-copilot-nav"><div class="copilot-nav-logo"><div class="copilot-icon">&#9671;</div>Microsoft Copilot</div><div class="copilot-nav-auto">Auto &#8964;</div></div><div class="mock-copilot-body"><div class="copilot-date-sep">Today</div><div class="copilot-user-msg">Help me structure an essay introduction about the effectiveness of climate policy.</div><div class="copilot-response-label"><div class="copilot-icon">&#9671;</div>Copilot</div><div class="copilot-ai-body">Here&#8217;s a clear, academically solid way to <strong>structure an essay introduction on the effectiveness of climate policy</strong>. You can treat this as a template&#8212;plug in your specific arguments, case studies, or theoretical frameworks.<hr class="copilot-divider"><div class="copilot-section-head">&#129521; Suggested Structure for the Introduction</div><div class="copilot-sub-head">1. Start with a broad, compelling opening</div>Set the context for why climate policy matters&#8212;its global relevance, urgency, and complexity.<div class="copilot-example-label">Example approach:</div><ul><li>Introduce the accelerating impacts of climate change (e.g., rising temperatures, extreme weather).</li></ul><div class="copilot-sub-head">2. Narrow to your specific focus</div>Identify the particular policy dimension your essay examines, such as carbon pricing or international agreements.<div class="copilot-sources"><span class="copilot-source-chip">&#128279; IPCC AR6 Summary</span><span class="copilot-source-chip">&#128279; IEA Policy Review 2024</span></div></div></div><div class="mock-copilot-input"><div class="mock-input-box">Message Copilot</div></div></div>'
     },
     perplexity: {
       name: 'Perplexity',
@@ -344,7 +354,7 @@
     gemini: {
       name: 'Google Gemini',
       url: 'https://gemini.google.com',
-      html: '<div class="mock-gemini"><div class="gemini-nav"><div class="gemini-logo"><span class="gemini-star">&#10022;</span>Gemini</div></div><div class="gemini-body"><div class="gemini-user-msg">Create a 2-week study plan for understanding statistical inference, aimed at a first-year social science student.</div><div class="gemini-ai-msg"><div class="gemini-ai-icon">&#10022;</div><div class="gemini-ai-body"><strong>2-week study plan: Statistical inference</strong><br><br><span class="gemini-week-badge">Week 1</span> <strong style="color:#1a73e8">Foundations</strong><ul><li><strong>Days 1&#8211;2:</strong> Probability basics &#8212; distributions, mean, variance, expected value</li><li><strong>Days 3&#8211;4:</strong> Sampling distributions and the central limit theorem</li><li><strong>Day 5:</strong> Practice problems + review</li></ul><br><span class="gemini-week-badge">Week 2</span> <strong style="color:#1a73e8">Inference</strong><ul><li><strong>Days 6&#8211;7:</strong> Confidence intervals &#8212; construction and interpretation</li><li><strong>Days 8&#8211;9:</strong> Hypothesis testing &#8212; null/alternative hypotheses, t-tests, p-values</li><li><strong>Days 10&#8211;11:</strong> Type I and II errors; statistical power</li><li><strong>Day 14:</strong> Review + past exam questions</li></ul></div></div></div><div class="mock-gemini-input"><div class="mock-input-box">Ask Gemini</div></div></div>'
+      html: '<div class="mock-gemini"><div class="gemini-nav"><div class="gemini-logo"><span class="gemini-star">&#10022;</span>Gemini</div><div class="gemini-nav-title">Statistical Inference Study Plan</div></div><div class="gemini-body"><div class="gemini-user-msg">Create a 2-week study plan for understanding statistical inference, aimed at a first-year social science student.</div><div class="gemini-ai-msg"><div class="gemini-ai-icon">&#10022;</div><div class="gemini-ai-body">Statistical inference is the art of using a sample to draw conclusions about a larger population. Since you&#8217;re in your first year, this plan focuses on <strong>intuition and logic</strong> rather than heavy calculus.<hr class="gemini-divider"><div class="gemini-section-head">Week 1: Foundations &amp; The &#8220;Why&#8221;</div>Before you can infer, you need to understand the bridge between your data and the real world.<ul><li><strong>Days 1&#8211;2:</strong> Probability basics &#8212; distributions, mean, variance</li><li><strong>Days 3&#8211;4:</strong> Sampling distributions and the central limit theorem</li><li><strong>Day 5:</strong> Practice problems + review</li></ul><div class="gemini-section-head">Week 2: Inference in Practice</div><ul><li><strong>Days 6&#8211;7:</strong> Confidence intervals &#8212; construction and interpretation</li><li><strong>Days 8&#8211;9:</strong> Hypothesis testing &#8212; null/alternative hypotheses, t-tests, p-values</li><li><strong>Days 10&#8211;11:</strong> Type I and II errors; statistical power</li><li><strong>Day 14:</strong> Review + past exam questions</li></ul></div></div></div><div class="mock-gemini-input"><div class="mock-input-box">Ask Gemini 3</div></div></div>'
     }
   };
 
