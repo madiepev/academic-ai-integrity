@@ -146,6 +146,22 @@
         }
         .tool-callout a { color: #7c3aed; font-weight: 600; }
 
+        /* === Image note === */
+        .image-note {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            background: #fff7ed;
+            border: 1px solid #fed7aa;
+            border-radius: 10px;
+            padding: 14px 16px;
+            margin-bottom: 24px;
+            font-size: 13px;
+            color: #374151;
+            line-height: 1.65;
+        }
+        .image-note .icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+
         /* === Output section === */
         .section-label {
             font-size: 11px;
@@ -689,9 +705,8 @@ Keep each cell to 1–2 sentences maximum. Use plain academic language.</div>
     <div class="tool-callout">
         <div class="icon">&#128187;</div>
         <div>
-            <strong>Recommended tool: Microsoft 365 Copilot</strong><br>
-            Sign in at <a href="https://copilot.microsoft.com" target="_blank">copilot.microsoft.com</a> using your VU student account (<em>your-student-id@student.vu.nl</em>). This gives you access to the full Copilot experience through VU's institutional licence.
-            Any AI tool works for this exercise, but Copilot is the one VU recommends for academic use.
+            <strong>Recommended tool: Microsoft 365 Copilot &mdash; try Designer</strong><br>
+            Sign in at <a href="https://copilot.microsoft.com" target="_blank">copilot.microsoft.com</a> using your VU student account (<em>your-student-id@student.vu.nl</em>). For this exercise, try the <strong>Designer</strong> feature in Copilot &mdash; it is built for visual and image output, and may produce something closer to a diagram than a standard text prompt. Bear in mind that different tools will perform differently; some may produce cleaner or more structured visuals than others, so it is worth experimenting.
         </div>
     </div>
 
@@ -699,68 +714,16 @@ Keep each cell to 1–2 sentences maximum. Use plain academic language.</div>
     <div class="section-label">The output Yasmin received</div>
 
     <div class="diagram-wrap">
-        <div class="output-label">AI-generated conceptual diagram (rendered from text output)</div>
+        <div class="output-label">AI-generated conceptual diagram</div>
         <div class="diagram-box">
-            <div class="concept-diagram">
-                <div class="cd-title">Research Paradigms: A Conceptual Comparison</div>
+            <img src="../media/comparing-research-paradigms.png" alt="Conceptual diagram comparing positivism, interpretivism, and critical theory across four dimensions: ontology, epistemology, methodology, and aim" style="width: 100%; height: auto; display: block; border-radius: 4px;">
+        </div>
+    </div>
 
-                <!-- Root -->
-                <div class="cd-row">
-                    <div class="cd-node root">Research Paradigm</div>
-                </div>
-                <div class="cd-arrow-down">&#8595;</div>
-
-                <!-- Level 1: three paradigms -->
-                <div class="cd-row">
-                    <div class="cd-node level1">Positivism</div>
-                    <div class="cd-node level1">Interpretivism</div>
-                    <div class="cd-node level1">Critical Theory</div>
-                </div>
-                <div class="cd-arrow-row">
-                    <span>&#8595;</span><span>&#8595;</span><span>&#8595;</span>
-                </div>
-
-                <!-- Ontology row -->
-                <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#94a3b8;text-align:center;margin-bottom:6px;">Ontology — view of reality</div>
-                <div class="cd-row">
-                    <div class="cd-node level2">Reality is objective &amp; independent of the observer</div>
-                    <div class="cd-node level2-alt">Reality is socially constructed &amp; context-dependent</div>
-                    <div class="cd-node level2-green">Reality is shaped by power structures &amp; historical forces</div>
-                </div>
-                <div style="margin-bottom:14px;"></div>
-
-                <!-- Epistemology row -->
-                <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#94a3b8;text-align:center;margin-bottom:6px;">Epistemology — how knowledge is obtained</div>
-                <div class="cd-row">
-                    <div class="cd-node level2">Knowledge through measurement &amp; observation; researcher is neutral</div>
-                    <div class="cd-node level2-alt">Knowledge through interpretation of meaning; researcher is part of the process</div>
-                    <div class="cd-node level2-green">Knowledge is value-laden; the researcher takes a critical, reflexive stance</div>
-                </div>
-                <div style="margin-bottom:14px;"></div>
-
-                <!-- Methodology row -->
-                <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#94a3b8;text-align:center;margin-bottom:6px;">Methodology — what counts as valid research</div>
-                <div class="cd-row">
-                    <div class="cd-node level2">Experiments, surveys, statistical analysis; quantitative</div>
-                    <div class="cd-node level2-alt">Interviews, ethnography, discourse analysis; qualitative</div>
-                    <div class="cd-node level2-green">Participatory research, ideology critique; mixed or action-oriented</div>
-                </div>
-                <div style="margin-bottom:14px;"></div>
-
-                <!-- Aim row -->
-                <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#94a3b8;text-align:center;margin-bottom:6px;">Aim — purpose of research</div>
-                <div class="cd-row">
-                    <div class="cd-node level2">Explanation &amp; prediction; discover universal laws</div>
-                    <div class="cd-node level2-alt">Understanding &amp; interpretation; capture lived experience</div>
-                    <div class="cd-node level2-green">Emancipation &amp; social change; challenge oppressive structures</div>
-                </div>
-
-                <div class="cd-legend">
-                    <div class="cd-legend-item"><div class="cd-legend-dot" style="background:#c4b5fd;"></div>Positivism</div>
-                    <div class="cd-legend-item"><div class="cd-legend-dot" style="background:#fde68a;"></div>Interpretivism</div>
-                    <div class="cd-legend-item"><div class="cd-legend-dot" style="background:#bbf7d0;"></div>Critical Theory</div>
-                </div>
-            </div>
+    <div class="image-note">
+        <div class="icon">&#9888;&#65039;</div>
+        <div>
+            <strong>Note: text in AI-generated images can be scrambled.</strong> AI image tools sometimes distort or misspell the text inside diagrams &mdash; this is a known limitation. Even so, a visual output can still help you grasp the overall structure and shape of a concept, which you can then recreate more accurately yourself using tools like <strong>PowerPoint</strong> or <strong>Canva</strong>.
         </div>
     </div>
 
