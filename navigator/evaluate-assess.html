@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Output Evaluation — Knowledge Check</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0d9488 0%, #1e1b4b 100%);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 860px;
+            width: 100%;
+            padding: 36px;
+            margin: 20px auto;
+        }
+
+        /* === Back link === */
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #94a3b8;
+            text-decoration: none;
+            margin-bottom: 22px;
+        }
+        .back-link:hover { color: #0d9488; }
+
+        /* === Header === */
+        .assess-tag {
+            display: inline-block;
+            background: #f0fdfa;
+            color: #0d9488;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            padding: 3px 10px;
+            border-radius: 20px;
+            margin-bottom: 10px;
+        }
+        .page-title {
+            font-size: 24px;
+            font-weight: 800;
+            color: #1e1b4b;
+            margin-bottom: 8px;
+        }
+        .page-subtitle {
+            font-size: 13px;
+            color: #6b7280;
+            line-height: 1.7;
+            max-width: 660px;
+            margin-bottom: 28px;
+        }
+
+        hr.divider { border: none; border-top: 1px solid #f1f5f9; margin: 0 0 28px; }
+
+        /* === Steps === */
+        .steps {
+            display: flex;
+            gap: 0;
+            margin-bottom: 28px;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        .step-chip {
+            flex: 1;
+            padding: 12px 14px;
+            border-right: 1px solid #e2e8f0;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+        .step-chip:last-child { border-right: none; }
+        .step-num {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: #1e1b4b;
+            color: white;
+            font-size: 11px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+        .step-text { font-size: 12px; color: #374151; line-height: 1.5; }
+        .step-text strong { display: block; font-size: 11px; font-weight: 700; color: #1e1b4b; margin-bottom: 2px; }
+
+        /* === Section label === */
+        .section-label {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.07em;
+            color: #94a3b8;
+            margin-bottom: 12px;
+        }
+
+        /* === Case card === */
+        .case-card {
+            border: 1px solid #e2e8f0;
+            border-left: 4px solid #0d9488;
+            border-radius: 0 12px 12px 0;
+            padding: 20px 22px;
+            margin-bottom: 16px;
+            background: #f8fafc;
+        }
+        .card-tag {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: #0d9488;
+            margin-bottom: 8px;
+        }
+        .case-title { font-size: 15px; font-weight: 800; color: #1e1b4b; margin-bottom: 8px; }
+        .case-body  { font-size: 13px; color: #374151; line-height: 1.75; }
+        .case-body strong { color: #1e1b4b; }
+
+        /* === AI output card === */
+        .output-card {
+            background: #1e1b4b;
+            border-radius: 14px;
+            padding: 22px;
+            margin-bottom: 10px;
+            position: relative;
+        }
+        .output-topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 14px;
+        }
+        .output-label {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.07em;
+            color: #a5b4fc;
+        }
+        .sim-badge {
+            font-size: 10px;
+            font-weight: 700;
+            background: #2d2566;
+            color: #a5b4fc;
+            border: 1px solid #4338ca;
+            border-radius: 10px;
+            padding: 2px 8px;
+        }
+        .output-text {
+            font-size: 13px;
+            color: #f1f5f9;
+            line-height: 1.85;
+        }
+        .output-text p { margin-bottom: 12px; }
+        .output-text p:last-child { margin-bottom: 0; }
+
+        /* === Hint callout === */
+        .hint-callout {
+            display: flex;
+            align-items: flex-start;
+            gap: 11px;
+            background: #f0fdfa;
+            border: 1px solid #99f6e4;
+            border-radius: 10px;
+            padding: 13px 15px;
+            margin-bottom: 22px;
+            font-size: 12.5px;
+            color: #374151;
+            line-height: 1.65;
+        }
+        .hint-callout .hint-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+        .hint-callout strong { color: #0d9488; }
+
+        /* === Progress === */
+        .progress-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 24px;
+        }
+        .progress-bar-wrap {
+            flex: 1;
+            background: #f1f5f9;
+            border-radius: 99px;
+            height: 6px;
+            overflow: hidden;
+        }
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #0d9488, #1e1b4b);
+            border-radius: 99px;
+            transition: width 0.4s ease;
+        }
+        .progress-text { font-size: 11px; font-weight: 700; color: #94a3b8; white-space: nowrap; }
+
+        /* === Question card === */
+        .question-card {
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 22px;
+            margin-bottom: 14px;
+            animation: fadeUp 0.3s ease;
+        }
+        .q-number {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.07em;
+            color: #0d9488;
+            margin-bottom: 8px;
+        }
+        .q-criterion {
+            display: inline-block;
+            background: #f0fdfa;
+            color: #0d9488;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 2px 10px;
+            border-radius: 20px;
+            margin-bottom: 10px;
+        }
+        .q-text {
+            font-size: 14px;
+            font-weight: 700;
+            color: #1e1b4b;
+            line-height: 1.55;
+            margin-bottom: 6px;
+        }
+        .q-hint-box {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            background: #fef9c3;
+            border: 1px solid #fde68a;
+            border-radius: 8px;
+            padding: 10px 13px;
+            margin-bottom: 16px;
+            font-size: 12px;
+            color: #713f12;
+            line-height: 1.65;
+        }
+        .q-hint-box .qh-icon { flex-shrink: 0; margin-top: 1px; }
+
+        /* === Rating options === */
+        .options-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+        .option-tile {
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 12px 15px;
+            cursor: pointer;
+            text-align: left;
+            background: white;
+            font-family: inherit;
+            transition: border-color 0.18s, background 0.18s;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            width: 100%;
+        }
+        .option-tile:hover:not(:disabled) { border-color: #0d9488; background: #f0fdfa; }
+        .option-badge {
+            width: 28px;
+            height: 28px;
+            border-radius: 8px;
+            background: #f1f5f9;
+            color: #64748b;
+            font-size: 13px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: background 0.18s, color 0.18s;
+        }
+        .option-content { flex: 1; }
+        .option-rating-label { font-size: 12px; font-weight: 700; color: #374151; margin-bottom: 2px; }
+        .option-rating-desc  { font-size: 11.5px; color: #94a3b8; line-height: 1.5; }
+
+        /* States */
+        .option-tile.active-selection { border-color: #0d9488; background: #f0fdfa; }
+        .option-tile.active-selection .option-badge { background: #0d9488; color: white; }
+
+        .option-tile.selected-correct { border-color: #16a34a; background: #f0fdf4; }
+        .option-tile.selected-correct .option-badge { background: #16a34a; color: white; }
+
+        .option-tile.selected-wrong { border-color: #dc2626; background: #fef2f2; }
+        .option-tile.selected-wrong .option-badge { background: #dc2626; color: white; }
+
+        .option-tile.reveal-correct { border-color: #16a34a; background: #f0fdf4; opacity: 0.7; }
+        .option-tile.reveal-correct .option-badge { background: #16a34a; color: white; }
+
+        .option-tile.dimmed { opacity: 0.35; }
+
+        /* === Feedback === */
+        .feedback {
+            display: none;
+            border-radius: 10px;
+            padding: 16px 18px;
+            margin-bottom: 16px;
+            animation: fadeUp 0.25s ease;
+        }
+        .feedback.visible { display: block; }
+        .feedback.correct { background: #f0fdf4; border: 1px solid #86efac; }
+        .feedback.wrong   { background: #fef2f2; border: 1px solid #fca5a5; }
+        .feedback.partial { background: #fffbeb; border: 1px solid #fde68a; }
+
+        .feedback-heading { font-size: 14px; font-weight: 800; margin-bottom: 5px; }
+        .feedback.correct  .feedback-heading { color: #16a34a; }
+        .feedback.wrong    .feedback-heading { color: #dc2626; }
+        .feedback.partial  .feedback-heading { color: #b45309; }
+        .feedback-body { font-size: 13px; color: #374151; line-height: 1.7; }
+
+        /* === Action buttons === */
+        .action-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .btn-submit {
+            padding: 10px 22px;
+            background: #1e1b4b;
+            color: white;
+            border: none;
+            border-radius: 9px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: inherit;
+            transition: opacity 0.18s;
+        }
+        .btn-submit:disabled { opacity: 0.35; cursor: default; }
+        .btn-submit:not(:disabled):hover { opacity: 0.85; }
+
+        .btn-next {
+            padding: 10px 22px;
+            background: linear-gradient(135deg, #0d9488, #1e1b4b);
+            color: white;
+            border: none;
+            border-radius: 9px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: inherit;
+            display: none;
+            transition: opacity 0.18s;
+        }
+        .btn-next:hover { opacity: 0.87; }
+
+        /* === Improvement section === */
+        .improve-card {
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 22px;
+            margin-bottom: 14px;
+            display: none;
+            animation: fadeUp 0.3s ease;
+        }
+        .improve-card.visible { display: block; }
+        .improve-heading { font-size: 15px; font-weight: 800; color: #1e1b4b; margin-bottom: 8px; }
+        .improve-sub { font-size: 13px; color: #6b7280; margin-bottom: 14px; line-height: 1.65; }
+
+        .improve-item {
+            border-left: 4px solid #e5e7eb;
+            padding: 10px 14px;
+            margin-bottom: 10px;
+            border-radius: 0 8px 8px 0;
+        }
+        .improve-item.bad  { border-left-color: #ef4444; background: #fef2f2; }
+        .improve-item.good { border-left-color: #16a34a; background: #f0fdf4; }
+        .improve-item-label {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            margin-bottom: 5px;
+        }
+        .improve-item.bad  .improve-item-label { color: #dc2626; }
+        .improve-item.good .improve-item-label { color: #16a34a; }
+        .improve-item-text { font-size: 12.5px; color: #374151; line-height: 1.65; font-style: italic; }
+
+        /* === End screen === */
+        .end-screen {
+            display: none;
+            text-align: center;
+            padding: 32px 0;
+            animation: fadeUp 0.3s ease;
+        }
+        .end-screen.visible { display: block; }
+        .score-circle {
+            width: 86px;
+            height: 86px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #0d9488, #1e1b4b);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 18px;
+        }
+        .score-num   { font-size: 26px; font-weight: 800; line-height: 1; }
+        .score-denom { font-size: 11px; opacity: 0.75; }
+        .end-title   { font-size: 20px; font-weight: 800; color: #1e1b4b; margin-bottom: 8px; }
+        .end-body    { font-size: 13px; color: #6b7280; line-height: 1.7; max-width: 480px; margin: 0 auto 22px; }
+
+        .btn-restart {
+            padding: 11px 26px;
+            background: #1e1b4b;
+            color: white;
+            border: none;
+            border-radius: 9px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: inherit;
+            margin-right: 10px;
+        }
+        .btn-restart:hover { opacity: 0.85; }
+        .btn-back-nav {
+            padding: 11px 26px;
+            background: #f1f5f9;
+            color: #475569;
+            border: none;
+            border-radius: 9px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: inherit;
+            text-decoration: none;
+            display: inline-block;
+            margin-right: 10px;
+        }
+        .btn-back-nav:hover { background: #e2e8f0; }
+        .btn-continue {
+            padding: 11px 26px;
+            background: linear-gradient(135deg, #0d9488 0%, #1e1b4b 100%);
+            color: white;
+            border: none;
+            border-radius: 9px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: inherit;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .btn-continue:hover { opacity: 0.87; }
+
+        .source-note { margin-top: 28px; font-size: 11px; color: #cbd5e1; text-align: center; line-height: 1.6; }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(10px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 600px) {
+            .container { padding: 22px 16px; }
+            .steps { flex-direction: column; }
+            .step-chip { border-right: none; border-bottom: 1px solid #e2e8f0; }
+            .step-chip:last-child { border-bottom: none; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <a href="../evaluate.html" class="back-link">&larr; Back to Evaluate</a>
+
+    <div class="assess-tag">Knowledge check — Navigator</div>
+    <h1 class="page-title">Rate this AI response</h1>
+    <p class="page-subtitle">You will read a student's AI response about sleep and exam performance, then rate it on three evaluation criteria using the 1–5 scale. Each question includes a hint to help you focus on the right features of the text.</p>
+
+    <div class="steps">
+        <div class="step-chip">
+            <div class="step-num">1</div>
+            <div class="step-text"><strong>Read the response</strong>Notice what the AI claims and how it presents it.</div>
+        </div>
+        <div class="step-chip">
+            <div class="step-num">2</div>
+            <div class="step-text"><strong>Use the hints</strong>Each question tells you what to look for.</div>
+        </div>
+        <div class="step-chip">
+            <div class="step-num">3</div>
+            <div class="step-text"><strong>Compare and reflect</strong>See the model rating with a full explanation.</div>
+        </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- Scenario -->
+    <div class="section-label">The scenario</div>
+
+    <div class="case-card">
+        <div class="card-tag">Student scenario</div>
+        <div class="case-title">Abel, 1st-year student</div>
+        <div class="case-body">Abel is writing a study advice essay and asks ChatGPT: <strong>"What does research say about the effects of sleep deprivation before exams on memory? I need this for my study advice essay."</strong></div>
+    </div>
+
+    <div class="section-label">The AI response</div>
+
+    <div class="output-card">
+        <div class="output-topbar">
+            <div class="output-label">ChatGPT response</div>
+            <div class="sim-badge">Simulated output</div>
+        </div>
+        <div class="output-text">
+            <p>Research clearly shows that sleeping the night before an exam is significantly more effective than late-night cramming. A landmark 2021 study from the Sleep Research Institute at Cambridge University followed 840 students across twelve universities and found that those who slept eight hours before an exam scored <strong style="color: #fca5a5;">34% higher</strong> than students who instead spent those hours reviewing material. This effect held across all subject areas tested.</p>
+            <p>The neuroscience behind this is well understood. During sleep, the hippocampus transfers encoded memories to the neocortex for long-term storage — a process called memory consolidation. Cramming disrupts this by elevating cortisol levels, which directly impair hippocampal function. Matthew Walker (2017) explains in <em>Why We Sleep</em> that prolonged sleep deprivation causes <strong style="color: #fca5a5;">permanent neuronal damage that cannot be reversed</strong> by later recovery sleep.</p>
+            <p>For your essay, the case is clear: any student who sacrifices sleep for extra study time is actively harming their academic results. <strong style="color: #fca5a5;">All peer-reviewed evidence supports this conclusion, and there are no credible contrary findings.</strong></p>
+        </div>
+    </div>
+
+    <div class="hint-callout" style="margin-top: 12px;">
+        <div class="hint-icon">💡</div>
+        <div><strong>What to notice overall:</strong> Some claims are well-founded in neuroscience; others are highly specific (a 34% figure, a named institution) or absolute ("no credible contrary findings"). As you answer each question, think about which parts of the text support your rating choice.</div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- Quiz area -->
+    <div id="quiz-area"></div>
+
+    <!-- Improvement card — shown after all questions answered -->
+    <div class="improve-card" id="improve-card">
+        <div class="improve-heading">How would you improve this response?</div>
+        <div class="improve-sub">After identifying the problems, the next step is knowing what a better version would look like. Compare the original passage with the improved alternative below.</div>
+
+        <div class="improve-item bad">
+            <div class="improve-item-label">Original (problematic)</div>
+            <div class="improve-item-text">"A landmark 2021 study from the Sleep Research Institute at Cambridge University found that those who slept eight hours scored 34% higher... All peer-reviewed evidence supports this conclusion, and there are no credible contrary findings."</div>
+        </div>
+        <div class="improve-item good">
+            <div class="improve-item-label">Improved version</div>
+            <div class="improve-item-text">"Research consistently supports the importance of sleep for memory consolidation. Stickgold (2005, Nature Reviews Neuroscience) showed that sleep actively consolidates declarative memories formed during the day. However, the relationship between sleep deprivation and exam performance is more nuanced — effects depend on the type of task, duration of deprivation, and individual differences. Walker's (2017) claims about permanent neuronal damage have been contested in the peer-reviewed literature as overstated for normal sleep loss. A more balanced review of the evidence is available in Killgore (2010, Progress in Brain Research)."</div>
+        </div>
+        <p style="font-size: 12px; color: #6b7280; margin-top: 12px; line-height: 1.65;">Notice: the improved version cites specific, real, traceable sources; acknowledges conditions and nuance; and is specific about which claims are contested. It does not invent statistics.</p>
+    </div>
+
+    <!-- End screen -->
+    <div class="end-screen" id="end-screen">
+        <div class="score-circle">
+            <div class="score-num" id="score-num">–</div>
+            <div class="score-denom">/ 3</div>
+        </div>
+        <div class="end-title" id="end-title">–</div>
+        <div class="end-body" id="end-body">–</div>
+        <button class="btn-restart" onclick="startQuiz()">Try again</button>
+        <a href="../evaluate.html" class="btn-back-nav">Back to Evaluate</a>
+        <a href="../ethics.html" class="btn-continue">Continue to Ethics &rsaquo;</a>
+    </div>
+
+    <p class="source-note">
+        The AI response shown is a simulated example for learning purposes. The Sleep Research Institute at Cambridge and the 34% statistic are fictitious.
+    </p>
+
+</div>
+
+<script>
+/* ============================================================
+   QUESTION BANK — 3 questions with guided hints
+   ============================================================ */
+const QUESTIONS = [
+
+    /* ─── Q1: Factual accuracy ─── */
+    {
+        criterion: "Factual accuracy",
+        criterionNum: "01",
+        qText: "What rating would a trained evaluator most likely assign for factual accuracy in this response?",
+        hint: "Look for specific statistics and named institutions. Ask yourself: can you actually locate 'The Sleep Research Institute at Cambridge' and verify the '34% higher' figure? Also consider the claim about 'permanent neuronal damage.'",
+        correct: 1, /* index 0–4, so index 1 = rating 2 */
+        options: [
+            { rating: "1", label: "Unacceptable", desc: "Contains incorrect or unverifiable specific claims that should not be used." },
+            { rating: "2", label: "Inadequate", desc: "Significant specific claims appear fabricated or unverifiable; major revision needed." },
+            { rating: "3", label: "Partial", desc: "Some specific claims are correct; others are vague or unsupported." },
+            { rating: "4", label: "Adequate", desc: "Claims are mostly accurate with minor issues; light verification needed." },
+            { rating: "5", label: "Strong", desc: "All specific claims are accurate and verifiable." }
+        ],
+        feedback: {
+            correct: "Correct — rating 2 (Inadequate). The response contains two significant factual problems. First, the 'Sleep Research Institute at Cambridge University' and the '34% higher' statistic cannot be verified — the institution name does not correspond to any known research centre, and the precise figure is almost certainly fabricated by the AI. Second, the claim that sleep deprivation causes 'permanent neuronal damage that cannot be reversed' significantly overstates what Walker (2017) actually argues and what the neuroscience literature supports. The neuroscience of memory consolidation in the middle paragraph is broadly accurate, so the rating is 2 rather than 1 — but the fabricated specifics are serious problems.",
+            near: "Close, but consider the specific statistics more carefully. The '34% higher' figure and the 'Sleep Research Institute at Cambridge' are highly specific claims — and impossible to verify. AI tools that produce specific-sounding statistics without real citations are almost certainly fabricating them. This brings the factual accuracy down to 2 (Inadequate) rather than a partial.",
+            wrong: "Think again. The response contains a specific statistic (34% higher) and a named institution (Sleep Research Institute at Cambridge) that cannot be verified — they do not correspond to any published study. The claim about 'permanent neuronal damage' also significantly overstates the science. These are not minor inaccuracies: they represent the kind of hallucination that makes AI output risky from an accuracy perspective. The correct rating is 2 (Inadequate)."
+        }
+    },
+
+    /* ─── Q2: Source transparency ─── */
+    {
+        criterion: "Source transparency",
+        criterionNum: "02",
+        qText: "What rating would a trained evaluator most likely assign for source transparency in this response?",
+        hint: "Identify every source named in the response. For each: is it specific enough to locate? Does the institution exist? Is Walker (2017) a peer-reviewed source? What kinds of claims are made without any source at all?",
+        correct: 1, /* Rating 2 */
+        options: [
+            { rating: "1", label: "Unacceptable", desc: "No sources named; or all references are completely fabricated." },
+            { rating: "2", label: "Inadequate", desc: "References are vague, unverifiable, or likely fabricated; major issues present." },
+            { rating: "3", label: "Partial", desc: "Some real sources given; others are unverifiable or incomplete." },
+            { rating: "4", label: "Adequate", desc: "Sources are mostly real and specific; minor attribution gaps." },
+            { rating: "5", label: "Strong", desc: "All claims are clearly attributed to specific, real, and traceable sources." }
+        ],
+        feedback: {
+            correct: "Correct — rating 2 (Inadequate). The response names two sources, but both have significant problems. 'The Sleep Research Institute at Cambridge University (2021)' does not appear to correspond to a real institution, and no specific paper title or journal is given — this reference cannot be followed up. Walker (2017) refers to a real popular science book, but citing a popular book rather than a peer-reviewed article is a source quality issue, and 'Why We Sleep' has been criticised in the scientific community for overstating some claims. Crucially, the third paragraph's absolutist claims ('all peer-reviewed evidence,' 'no credible contrary findings') cite nothing at all. Overall, the attribution is too weak to rely on.",
+            near: "You are close. Walker (2017) is indeed a real publication — but look more carefully at the other reference. Can you find 'The Sleep Research Institute at Cambridge University'? And does the third paragraph cite any source at all for its absolute claims? The combination of an unverifiable institution, a popular book rather than a peer-reviewed source, and completely unsourced absolute claims brings this down to 2 (Inadequate).",
+            wrong: "Consider each source named individually. 'Sleep Research Institute at Cambridge University' is not an identifiable institution — you cannot locate a specific paper from this reference. Walker (2017) is a popular book, not a peer-reviewed source, and it has been criticised for overstating claims. The final paragraph's absolute statements cite nothing at all. With these combined problems, the source transparency is 2 (Inadequate)."
+        }
+    },
+
+    /* ─── Q3: Critical depth ─── */
+    {
+        criterion: "Critical depth",
+        criterionNum: "05",
+        qText: "What rating would a trained evaluator most likely assign for critical depth in this response?",
+        hint: "Focus on the third paragraph, particularly the phrase 'All peer-reviewed evidence supports this conclusion, and there are no credible contrary findings.' Is the research on sleep and academic performance actually this settled? Does the response acknowledge any conditions, individual differences, or debates?",
+        correct: 0, /* Rating 1 */
+        options: [
+            { rating: "1", label: "Unacceptable", desc: "Makes absolute claims about contested topics; no acknowledgment of uncertainty, debate, or conditions." },
+            { rating: "2", label: "Inadequate", desc: "Mostly overconfident; very limited hedging with no meaningful engagement with complexity." },
+            { rating: "3", label: "Partial", desc: "Some hedging present but does not engage meaningfully with counterarguments or conditions." },
+            { rating: "4", label: "Adequate", desc: "Acknowledges uncertainty in most areas; names key debates or limitations." },
+            { rating: "5", label: "Strong", desc: "Accurately represents the state of debate; names specific counterarguments and conditions." }
+        ],
+        feedback: {
+            correct: "Correct — rating 1 (Unacceptable). The response concludes that 'the case is clear,' 'all peer-reviewed evidence supports this conclusion,' and there are 'no credible contrary findings.' This is a significant misrepresentation of the actual evidence base. Research on sleep and academic performance does consistently support the importance of sleep — but the direction and size of effects vary across task types, age groups, and deprivation levels. Walker's book has been publicly criticised by prominent sleep researchers for overstating findings. Some evidence suggests even massed studying can benefit certain types of recognition memory. No academic field has findings that are entirely one-sided. Presenting contested, complex evidence as settled fact is a critical failure of depth.",
+            near: "Look again at the third paragraph. The phrase 'all peer-reviewed evidence supports this conclusion, and there are no credible contrary findings' is an extremely strong absolute claim. In academic research, virtually no topic has unanimous evidence on one side. Sleep deprivation research has genuine complexity: effects differ by task type, the Walker book has been criticised by researchers, and some evidence supports strategic use of massed study for specific tasks. The lack of any acknowledgment of this complexity brings the critical depth rating to 1 (Unacceptable).",
+            wrong: "Re-read the final paragraph. 'All peer-reviewed evidence supports this conclusion, and there are no credible contrary findings.' This is categorically false — sleep research has genuine debates, Walker's popular book has been criticised, and effects vary by task type and individual. Presenting a complex, contested field as having no credible contrary evidence is a critical failure of what we expect from academic writing. Rating: 1 (Unacceptable)."
+        }
+    }
+];
+
+let currentQ = 0;
+let score = 0;
+let answered = false;
+
+function startQuiz() {
+    currentQ = 0;
+    score = 0;
+    answered = false;
+    document.getElementById('end-screen').classList.remove('visible');
+    document.getElementById('improve-card').classList.remove('visible');
+    renderQuestion();
+}
+
+function renderQuestion() {
+    const q = QUESTIONS[currentQ];
+    const total = QUESTIONS.length;
+    const pct = Math.round((currentQ / total) * 100);
+
+    document.getElementById('quiz-area').innerHTML = `
+        <div class="progress-row">
+            <div class="progress-bar-wrap">
+                <div class="progress-bar-fill" style="width: ${pct}%"></div>
+            </div>
+            <div class="progress-text">Question ${currentQ + 1} / ${total}</div>
+        </div>
+
+        <div class="question-card" id="qcard">
+            <div class="q-number">Question ${currentQ + 1} of ${total}</div>
+            <div class="q-criterion">Criterion ${q.criterionNum} — ${q.criterion}</div>
+            <div class="q-text">${q.qText}</div>
+            <div class="q-hint-box">
+                <span class="qh-icon">💡</span>
+                <span>${q.hint}</span>
+            </div>
+            <div class="options-list" id="options-list">
+                ${q.options.map((o, i) => `
+                    <button class="option-tile" data-idx="${i}" onclick="selectOption(${i})">
+                        <div class="option-badge">${o.rating}</div>
+                        <div class="option-content">
+                            <div class="option-rating-label">${o.rating} — ${o.label}</div>
+                            <div class="option-rating-desc">${o.desc}</div>
+                        </div>
+                    </button>`).join('')}
+            </div>
+            <div class="feedback" id="feedback"></div>
+            <div class="action-row">
+                <button class="btn-submit" id="btn-submit" disabled onclick="submitAnswer()">Check answer</button>
+                <button class="btn-next" id="btn-next" onclick="nextQuestion()">${currentQ < total - 1 ? 'Next question →' : 'See results'}</button>
+            </div>
+        </div>`;
+    answered = false;
+}
+
+let selectedIdx = null;
+
+function selectOption(idx) {
+    if (answered) return;
+    selectedIdx = idx;
+    document.querySelectorAll('.option-tile').forEach((t, i) => {
+        t.classList.toggle('active-selection', i === idx);
+    });
+    document.getElementById('btn-submit').disabled = false;
+}
+
+function submitAnswer() {
+    if (answered || selectedIdx === null) return;
+    answered = true;
+    const q = QUESTIONS[currentQ];
+    const tiles = document.querySelectorAll('.option-tile');
+    const fb = document.getElementById('feedback');
+
+    const isCorrect = selectedIdx === q.correct;
+    const isNear = !isCorrect && Math.abs(selectedIdx - q.correct) === 1;
+
+    tiles.forEach((t, i) => {
+        t.disabled = true;
+        if (i === q.correct) {
+            t.classList.remove('active-selection');
+            t.classList.add(i === selectedIdx ? 'selected-correct' : 'reveal-correct');
+        } else if (i === selectedIdx) {
+            t.classList.remove('active-selection');
+            t.classList.add('selected-wrong');
+        } else {
+            t.classList.add('dimmed');
+        }
+    });
+
+    if (isCorrect) {
+        score++;
+        fb.className = 'feedback correct visible';
+        fb.innerHTML = `<div class="feedback-heading">✓ Correct</div><div class="feedback-body">${q.feedback.correct}</div>`;
+    } else if (isNear) {
+        fb.className = 'feedback partial visible';
+        fb.innerHTML = `<div class="feedback-heading">Almost — off by one level</div><div class="feedback-body">${q.feedback.near}</div>`;
+    } else {
+        fb.className = 'feedback wrong visible';
+        fb.innerHTML = `<div class="feedback-heading">✗ Not quite</div><div class="feedback-body">${q.feedback.wrong}</div>`;
+    }
+
+    document.getElementById('btn-submit').style.display = 'none';
+    document.getElementById('btn-next').style.display = 'inline-block';
+}
+
+function nextQuestion() {
+    currentQ++;
+    selectedIdx = null;
+    if (currentQ >= QUESTIONS.length) {
+        showEnd();
+    } else {
+        renderQuestion();
+    }
+}
+
+function showEnd() {
+    document.getElementById('quiz-area').innerHTML = '';
+    document.getElementById('improve-card').classList.add('visible');
+
+    const endScreen = document.getElementById('end-screen');
+    endScreen.classList.add('visible');
+    document.getElementById('score-num').textContent = score;
+
+    const titles = ['Keep practising', 'Getting there', 'Good work'];
+    const bodies = [
+        'Evaluating AI output is a skill that improves with practice. Review the feedback for each question, then re-read the anchor examples in the Evaluate module and try again.',
+        'You spotted some of the problems. Review the feedback explanations — particularly on factual accuracy and critical depth, which are the most consequential failures in this response.',
+        'Well done. You identified the key evaluation problems in this response. The model ratings show that fluent, well-structured AI text can still fail on factual accuracy and critical depth — criteria that require active verification rather than passive reading.'
+    ];
+
+    document.getElementById('end-title').textContent = titles[Math.min(score, 2)];
+    document.getElementById('end-body').textContent = bodies[Math.min(score, 2)];
+}
+
+startQuiz();
+</script>
+
+</body>
+</html>

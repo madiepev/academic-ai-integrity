@@ -10,7 +10,7 @@ title: ""
 
 Generative AI tools are now a permanent part of the academic landscape. Students use them to draft, research, and think; teachers must decide when and how they belong in their courses. Neither unreflective adoption nor blanket prohibition serves learning well.
 
-This platform supports **critical, informed engagement** with AI in higher education. It is designed for students and teachers at Vrije Universiteit Amsterdam, though the underlying principles apply broadly. The three modules — Know, Use, and Ethics — build on each other, moving from understanding what AI is and how it works, to using it effectively for academic tasks, to reasoning about when and how it should or should not be used at all.
+This platform supports **critical, informed engagement** with AI in higher education. It is designed for students and teachers at Vrije Universiteit Amsterdam, though the underlying principles apply broadly. The four modules — Know, Use, Evaluate, and Ethics — build on each other, moving from understanding what AI is and how it works, to using it effectively for academic tasks, to evaluating the quality of what it produces, to reasoning about when and how it should or should not be used at all.
 
 ---
 
@@ -65,6 +65,12 @@ AI literacy is not a single skill but a cluster of competencies: understanding h
       <td style="padding: 14px 16px; color: #374151; vertical-align: top; line-height: 1.6;">Scenario-based assessment with annotated model answers.</td>
     </tr>
     <tr style="border-bottom: 1px solid #e5e7eb;">
+      <td style="padding: 14px 16px; font-weight: 700; color: #1e1b4b; vertical-align: top;">Evaluate</td>
+      <td style="padding: 14px 16px; color: #374151; vertical-align: top; line-height: 1.6;">Rate AI output on five criteria: factual accuracy, source transparency, task relevance, coherence, and critical depth.</td>
+      <td style="padding: 14px 16px; color: #374151; vertical-align: top; line-height: 1.6;">Interactive criterion explorer with rater training anchors at levels 1, 3, and 5; practice evaluation of a full AI response.</td>
+      <td style="padding: 14px 16px; color: #374151; vertical-align: top; line-height: 1.6;">Rating-based quiz (Navigator: 3 criteria with hints; Pilot: 5 criteria plus reference gap exercise and open reflection).</td>
+    </tr>
+    <tr style="border-bottom: 1px solid #e5e7eb; background: #fafbfc;">
       <td style="padding: 14px 16px; font-weight: 700; color: #1e1b4b; vertical-align: top;">Ethics</td>
       <td style="padding: 14px 16px; color: #374151; vertical-align: top; line-height: 1.6;">Apply the AI Assessment Scale to real course scenarios; reason through ethical edge cases; understand VU disclosure requirements.</td>
       <td style="padding: 14px 16px; color: #374151; vertical-align: top; line-height: 1.6;">Interactive AIAS level explorer; three ethics cases with structured reflection questions covering authorship, fairness, and transparency.</td>
@@ -118,6 +124,14 @@ Not sure where to begin? Take the AI literacy check to find out which learning p
       <div style="font-size: 13px; color: #64748b;">Structuring prompts for idea generation, planning, literature orientation, and writing support</div>
     </div>
     <div style="font-size: 13px; font-weight: 700; color: #6366f1; flex-shrink: 0;">Go to module &rsaquo;</div>
+  </a>
+
+  <a href="evaluate" style="display: flex; align-items: center; justify-content: space-between; border: 1.5px solid #e5e7eb; border-radius: 10px; padding: 18px 22px; background: white; text-decoration: none; gap: 12px; flex-wrap: wrap;" onmouseover="this.style.borderColor='#0d9488'" onmouseout="this.style.borderColor='#e5e7eb'">
+    <div style="flex: 1; min-width: 200px;">
+      <div style="font-weight: 700; font-size: 15px; color: #1e1b4b; margin-bottom: 4px;">Evaluate — Assessing AI output quality</div>
+      <div style="font-size: 13px; color: #64748b;">Five evaluation criteria, rater training examples, and a practice assessment of a complete AI response</div>
+    </div>
+    <div style="font-size: 13px; font-weight: 700; color: #0d9488; flex-shrink: 0;">Go to module &rsaquo;</div>
   </a>
 
   <a href="ethics" style="display: flex; align-items: center; justify-content: space-between; border: 1.5px solid #e5e7eb; border-radius: 10px; padding: 18px 22px; background: white; text-decoration: none; gap: 12px; flex-wrap: wrap;" onmouseover="this.style.borderColor='#6366f1'" onmouseout="this.style.borderColor='#e5e7eb'">
