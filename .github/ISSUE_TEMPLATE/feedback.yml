@@ -1,0 +1,69 @@
+name: Feedback
+description: Report a bug, share an idea, or suggest an improvement for any page on the platform.
+title: "[Feedback] "
+labels: ["feedback"]
+body:
+
+  - type: dropdown
+    id: page
+    attributes:
+      label: Which page is this about?
+      description: Select the page or tool you want to leave feedback on.
+      options:
+        - Home
+        - Know — Understanding AI and hallucinations
+        - Know — Navigator knowledge check
+        - Know — Pilot knowledge check
+        - Use — Prompting for academic tasks
+        - Use — Navigator knowledge check
+        - Use — Pilot knowledge check
+        - Evaluate — Assessing AI output quality
+        - Evaluate — Navigator knowledge check
+        - Evaluate — Pilot knowledge check
+        - Ethics — VU policy and AI in assessment
+        - Disclosure builder
+        - Rationale builder
+        - Other / general
+    validations:
+      required: true
+
+  - type: dropdown
+    id: role
+    attributes:
+      label: I am a…
+      options:
+        - Student
+        - Educator / teacher
+        - Other
+    validations:
+      required: true
+
+  - type: dropdown
+    id: type
+    attributes:
+      label: Type of feedback
+      options:
+        - "Bug — something is broken or not working as expected"
+        - "Idea — a new feature or content addition"
+        - "Content — correction or improvement to existing text"
+        - "Other"
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Describe your feedback
+      description: Be as specific as you can. For bugs, describe what you expected to happen and what actually happened.
+      placeholder: "e.g. The submit button on question 2 of the Navigator knowledge check doesn't respond on mobile…"
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional context (optional)
+      description: Screenshots, device/browser info, or anything else that might help.
+      placeholder: "e.g. Safari on iPhone 14, iOS 18"
+    validations:
+      required: false
