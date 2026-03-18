@@ -8,9 +8,25 @@ title: ""
 
 ## Introduction
 
-Generative AI tools are now a permanent part of the academic landscape. Students use them to draft, research, and think; teachers must decide when and how they belong in their courses. Neither unreflective adoption nor blanket prohibition serves learning well.
+### Why this module now
 
-This platform supports **critical, informed engagement** with AI in higher education. It is designed for students and teachers at Vrije Universiteit Amsterdam, though the underlying principles apply broadly. The four modules — Know, Use, Evaluate, and Ethics — build on each other, moving from understanding what AI is and how it works, to using it effectively for academic tasks, to evaluating the quality of what it produces, to reasoning about when and how it should or should not be used at all.
+Generative AI has moved from novelty to everyday study practice: large 2024–2025 surveys show that **over 90%** of students use AI tools and **~88%** have used GenAI for assessments—dramatic year‑over‑year increases. At the same time, both instructors and students voice strong concerns about academic integrity, from the risk of “hallucinations” to fears of facilitating cheating.¹ ² [hepi.ac.uk], [eric.ed.gov], [nouse.co.uk], [insidehighered.com]
+
+## VU‑specific need
+
+In many university programmes, policy has evolved faster than practice. Colleagues often agree that AI can support learning, yet struggle to justify when and how it may be used in assessments; students, meanwhile, lack a consistent basis for disclosure and discussion. This creates **inequities in AI literacy and uneven expectations** across courses. Research on academic integrity recommends education‑first approaches—clear expectations, shared language, and constructive dialogue—rather than purely punitive responses.
+
+## What Academic AI Integrity offers
+
+Designed at **Vrije Universiteit Amsterdam** for **students and teachers**, this e‑learning builds a **common knowledge base** for responsible AI use in academic contexts. The four modules—**Know, Use, Evaluate, Ethics**—are aligned to the **validated Generative AI Literacy Assessment Test (GLAT)** structure. Together they emphasize that **AI literacy is the means**, and **AI integrity (transparent, ethical, academically sound practice)** is the goal.
+
+### Why a mixed audience
+
+The learning goals are deliberately shared because students and teachers face the **same imperfect tools** (plausible but incorrect or biased outputs) and must build common standards for disclosure and responsible use. Students need to judge and revise AI outputs before submission; teachers must evaluate AI‑affected work and design assessments that remain valid. A **shared module** strengthens dialogue and trust, aligning classroom practice with institutional and international guidance that foregrounds **transparency, human oversight, and context‑sensitive judgment**.
+
+### How to use it
+
+To honour different starting points, the experience offers a **Navigator (novice)** and **Pilot (advanced)** track, which learners may self‑select. The Navigator route lets participants learn about AI through curated examples without using AI tools directly—supporting inclusion, autonomy, and privacy preferences. A light‑touch use of GLAT scores can help orientation (e.g., **Navigator** suggested at **GLAT ≤ 10**). Module activities are short and feedback‑rich (to manage cognitive load), and culminate in **authentic integrity artefacts**: a **course‑ready AI rationale** for **teachers** and an **assignment‑ready AI disclosure** for **students**.
 
 ---
 
