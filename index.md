@@ -10,13 +10,13 @@ title: ""
 
 ### Why this module now
 
-Generative AI has moved from novelty to everyday study practice: large 2024–2025 surveys show that **over 90%** of students use AI tools and **~88%** have used GenAI for assessments—dramatic year‑over‑year increases. At the same time, both instructors and students voice strong concerns about academic integrity, from the risk of “hallucinations” to fears of facilitating cheating.¹ ² [hepi.ac.uk], [eric.ed.gov], [nouse.co.uk], [insidehighered.com]
+Generative AI has moved from novelty to everyday study practice: large 2024–2025 surveys show that **over 90%** of students use AI tools and **~88%** have used GenAI for assessments—dramatic year‑over‑year increases. At the same time, both instructors and students voice strong concerns about academic integrity, from the risk of “hallucinations” to fears of facilitating cheating.
 
-## VU‑specific need
+### VU‑specific need
 
 In many university programmes, policy has evolved faster than practice. Colleagues often agree that AI can support learning, yet struggle to justify when and how it may be used in assessments; students, meanwhile, lack a consistent basis for disclosure and discussion. This creates **inequities in AI literacy and uneven expectations** across courses. Research on academic integrity recommends education‑first approaches—clear expectations, shared language, and constructive dialogue—rather than purely punitive responses.
 
-## What Academic AI Integrity offers
+### What Academic AI Integrity offers
 
 Designed at **Vrije Universiteit Amsterdam** for **students and teachers**, this e‑learning builds a **common knowledge base** for responsible AI use in academic contexts. The four modules—**Know, Use, Evaluate, Ethics**—are aligned to the **validated Generative AI Literacy Assessment Test (GLAT)** structure. Together they emphasize that **AI literacy is the means**, and **AI integrity (transparent, ethical, academically sound practice)** is the goal.
 
