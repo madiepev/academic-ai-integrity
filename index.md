@@ -11,7 +11,36 @@ title: ""
 ### Why this module now
 
 Generative AI has moved from novelty to everyday study practice: large 2024–2025 surveys show that **over 90%** of students use AI tools and **~88%** have used GenAI for assessments—dramatic year‑over‑year increases. At the same time, both instructors and students voice strong concerns about academic integrity, from the risk of “hallucinations” to fears of facilitating cheating.
+<div style="display: flex; gap: 16px; margin: 20px 0 28px 0; flex-wrap: wrap;">
 
+  <div style="flex: 1; min-width: 180px; background: #f8f8ff; border-radius: 12px; padding: 20px 24px; border: 1.5px solid #c7d2fe;">
+    <div style="font-size: 42px; font-weight: 800; color: #4f46e5; line-height: 1;">90%+</div>
+    <div style="font-size: 13px; font-weight: 600; color: #1e1b4b; margin-top: 6px;">of students use AI tools</div>
+    <div style="margin-top: 12px; background: #e0e7ff; border-radius: 6px; height: 8px; overflow: hidden;">
+      <div style="width: 90%; height: 100%; background: #4f46e5; border-radius: 6px;"></div>
+    </div>
+    <div style="font-size: 11px; color: #6b7280; margin-top: 6px;">in their studies</div>
+  </div>
+
+  <div style="flex: 1; min-width: 180px; background: #fff7ed; border-radius: 12px; padding: 20px 24px; border: 1.5px solid #fed7aa;">
+    <div style="font-size: 42px; font-weight: 800; color: #ea580c; line-height: 1;">~88%</div>
+    <div style="font-size: 13px; font-weight: 600; color: #1e1b4b; margin-top: 6px;">have used GenAI for assessments</div>
+    <div style="margin-top: 12px; background: #ffedd5; border-radius: 6px; height: 8px; overflow: hidden;">
+      <div style="width: 88%; height: 100%; background: #ea580c; border-radius: 6px;"></div>
+    </div>
+    <div style="font-size: 11px; color: #6b7280; margin-top: 6px;">dramatic year-over-year increase</div>
+  </div>
+
+  <div style="flex: 1; min-width: 180px; background: #f0fdf4; border-radius: 12px; padding: 20px 24px; border: 1.5px solid #bbf7d0;">
+    <div style="font-size: 42px; font-weight: 800; color: #16a34a; line-height: 1;">2024<span style="font-size: 22px;">–</span>25</div>
+    <div style="font-size: 13px; font-weight: 600; color: #1e1b4b; margin-top: 6px;">survey data</div>
+    <div style="margin-top: 12px; background: #dcfce7; border-radius: 6px; height: 8px; overflow: hidden;">
+      <div style="width: 100%; height: 100%; background: #16a34a; border-radius: 6px;"></div>
+    </div>
+    <div style="font-size: 11px; color: #6b7280; margin-top: 6px;">large-scale studies, students &amp; instructors</div>
+  </div>
+
+</div>
 ### VU‑specific need
 
 In many university programmes, policy has evolved faster than practice. Colleagues often agree that AI can support learning, yet struggle to justify when and how it may be used in assessments; students, meanwhile, lack a consistent basis for disclosure and discussion. This creates **inequities in AI literacy and uneven expectations** across courses. Research on academic integrity recommends education‑first approaches—clear expectations, shared language, and constructive dialogue—rather than purely punitive responses.
