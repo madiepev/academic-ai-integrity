@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="250 198 120 305" width="120" height="305">
+  <!-- nose cone -->
+  <path d="M310,205 L284,268 L336,268 Z" fill="#003082"/>
+  <!-- top band -->
+  <rect x="284" y="264" width="52" height="9" fill="#009CDE"/>
+  <!-- body -->
+  <rect x="284" y="272" width="52" height="85" rx="3" fill="#bdd4e8"/>
+  <!-- body stripes -->
+  <rect x="284" y="290" width="52" height="5" fill="#009CDE" opacity="0.35"/>
+  <rect x="284" y="348" width="52" height="5" fill="#003082" opacity="0.20"/>
+  <!-- fins -->
+  <path d="M284,287 L258,334 L284,322 Z" fill="#DF407A"/>
+  <path d="M336,287 L362,334 L336,322 Z" fill="#DF407A"/>
+  <!-- exhaust -->
+  <rect x="294" y="355" width="32" height="12" rx="3" fill="#4a6070"/>
+  <rect x="299" y="365" width="22" height="8"  rx="2" fill="#354550"/>
+  <!-- flame -->
+  <path d="M296,374 Q278,416 282,452 Q287,477 310,495 Q333,477 338,452 Q342,416 324,374 Z" fill="#FF9800"/>
+  <path d="M300,374 Q285,412 289,446 Q293,467 310,482 Q327,467 331,446 Q335,412 320,374 Z" fill="#FFC107"/>
+  <path d="M304,374 Q294,406 297,433 Q301,452 310,466 Q319,452 323,433 Q326,406 316,374 Z" fill="#FFF176"/>
+</svg>

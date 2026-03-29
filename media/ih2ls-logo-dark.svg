@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 70" role="img" aria-label="iH2LS – Innovations in Human Health &amp; Life Sciences">
+  <title>iH2LS – Innovations in Human Health &amp; Life Sciences</title>
+
+  <text x="0" y="44"
+        font-family="'Helvetica Neue', Arial, Helvetica, sans-serif"
+        font-size="54"
+        font-weight="700"
+        letter-spacing="-1"
+        fill="#FFFFFF">iH2LS</text>
+
+  <text x="1" y="56"
+        font-family="'Helvetica Neue', Arial, Helvetica, sans-serif"
+        font-size="9.5"
+        letter-spacing="1.8"
+        fill="#FFFFFF"
+        opacity="0.72">INNOVATIONS IN HUMAN</text>
+
+  <text x="1" y="68"
+        font-family="'Helvetica Neue', Arial, Helvetica, sans-serif"
+        font-size="9.5"
+        letter-spacing="1.8"
+        fill="#FFFFFF"
+        opacity="0.72">HEALTH &amp; LIFE SCIENCES</text>
+</svg>

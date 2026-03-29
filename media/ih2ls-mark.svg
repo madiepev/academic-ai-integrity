@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 700" role="img" aria-label="iH2LS logomark">
+  <title>iH2LS logomark</title>
+  <!--
+    Two interlocking hollow pill rings — identical size (164 × 320, rx=82, stroke=42).
+    Cyan    : perfectly vertical (no rotation), centre (440, 280).
+    Magenta : perfectly horizontal (rotate 90° around its centre), centre (540, 420).
+    Overlap region is the bottom-right quarter of the cyan ring / left side of magenta.
+    Composition anchored to the bottom-right of the 700 × 700 transparent canvas.
+    mix-blend-mode: multiply → dark-indigo where strokes cross.
+  -->
+  <g style="isolation: isolate">
+
+    <!-- Cyan ring — straight up, no rotation -->
+    <rect x="358" y="120" width="164" height="320" rx="82"
+          fill="none" stroke="#29ABE2" stroke-width="42"/>
+
+    <!-- Magenta ring — horizontal, centred at (540, 420), overlapping bottom-right of cyan -->
+    <rect x="458" y="260" width="164" height="320" rx="82"
+          fill="none" stroke="#EC008C" stroke-width="42"
+          transform="rotate(90, 540, 420)"
+          style="mix-blend-mode: multiply"/>
+
+  </g>
+</svg>
