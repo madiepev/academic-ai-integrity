@@ -1094,9 +1094,9 @@
   };
 
   function createAstronautMarkup(groupType) {
-    var suitPrimary = groupType === 'teacher' ? '#1a237e' : '#e65100';
-    var suitSecondary = groupType === 'teacher' ? '#283593' : '#bf360c';
-    var lightPrimary = groupType === 'teacher' ? '#5c6bc0' : '#ff8a65';
+    var suitPrimary = groupType === 'teacher' ? '#e65100' : '#1a237e';
+    var suitSecondary = groupType === 'teacher' ? '#bf360c' : '#283593';
+    var lightPrimary = groupType === 'teacher' ? '#ff8a65' : '#5c6bc0';
     return [
       '<ellipse cx="22" cy="68" rx="9" ry="4" fill="#37474f"/>',
       '<ellipse cx="38" cy="68" rx="9" ry="4" fill="#37474f"/>',
@@ -1174,6 +1174,7 @@
     var concern = this.getConcernLevel(group, theme);
     var x = 100 + (1 - concern) * 750;
     if (theme === 'all') x += OVERALL_SPREAD_OFFSETS[group.id] || 0;
+    if (theme === 'integrity' && group.type === 'student') x -= 55;
     return clamp(x, 90, 880);
   };
 
@@ -1349,7 +1350,7 @@
     if (!overlay || !studentFigure || !teacherFigure) return;
 
     var overRelianceShiftX = this.currentTheme === 'over-reliance' ? 150 : 0;
-    var forceTeacherLeft = this.currentTheme === 'over-reliance' || this.currentTheme === 'integrity' || this.currentTheme === 'critical-thinking' || this.currentTheme === 'privacy' || this.currentTheme === 'assessment';
+    var forceTeacherLeft = this.currentTheme === 'privacy' || this.currentTheme === 'assessment';
     var teacherMoreConcerned = forceTeacherLeft || teacherFigure.currentX < studentFigure.currentX;
 
     var studentOptions = teacherMoreConcerned
