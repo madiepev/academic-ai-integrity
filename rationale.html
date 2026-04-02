@@ -5,6 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI Rationale Builder</title>
     <style>
+        :root {
+            --brand-deep-navy: #061228;
+            --brand-surface-navy: #0d1e55;
+            --brand-blue: #6a9fe8;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -13,7 +19,7 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, var(--brand-surface-navy) 0%, var(--brand-deep-navy) 100%);
             min-height: 100vh;
             padding: 20px;
             display: flex;
@@ -89,7 +95,7 @@
 
         textarea:focus {
             outline: none;
-            border-color: #667eea;
+            border-color: var(--brand-blue);
         }
 
         .suggestions {
@@ -110,9 +116,9 @@
         }
 
         .suggestion-chip:hover {
-            background: #667eea;
+            background: var(--brand-blue);
             color: white;
-            border-color: #667eea;
+            border-color: var(--brand-blue);
         }
 
         .radio-group {
@@ -143,9 +149,9 @@
         }
 
         .radio-option input[type="radio"]:checked + label {
-            background: #667eea;
+            background: var(--brand-blue);
             color: white;
-            border-color: #667eea;
+            border-color: var(--brand-blue);
         }
 
         .checkbox-group {
@@ -166,7 +172,7 @@
         }
 
         .checkbox-option:hover {
-            border-color: #667eea;
+            border-color: var(--brand-blue);
             background: #f8f9ff;
         }
 
@@ -177,13 +183,13 @@
 
         .checkbox-option input[type="checkbox"]:checked ~ .checkbox-content,
         .checkbox-option input[type="radio"]:checked ~ .checkbox-content {
-            color: #667eea;
+            color: var(--brand-blue);
         }
 
         .checkbox-option input[type="checkbox"]:checked ~ .custom-checkbox,
         .checkbox-option input[type="radio"]:checked ~ .custom-checkbox {
-            background: #667eea;
-            border-color: #667eea;
+            background: var(--brand-blue);
+            border-color: var(--brand-blue);
         }
 
         .checkbox-option input[type="checkbox"]:checked ~ .custom-checkbox::after,
@@ -235,7 +241,7 @@
 
         .other-input:focus {
             outline: none;
-            border-color: #667eea;
+            border-color: var(--brand-blue);
         }
 
         button {
@@ -256,13 +262,13 @@
         }
 
         .btn-primary {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, var(--brand-surface-navy) 0%, var(--brand-deep-navy) 100%);
             color: white;
         }
 
         .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+            box-shadow: 0 5px 15px rgba(6, 18, 40, 0.4);
         }
 
         .btn-primary:disabled {
@@ -369,7 +375,7 @@
         .btn-survey {
             display: inline-block;
             padding: 14px 28px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, var(--brand-surface-navy) 0%, var(--brand-deep-navy) 100%);
             color: white;
             font-size: 16px;
             font-weight: 600;
@@ -380,7 +386,7 @@
 
         .btn-survey:hover {
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+            box-shadow: 0 5px 15px rgba(6, 18, 40, 0.4);
         }
 
         @media (max-width: 768px) {

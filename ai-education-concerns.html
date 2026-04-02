@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Everyone Is Worried About the Risks</title>
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body {
+            background: #061228;
+            color: white;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+        .page { max-width: 1020px; margin: 0 auto; padding: 64px 24px 80px; }
+        .section { margin-bottom: 64px; }
+        .overline {
+            font-size: 11px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase;
+            color: rgba(255,255,255,0.40); margin-bottom: 14px;
+        }
+        h1 {
+            font-size: clamp(38px, 5.5vw, 60px); font-weight: 800; line-height: 1.08;
+            background: linear-gradient(130deg, #ffffff 25%, #6a9fe8 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+            margin-bottom: 16px;
+        }
+        .tagline { font-size: 18px; color: rgba(255,255,255,0.52); font-weight: 400; }
+        hr.rule { border: none; border-top: 1px solid rgba(255,255,255,0.09); margin: 44px 0; }
+        .body-text { font-size: 16px; line-height: 1.80; color: rgba(255,255,255,0.65); max-width: 680px; }
+        .body-text strong { color: rgba(255,255,255,0.92); font-weight: 600; }
+        .section-label {
+            display: inline-block; font-size: 10.5px; font-weight: 700; letter-spacing: 1.4px;
+            text-transform: uppercase; color: #6a9fe8; margin-bottom: 10px;
+        }
+        h2 { font-size: clamp(22px, 3vw, 30px); font-weight: 700; color: white; line-height: 1.25; margin-bottom: 12px; }
+        
+        /* SVG visuals */
+        .svg-wide svg { width: 100%; height: auto; display: block; overflow: visible; }
+        .svg-narrow { width: min(620px,100%); margin: 0 auto; }
+        .svg-narrow svg { width: 100%; height: auto; display: block; overflow: visible; }
+        svg a { cursor: pointer; }
+
+        /* Theme filter buttons */
+        .theme-filters {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 40px;
+        }
+        .theme-filter-overall {
+            width: 100%;
+        }
+        .theme-filter-row {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(140px, 1fr));
+            gap: 12px;
+        }
+        .theme-btn {
+            padding: 14px 16px;
+            border: 1px solid rgba(106, 159, 232, 0.3);
+            background: rgba(13, 30, 85, 0.8);
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 14px;
+            color: rgba(255,255,255,0.65);
+            transition: all 0.22s;
+            text-align: center;
+            white-space: nowrap;
+        }
+        .theme-filter-overall .theme-btn {
+            width: 100%;
+        }
+        .theme-filter-row .theme-btn {
+            width: 100%;
+            min-width: 0;
+        }
+
+        @media (max-width: 860px) {
+            .theme-filter-row {
+                grid-template-columns: repeat(2, minmax(140px, 1fr));
+            }
+        }
+        .theme-btn:hover {
+            border-color: #6a9fe8;
+            color: rgba(255,255,255,0.9);
+            background: rgba(13, 30, 85, 0.95);
+        }
+        .theme-btn.active {
+            background: #6a9fe8;
+            border-color: #6a9fe8;
+            color: white;
+        }
+        /* Concern visualization */
+        .viz-stage {
+            position: relative;
+        }
+        .viz-group { transition: opacity 0.25s; }
+        .viz-astronaut { transition: transform 0.18s linear; }
+        .quote-overlay {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+        }
+        .quote-bubble {
+            position: absolute;
+            width: min(260px, 34vw);
+            padding: 14px 16px 13px;
+            border-radius: 16px;
+            background: rgba(7, 16, 42, 0.94);
+            border: 1px solid rgba(255,255,255,0.14);
+            box-shadow: 0 18px 40px rgba(0,0,0,0.28);
+            transition: left 0.72s cubic-bezier(0.22, 1, 0.36, 1), top 0.72s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.25s;
+        }
+        .quote-bubble::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            width: 18px;
+            height: 18px;
+            background: rgba(7, 16, 42, 0.94);
+            border-right: 1px solid rgba(255,255,255,0.14);
+            border-bottom: 1px solid rgba(255,255,255,0.14);
+            transform: rotate(45deg);
+        }
+        .quote-bubble.student::after {
+            left: 26px;
+        }
+        .quote-bubble.teacher::after {
+            right: 26px;
+        }
+        .quote-role {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1.1px;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+        .quote-role::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            border-radius: 999px;
+        }
+        .quote-bubble.student .quote-role {
+            color: #79c7f3;
+        }
+        .quote-bubble.student .quote-role::before {
+            background: #009CDE;
+        }
+        .quote-bubble.teacher .quote-role {
+            color: #ffc56f;
+        }
+        .quote-bubble.teacher .quote-role::before {
+            background: #FF9800;
+        }
+        .quote-body {
+            font-size: 13px;
+            line-height: 1.5;
+            color: rgba(255,255,255,0.85);
+        }
+        .quote-theme {
+            margin-top: 10px;
+            font-size: 11px;
+            letter-spacing: 0.9px;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.38);
+        }
+
+        @media (max-width: 760px) {
+            .quote-bubble {
+                width: min(220px, 52vw);
+                padding: 12px 14px;
+            }
+            .quote-body {
+                font-size: 12px;
+            }
+        }
+
+        .footer { text-align: center; font-size: 11px; color: rgba(255,255,255,0.20); margin-top: 64px; padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.07); }
+
+        body.embed-mode .page {
+            max-width: 100%;
+            padding: 0;
+        }
+        body.embed-mode header.section,
+        body.embed-mode hr.rule,
+        body.embed-mode .section:not(.visualization-section),
+        body.embed-mode .footer {
+            display: none;
+        }
+        body.embed-mode .visualization-section {
+            margin: 0;
+            padding: 0;
+        }
+        body.embed-mode .theme-filters {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="page">
+    <header class="section">
+        <p class="overline">Vrije Universiteit Amsterdam — e-learning</p>
+        <h1>Everyone Is Worried About the Risks</h1>
+        <p class="tagline">Student and teacher concerns across diverse themes</p>
+    </header>
+
+    <hr class="rule">
+
+    <section class="section">
+        <p class="body-text">
+            As artificial intelligence integrates into academic life, <strong>different groups perceive different risks</strong>. 
+            Students and teachers show different patterns of concern and confidence. This visualization maps those patterns across key themes,
+            showing how proximity to AI reflects the depth of concern. <strong>The closer to the rocket, the less concerned</strong> — and vice versa.
+        </p>
+    </section>
+
+    <section class="section visualization-section">
+        <span class="section-label">Visualization</span>
+        <h2>Student and teacher positioning by theme</h2>
+        <p class="body-text" style="margin-bottom:28px;">
+            Select a theme to see how students (blue) and teachers (orange) position themselves relative to AI in education.
+            Their distance reflects the intensity of their concerns on that particular dimension.
+        </p>
+
+        <div class="theme-filters" id="themeFilters"></div>
+
+        <div class="svg-wide viz-stage">
+            <svg viewBox="0 0 1020 500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Student and teacher concerns visualization">
+                <defs>
+                    <filter id="ng" x="-80%" y="-80%" width="260%" height="260%">
+                        <feGaussianBlur stdDeviation="4" result="b"/>
+                        <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+                    </filter>
+                </defs>
+
+                <!-- Background -->
+                <rect width="1020" height="500" fill="#061228"/>
+
+                <radialGradient id="sceneGlow" cx="78%" cy="44%" r="28%">
+                    <stop offset="0%" stop-color="#0d1e55" stop-opacity="0.9"/>
+                    <stop offset="100%" stop-color="#0d1e55" stop-opacity="0"/>
+                </radialGradient>
+                
+                <!-- Subtle decoration -->
+                <circle cx="900" cy="80"  r="2"   fill="white" opacity="0.15"/>
+                <circle cx="120" cy="450" r="1.5" fill="white" opacity="0.12"/>
+                <circle cx="980" cy="420" r="3"   fill="#009CDE" opacity="0.20"/>
+                <circle cx="820" cy="150" r="38" fill="#2b1d75" opacity="0.24"/>
+                <circle cx="915" cy="70" r="24" fill="#4d2f92" opacity="0.28"/>
+                <circle cx="932" cy="112" r="60" fill="#f9b233" opacity="0.08"/>
+                <circle cx="932" cy="112" r="34" fill="#ffd567" opacity="0.20"/>
+                <circle cx="932" cy="112" r="18" fill="#ffe49a" opacity="0.78"/>
+                <circle cx="924" cy="104" r="4" fill="rgba(255,255,255,0.45)"/>
+                <rect width="1020" height="500" fill="url(#sceneGlow)" opacity="0.6"/>
+
+                <!-- Ground and sky zones -->
+                <rect x="0" y="0" width="1020" height="220" fill="#0d1e55" opacity="0.3"/>
+                <rect x="0" y="220" width="1020" height="280" fill="#0f2468" opacity="0.25"/>
+                <rect x="0" y="402" width="1020" height="32" fill="#10265d"/>
+                <rect x="0" y="434" width="1020" height="66" fill="#0d1e55"/>
+                <path d="M0 402 H1020" stroke="rgba(0,156,222,0.45)" stroke-width="2"/>
+                <g opacity="0.22">
+                    <path d="M0 434 H1020" stroke="rgba(106,159,232,0.4)" stroke-width="1"/>
+                    <path d="M0 466 H1020" stroke="rgba(106,159,232,0.4)" stroke-width="1"/>
+                    <path d="M40 402 V500" stroke="rgba(106,159,232,0.25)" stroke-width="1"/>
+                    <path d="M96 402 V500" stroke="rgba(106,159,232,0.25)" stroke-width="1"/>
+                    <path d="M152 402 V500" stroke="rgba(106,159,232,0.25)" stroke-width="1"/>
+                    <path d="M208 402 V500" stroke="rgba(106,159,232,0.25)" stroke-width="1"/>
+                    <path d="M264 402 V500" stroke="rgba(106,159,232,0.25)" stroke-width="1"/>
+                    <path d="M320 402 V500" stroke="rgba(106,159,232,0.25)" stroke-width="1"/>
+                    <path d="M376 402 V500" stroke="rgba(106,159,232,0.25)" stroke-width="1"/>
+                    <path d="M432 402 V500" stroke="rgba(106,159,232,0.25)" stroke-width="1"/>
+                    <path d="M488 402 V500" stroke="rgba(106,159,232,0.25)" stroke-width="1"/>
+                    <path d="M544 402 V500" stroke="rgba(106,159,232,0.25)" stroke-width="1"/>
+                    <path d="M600 402 V500" stroke="rgba(106,159,232,0.25)" stroke-width="1"/>
+                    <path d="M656 402 V500" stroke="rgba(106,159,232,0.25)" stroke-width="1"/>
+                    <path d="M712 402 V500" stroke="rgba(106,159,232,0.25)" stroke-width="1"/>
+                    <path d="M768 402 V500" stroke="rgba(106,159,232,0.25)" stroke-width="1"/>
+                    <path d="M824 402 V500" stroke="rgba(106,159,232,0.25)" stroke-width="1"/>
+                    <path d="M880 402 V500" stroke="rgba(106,159,232,0.25)" stroke-width="1"/>
+                    <path d="M936 402 V500" stroke="rgba(106,159,232,0.25)" stroke-width="1"/>
+                    <path d="M992 402 V500" stroke="rgba(106,159,232,0.25)" stroke-width="1"/>
+                </g>
+
+                <!-- Concern scale indicators -->
+                <text x="60" y="470" font-family="-apple-system,sans-serif" font-size="11" font-weight="600" letter-spacing="1.2" fill="rgba(255,255,255,0.35)" text-transform="uppercase">More concerned</text>
+                <text x="880" y="470" font-family="-apple-system,sans-serif" font-size="11" font-weight="600" letter-spacing="1.2" fill="rgba(255,255,255,0.35)" text-anchor="end" text-transform="uppercase">Less concerned</text>
+
+                <!-- Gradient bar scale -->
+                <defs>
+                    <linearGradient id="concernGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" style="stop-color:#DF407A;stop-opacity:0.4" />
+                        <stop offset="50%" style="stop-color:#FFB300;stop-opacity:0.3" />
+                        <stop offset="100%" style="stop-color:#009CDE;stop-opacity:0.4" />
+                    </linearGradient>
+                </defs>
+                <rect x="80" y="450" width="860" height="3" fill="url(#concernGradient)"/>
+
+                <!-- Launch structure -->
+                <rect x="824" y="250" width="10" height="152" fill="rgba(0,156,222,0.35)"/>
+                <rect x="774" y="286" width="50" height="6" fill="#355e8a" opacity="0.9"/>
+                <rect x="774" y="336" width="50" height="6" fill="#355e8a" opacity="0.9"/>
+                <rect x="800" y="402" width="120" height="12" fill="#4a6070" rx="2"/>
+                <rect x="812" y="414" width="96" height="8" fill="#354550" rx="1"/>
+                <g opacity="0.95">
+                    <rect x="856" y="370" width="20" height="36" rx="3" fill="#5b7283"/>
+                    <rect x="847" y="384" width="38" height="10" rx="3" fill="#6f8798"/>
+                    <path d="M851 394 L840 406 H848 L858 394 Z" fill="#4a6070"/>
+                    <path d="M881 394 L870 394 L880 406 H888 Z" fill="#4a6070"/>
+                    <rect x="842" y="406" width="48" height="8" rx="2" fill="#354550"/>
+                </g>
+
+                <!-- Rocket on the right using the exact rocket.svg shape -->
+                <g transform="translate(576, 18) scale(0.93)">
+                    <path d="M310,205 L284,268 L336,268 Z" fill="#003082"/>
+                    <rect x="284" y="264" width="52" height="9" fill="#009CDE"/>
+                    <rect x="284" y="272" width="52" height="85" rx="3" fill="#bdd4e8"/>
+                    <rect x="284" y="290" width="52" height="5" fill="#009CDE" opacity="0.35"/>
+                    <rect x="284" y="348" width="52" height="5" fill="#003082" opacity="0.20"/>
+                    <path d="M284,287 L258,334 L284,322 Z" fill="#DF407A"/>
+                    <path d="M336,287 L362,334 L336,322 Z" fill="#DF407A"/>
+                    <rect x="294" y="355" width="32" height="12" rx="3" fill="#4a6070"/>
+                    <rect x="299" y="365" width="22" height="8" rx="2" fill="#354550"/>
+                </g>
+
+                <!-- Figures container -->
+                <g id="backgroundCrowd"></g>
+                <g id="figuresGroup"></g>
+            </svg>
+            <div class="quote-overlay" id="quoteOverlay"></div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        Academic AI Integrity • Vrije Universiteit Amsterdam
+    </footer>
+</div>
+
+<script>
+    const THEMES = [
+        { id: 'all', label: 'Overall view', hint: 'See the average position across all themes.' },
+        { id: 'sustainability', label: 'Environmental cost', hint: 'How much AI raises sustainability concerns.' },
+        { id: 'over-reliance', label: 'Too dependent on AI', hint: 'Worry about people leaning on AI too much.' },
+        { id: 'integrity', label: 'Cheating and integrity', hint: 'Concerns about misuse and academic honesty.' },
+        { id: 'critical-thinking', label: 'Thinking for yourself', hint: 'Whether AI weakens critical thinking.' },
+        { id: 'bias', label: 'Bias and fairness', hint: 'Whether AI outputs treat people fairly.' },
+        { id: 'privacy', label: 'Data and privacy', hint: 'Concerns about personal or institutional data.' },
+        { id: 'assessment', label: 'Grading and assessment', hint: 'How hard it is to assess work fairly.' },
+        { id: 'professional', label: 'Teacher readiness', hint: 'Whether staff feel prepared to use AI well.' }
+    ];
+
+    const THEME_STATS = {
+        teacher: {
+            sustainability: 5.0,
+            'over-reliance': 2.1,
+            integrity: 3.1,
+            'critical-thinking': 9.1,
+            bias: 11.8,
+            privacy: 15.2,
+            assessment: 14.2,
+            professional: 8.4
+        },
+        student: {
+            sustainability: 10.9,
+            'over-reliance': 15.3,
+            integrity: 14.5,
+            'critical-thinking': 35.5,
+            bias: 16.7,
+            privacy: 3.6,
+            assessment: 8.0,
+            professional: 6.0
+        }
+    };
+
+    const THEME_STAT_RANGES = {
+        teacher: {
+            min: 2.1,
+            max: 15.2
+        },
+        student: {
+            min: 3.6,
+            max: 35.5
+        }
+    };
+
+    function clamp(value, min, max) {
+        return Math.min(max, Math.max(min, value));
+    }
+
+    function normalizeThemeStat(type, value) {
+        const range = THEME_STAT_RANGES[type];
+        const normalized = (value - range.min) / (range.max - range.min);
+        return 0.34 + normalized * 0.52;
+    }
+
+    function createThemeProfile(type, offset = 0) {
+        return Object.fromEntries(
+            Object.entries(THEME_STATS[type]).map(([themeId, stat]) => [
+                themeId,
+                clamp(normalizeThemeStat(type, stat) + offset, 0.28, 0.9)
+            ])
+        );
+    }
+
+    const GROUP_DATA = [
+        { 
+            id: 'student-1', 
+            name: 'Student 1', 
+            type: 'student', 
+            color: '#009CDE',
+            themes: createThemeProfile('student', -0.02)
+        },
+        { 
+            id: 'student-2', 
+            name: 'Student 2', 
+            type: 'student',
+            color: '#009CDE',
+            themes: createThemeProfile('student', 0.01)
+        },
+        { 
+            id: 'student-3', 
+            name: 'Student 3', 
+            type: 'student',
+            color: '#009CDE',
+            themes: createThemeProfile('student', -0.04)
+        },
+        { 
+            id: 'teacher-1', 
+            name: 'Teacher 1', 
+            type: 'teacher',
+            color: '#FF9800',
+            themes: createThemeProfile('teacher', 0.02)
+        },
+        { 
+            id: 'teacher-2', 
+            name: 'Teacher 2', 
+            type: 'teacher',
+            color: '#FF9800',
+            themes: createThemeProfile('teacher', 0)
+        },
+        { 
+            id: 'teacher-3', 
+            name: 'Teacher 3', 
+            type: 'teacher',
+            color: '#FF9800',
+            themes: createThemeProfile('teacher', 0.04)
+        }
+    ];
+
+    const OVERALL_SPREAD_OFFSETS = {
+        'student-1': -140,
+        'student-2': -85,
+        'student-3': -30,
+        'teacher-1': 35,
+        'teacher-2': 95,
+        'teacher-3': 150
+    };
+
+    const THEME_DATA = {
+        all: {
+            student: {
+                role: 'Student perspective',
+                text: 'I worry about over-relying on AI, accidentally crossing into cheating, and the environmental cost, and sometimes it feels like teachers trust us less because of it.'
+            },
+            teacher: {
+                role: 'Teacher perspective',
+                text: 'AI opens possibilities, but it also changes how I think about teaching, trust, and fair assessment, and I am not always sure how to approach this topic in class.'
+            },
+            label: 'Overall view'
+        },
+        sustainability: {
+            student: {
+                role: 'Student perspective',
+                text: 'I do think about whether using AI all the time has a hidden environmental cost.'
+            },
+            teacher: {
+                role: 'Teacher perspective',
+                text: 'If we scale AI across courses, we should also account for the energy and infrastructure behind it.'
+            },
+            label: 'Environmental cost'
+        },
+        'over-reliance': {
+            student: {
+                role: 'Student perspective',
+                text: 'It is easy to let AI do too much and then realise I did not really learn the material.'
+            },
+            teacher: {
+                role: 'Teacher perspective',
+                text: 'My concern is that students may rely on AI before they have built the underlying skills themselves.'
+            },
+            label: 'Too dependent on AI'
+        },
+        integrity: {
+            student: {
+                role: 'Student perspective',
+                text: 'I worry about crossing the line without realizing it, like using AI for help and then finding out I relied on it too much.'
+            },
+            teacher: {
+                role: 'Teacher perspective',
+                text: 'AI detection tools can support us, but they are not always reliable. I still need fair judgment and clear evidence before calling something misconduct.'
+            },
+            label: 'Cheating and integrity'
+        },
+        'critical-thinking': {
+            student: {
+                role: 'Student perspective',
+                text: 'AI can speed things up, but it can also make it easier to stop questioning the answer.'
+            },
+            teacher: {
+                role: 'Teacher perspective',
+                text: 'The risk is not just wrong answers. It is students skipping the deeper thinking that learning requires.'
+            },
+            label: 'Thinking for yourself'
+        },
+        bias: {
+            student: {
+                role: 'Student perspective',
+                text: 'I worry that AI can repeat stereotypes, and I might not notice when an answer is unfair to certain groups.'
+            },
+            teacher: {
+                role: 'Teacher perspective',
+                text: 'If students trust biased AI outputs, they can reinforce harmful assumptions unless we actively teach fairness checks.'
+            },
+            label: 'Bias and fairness'
+        },
+        privacy: {
+            student: {
+                role: 'Student perspective',
+                text: 'I want to know what happens to my prompts, my coursework, and any personal data I put into these tools.'
+            },
+            teacher: {
+                role: 'Teacher perspective',
+                text: 'I am concerned that students may get used to sharing confidential information with AI without realizing the risks.'
+            },
+            label: 'Data and privacy'
+        },
+        assessment: {
+            student: {
+                role: 'Student perspective',
+                text: 'If AI use is allowed in some ways but not others, I need assessment rules that feel clear and fair.'
+            },
+            teacher: {
+                role: 'Teacher perspective',
+                text: 'Assessment becomes harder when I cannot easily separate student understanding from AI assistance.'
+            },
+            label: 'Grading and assessment'
+        },
+        professional: {
+            student: {
+                role: 'Student perspective',
+                text: 'I do not expect my teacher to have every AI answer, but I want to ask what counts as appropriate use and get clear guidance.'
+            },
+            teacher: {
+                role: 'Teacher perspective',
+                text: 'I need time, support, and training if I am expected to integrate AI responsibly into teaching.'
+            },
+            label: 'Teacher readiness'
+        }
+    };
+
+    class Visualization {
+        constructor() {
+            this.currentTheme = 'all';
+            this.figureElements = new Map();
+            this.animationFrame = null;
+            this.animationDuration = 720;
+            this.backgroundCrowdRendered = false;
+            this.init();
+        }
+
+        init() {
+            this.renderThemeButtons();
+            this.renderBackgroundCrowd();
+            this.renderFigures();
+            this.renderQuotes();
+        }
+
+        renderThemeButtons() {
+            const container = document.getElementById('themeFilters');
+            const overallContainer = document.createElement('div');
+            overallContainer.className = 'theme-filter-overall';
+
+            const themesRow = document.createElement('div');
+            themesRow.className = 'theme-filter-row';
+
+            THEMES.forEach((theme, idx) => {
+                const btn = document.createElement('button');
+                btn.className = `theme-btn ${idx === 0 ? 'active' : ''}`;
+                btn.textContent = theme.label;
+                btn.onclick = () => this.selectTheme(theme.id, btn);
+
+                if (idx === 0) {
+                    overallContainer.appendChild(btn);
+                } else {
+                    themesRow.appendChild(btn);
+                }
+            });
+
+            container.appendChild(overallContainer);
+            container.appendChild(themesRow);
+        }
+
+        selectTheme(themeId, button) {
+            this.currentTheme = themeId;
+            document.querySelectorAll('.theme-btn').forEach(b => b.classList.remove('active'));
+            button.classList.add('active');
+            this.animateFigures();
+            this.renderQuotes();
+        }
+
+        getConcernLevel(group, theme) {
+            if (theme === 'all') {
+                const themeValues = Object.values(group.themes);
+                return themeValues.reduce((total, value) => total + value, 0) / themeValues.length;
+            }
+            return group.themes[theme] || 0.5;
+        }
+
+        getXPosition(group, theme) {
+            const concern = this.getConcernLevel(group, theme);
+            // Lower concern = further right (closer to rocket, x=920)
+            // Higher concern = further left (x=100)
+            let x = 100 + (1 - concern) * 750;
+
+            if (theme === 'all') {
+                x += OVERALL_SPREAD_OFFSETS[group.id] || 0;
+            }
+
+            return clamp(x, 90, 880);
+        }
+
+        renderFigures() {
+            const svg = document.getElementById('figuresGroup');
+            svg.innerHTML = '';
+            this.figureElements.clear();
+
+            GROUP_DATA.forEach((group, idx) => {
+                const x = this.getXPosition(group, this.currentTheme);
+                const row = idx % 3;
+                const baseY = 385 + row * 8 + (group.type === 'teacher' ? 0 : 22);
+                const figure = this.createFigure(group, x, baseY);
+
+                this.figureElements.set(group.id, {
+                    group,
+                    root: figure.root,
+                    astronaut: figure.astronaut,
+                    baseY,
+                    currentX: x
+                });
+
+                svg.appendChild(figure.root);
+            });
+        }
+
+        createFigure(group, x, baseY) {
+            const root = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+            root.setAttribute('class', 'viz-group');
+            root.setAttribute('style', 'cursor: pointer;');
+            root.setAttribute('transform', `translate(${x}, ${baseY})`);
+
+            const shadow = document.createElementNS('http://www.w3.org/2000/svg', 'ellipse');
+            shadow.setAttribute('cx', '0');
+            shadow.setAttribute('cy', '18');
+            shadow.setAttribute('rx', '11');
+            shadow.setAttribute('ry', '4');
+            shadow.setAttribute('fill', 'rgba(0,0,0,0.35)');
+
+            const astronaut = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+            astronaut.setAttribute('class', 'viz-astronaut');
+            astronaut.setAttribute('transform', this.getAstronautTransform(group.type, 0, 0));
+
+            const suitPrimary = group.type === 'teacher' ? '#1a237e' : '#e65100';
+            const suitSecondary = group.type === 'teacher' ? '#283593' : '#bf360c';
+            const lightPrimary = group.type === 'teacher' ? '#5c6bc0' : '#ff8a65';
+
+            const parts = [
+                '<ellipse cx="22" cy="68" rx="9" ry="4" fill="#37474f"/>',
+                '<ellipse cx="38" cy="68" rx="9" ry="4" fill="#37474f"/>',
+                `<rect x="16" y="55" width="12" height="14" rx="6" fill="${suitPrimary}"/>`,
+                `<rect x="32" y="55" width="12" height="14" rx="6" fill="${suitPrimary}"/>`,
+                `<rect x="13" y="34" width="34" height="24" rx="9" fill="${suitPrimary}"/>`,
+                `<rect x="21" y="39" width="18" height="12" rx="4" fill="${suitSecondary}"/>`,
+                `<circle cx="26" cy="45" r="2.2" fill="${lightPrimary}"/>`,
+                '<circle cx="34" cy="45" r="2.2" fill="#ef5350"/>',
+                `<rect x="2" y="34" width="13" height="9" rx="4.5" fill="${suitPrimary}"/>`,
+                `<rect x="45" y="34" width="13" height="9" rx="4.5" fill="${suitPrimary}"/>`,
+                '<circle cx="8" cy="46" r="5.5" fill="#cfd8dc"/>',
+                '<circle cx="52" cy="46" r="5.5" fill="#cfd8dc"/>',
+                '<ellipse cx="30" cy="33" rx="15" ry="5" fill="#b0bec5"/>',
+                '<circle cx="30" cy="19" r="18" fill="#eceff1"/>',
+                `<ellipse cx="30" cy="19" rx="12" ry="10" fill="${suitPrimary}" opacity="0.84"/>`,
+                '<ellipse cx="24" cy="13" rx="4.5" ry="3" fill="rgba(255,255,255,0.55)" transform="rotate(-25 24 13)"/>',
+                '<circle cx="30" cy="19" r="18" fill="none" stroke="#90a4ae" stroke-width="1.5"/>'
+            ];
+            astronaut.innerHTML = parts.join('');
+
+            root.appendChild(shadow);
+            root.appendChild(astronaut);
+
+            return { root, astronaut };
+        }
+
+        renderBackgroundCrowd() {
+            if (this.backgroundCrowdRendered) {
+                return;
+            }
+
+            const crowd = document.getElementById('backgroundCrowd');
+            if (!crowd) {
+                return;
+            }
+
+            const miniCount = 14;
+            for (let i = 0; i < miniCount; i += 1) {
+                const isTeacher = Math.random() > 0.5;
+                const x = 70 + Math.random() * 780;
+                const scale = 0.18 + Math.random() * 0.1;
+                const y = 398 - 68 * scale + (Math.random() * 8 - 4);
+                const opacity = 0.16 + Math.random() * 0.2;
+
+                const mini = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+                mini.setAttribute('transform', `translate(${x}, ${y}) scale(${scale})`);
+                mini.setAttribute('opacity', opacity.toFixed(2));
+
+                const suitPrimary = isTeacher ? '#1a237e' : '#e65100';
+                const suitSecondary = isTeacher ? '#283593' : '#bf360c';
+                const lightPrimary = isTeacher ? '#5c6bc0' : '#ff8a65';
+
+                mini.innerHTML = `
+                    <ellipse cx="22" cy="68" rx="9" ry="4" fill="#37474f"/>
+                    <ellipse cx="38" cy="68" rx="9" ry="4" fill="#37474f"/>
+                    <rect x="16" y="55" width="12" height="14" rx="6" fill="${suitPrimary}"/>
+                    <rect x="32" y="55" width="12" height="14" rx="6" fill="${suitPrimary}"/>
+                    <rect x="13" y="34" width="34" height="24" rx="9" fill="${suitPrimary}"/>
+                    <rect x="21" y="39" width="18" height="12" rx="4" fill="${suitSecondary}"/>
+                    <circle cx="26" cy="45" r="2.2" fill="${lightPrimary}"/>
+                    <circle cx="34" cy="45" r="2.2" fill="#ef5350"/>
+                    <rect x="2" y="34" width="13" height="9" rx="4.5" fill="${suitPrimary}"/>
+                    <rect x="45" y="34" width="13" height="9" rx="4.5" fill="${suitPrimary}"/>
+                    <circle cx="8" cy="46" r="5.5" fill="#cfd8dc"/>
+                    <circle cx="52" cy="46" r="5.5" fill="#cfd8dc"/>
+                    <ellipse cx="30" cy="33" rx="15" ry="5" fill="#b0bec5"/>
+                    <circle cx="30" cy="19" r="18" fill="#eceff1"/>
+                    <ellipse cx="30" cy="19" rx="12" ry="10" fill="${suitPrimary}" opacity="0.84"/>
+                    <ellipse cx="24" cy="13" rx="4.5" ry="3" fill="rgba(255,255,255,0.55)" transform="rotate(-25 24 13)"/>
+                    <circle cx="30" cy="19" r="18" fill="none" stroke="#90a4ae" stroke-width="1.5"/>
+                `;
+
+                crowd.appendChild(mini);
+            }
+
+            this.backgroundCrowdRendered = true;
+        }
+
+        getAstronautTransform(type, bounce, tilt) {
+            const scale = 'translate(0, 1) scale(0.54)';
+            return `translate(0, ${bounce}) rotate(${tilt} 30 38) ${scale}`;
+        }
+
+        animateFigures() {
+            if (this.animationFrame) {
+                cancelAnimationFrame(this.animationFrame);
+                this.animationFrame = null;
+            }
+
+            const startTime = performance.now();
+            const startState = GROUP_DATA.map(group => {
+                const figure = this.figureElements.get(group.id);
+                return {
+                    group,
+                    figure,
+                    startX: figure.currentX,
+                    endX: this.getXPosition(group, this.currentTheme)
+                };
+            });
+
+            const step = now => {
+                const rawProgress = Math.min((now - startTime) / this.animationDuration, 1);
+                const eased = 1 - Math.pow(1 - rawProgress, 3);
+
+                startState.forEach((entry, idx) => {
+                    const nextX = entry.startX + (entry.endX - entry.startX) * eased;
+                    const distance = Math.abs(entry.endX - entry.startX);
+                    const bobStrength = distance > 2 ? 3.5 : 0;
+                    const bob = bobStrength * Math.sin(rawProgress * Math.PI * 6 + idx * 0.7);
+                    const tilt = distance > 2 ? 4 * Math.sin(rawProgress * Math.PI * 6 + idx * 0.7) : 0;
+
+                    entry.figure.currentX = nextX;
+                    entry.figure.root.setAttribute('transform', `translate(${nextX}, ${entry.figure.baseY + bob})`);
+                    entry.figure.astronaut.setAttribute(
+                        'transform',
+                        this.getAstronautTransform(entry.group.type, -Math.abs(bob) * 0.35, tilt)
+                    );
+                });
+
+                this.updateQuotePositions();
+
+                if (rawProgress < 1) {
+                    this.animationFrame = requestAnimationFrame(step);
+                    return;
+                }
+
+                startState.forEach(entry => {
+                    entry.figure.currentX = entry.endX;
+                    entry.figure.root.setAttribute('transform', `translate(${entry.endX}, ${entry.figure.baseY})`);
+                    entry.figure.astronaut.setAttribute('transform', this.getAstronautTransform(entry.group.type, 0, 0));
+                });
+
+                this.updateQuotePositions();
+
+                this.animationFrame = null;
+            };
+
+            this.animationFrame = requestAnimationFrame(step);
+        }
+
+        renderQuotes() {
+            const container = document.getElementById('quoteOverlay');
+            const data = THEME_DATA[this.currentTheme];
+            if (!data || !data.student || !data.teacher) {
+                container.innerHTML = '';
+                return;
+            }
+
+            container.innerHTML = `
+                <div class="quote-bubble student" data-role="student">
+                    <div class="quote-role">${data.student.role}</div>
+                    <div class="quote-body">${data.student.text}</div>
+                    <div class="quote-theme">${data.label}</div>
+                </div>
+                <div class="quote-bubble teacher" data-role="teacher">
+                    <div class="quote-role">${data.teacher.role}</div>
+                    <div class="quote-body">${data.teacher.text}</div>
+                    <div class="quote-theme">${data.label}</div>
+                </div>
+            `;
+
+            this.updateQuotePositions();
+        }
+
+        updateQuotePositions() {
+            const overlay = document.getElementById('quoteOverlay');
+            if (!overlay) {
+                return;
+            }
+
+            const studentBubble = overlay.querySelector('[data-role="student"]');
+            const teacherBubble = overlay.querySelector('[data-role="teacher"]');
+            const studentFigure = this.figureElements.get('student-2');
+            const teacherFigure = this.figureElements.get('teacher-2');
+            const overRelianceShiftX = this.currentTheme === 'over-reliance' ? 150 : 0;
+
+            if (!studentFigure || !teacherFigure) {
+                return;
+            }
+
+            const forceTeacherLeft = this.currentTheme === 'over-reliance' || this.currentTheme === 'integrity' || this.currentTheme === 'critical-thinking' || this.currentTheme === 'privacy' || this.currentTheme === 'assessment';
+            const teacherMoreConcerned = forceTeacherLeft || teacherFigure.currentX < studentFigure.currentX;
+            const studentOptions = teacherMoreConcerned
+                ? {
+                    offsetX: -118 + overRelianceShiftX,
+                    offsetY: -248,
+                    align: 'right',
+                    side: 'right'
+                }
+                : {
+                    offsetX: -48 + overRelianceShiftX,
+                    offsetY: -248,
+                    align: 'left',
+                    side: 'left'
+                };
+
+            const teacherOptions = teacherMoreConcerned
+                ? {
+                    offsetX: -356 + overRelianceShiftX,
+                    offsetY: -264,
+                    align: 'left',
+                    side: 'left'
+                }
+                : {
+                    offsetX: -196 + overRelianceShiftX,
+                    offsetY: -264,
+                    align: 'right',
+                    side: 'right'
+                };
+
+            const studentPosition = this.getBubblePosition(studentBubble, studentFigure, studentOptions);
+            const teacherPosition = this.getBubblePosition(teacherBubble, teacherFigure, teacherOptions);
+
+            const resolvedPositions = this.resolveBubbleOverlap(studentPosition, teacherPosition, overlay);
+
+            this.applyBubblePosition(studentBubble, resolvedPositions.student);
+            this.applyBubblePosition(teacherBubble, resolvedPositions.teacher);
+        }
+
+        getBubblePosition(element, figure, options) {
+            if (!element || !figure) {
+                return null;
+            }
+
+            const width = element.offsetWidth || 260;
+            const height = element.offsetHeight || 112;
+            let left = figure.currentX + options.offsetX;
+            let top = figure.baseY + options.offsetY;
+
+            if (options.align === 'right') {
+                left = left - width + 70;
+            }
+
+            if (options.side === 'left') {
+                left = clamp(left, 20, 400);
+            } else if (options.side === 'right') {
+                left = clamp(left, 420, 1020 - width - 20);
+            } else {
+                left = clamp(left, 20, 1020 - width - 20);
+            }
+            top = clamp(top, 20, 220);
+
+            return { left, top, width, height, side: options.side };
+        }
+
+        resolveBubbleOverlap(student, teacher, overlay) {
+            if (!student || !teacher) {
+                return { student, teacher };
+            }
+
+            const overlayWidth = overlay.clientWidth || 1020;
+            const overlayHeight = overlay.clientHeight || 500;
+            const scaleX = overlayWidth / 1020;
+            const scaleY = overlayHeight / 500;
+
+            const intersects = (first, second) => {
+                if (!first || !second) {
+                    return false;
+                }
+
+                return !(
+                    first.left + first.width <= second.left ||
+                    second.left + second.width <= first.left ||
+                    first.top + first.height <= second.top ||
+                    second.top + second.height <= first.top
+                );
+            };
+
+            if (!intersects(student, teacher)) {
+                return { student, teacher };
+            }
+
+            const gap = 26 / scaleX;
+            const verticalGap = 18 / scaleY;
+            const leftBubble = student.side === 'left' ? student : teacher;
+            const rightBubble = student.side === 'right' ? student : teacher;
+
+            leftBubble.left = clamp(
+                Math.min(leftBubble.left, rightBubble.left - leftBubble.width - gap),
+                20,
+                400
+            );
+            rightBubble.left = clamp(
+                Math.max(rightBubble.left, leftBubble.left + leftBubble.width + gap),
+                420,
+                1020 - rightBubble.width - 20
+            );
+
+            if (intersects(student, teacher)) {
+                const leftUp = clamp(leftBubble.top - leftBubble.height - verticalGap, 20, 220);
+                const rightDown = clamp(leftBubble.top + leftBubble.height + verticalGap, 20, 220);
+                const rightUp = clamp(rightBubble.top - rightBubble.height - verticalGap, 20, 220);
+
+                if (leftUp + leftBubble.height <= rightBubble.top - verticalGap) {
+                    leftBubble.top = leftUp;
+                } else if (rightDown + rightBubble.height <= 220 + rightBubble.height) {
+                    rightBubble.top = Math.min(rightDown, 220);
+                } else {
+                    rightBubble.top = rightUp;
+                }
+            }
+
+            return { student, teacher };
+        }
+
+        applyBubblePosition(element, position) {
+            if (!element || !position) {
+                return;
+            }
+
+            element.style.left = `${position.left}px`;
+            element.style.top = `${position.top}px`;
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const params = new URLSearchParams(window.location.search);
+        if (params.get('embed') === '1') {
+            document.body.classList.add('embed-mode');
+        }
+        new Visualization();
+    });
+</script>
+</body>
+</html>
