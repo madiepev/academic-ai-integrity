@@ -595,6 +595,21 @@
         }
         .btn-continue:hover { opacity: 0.87; }
 
+        .btn-certificate {
+            padding: 11px 26px;
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            border: none;
+            border-radius: 9px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: inherit;
+            margin-top: 14px;
+            display: inline-block;
+        }
+        .btn-certificate:hover { opacity: 0.87; }
+
         .source-note { margin-top: 28px; font-size: 11px; color: #cbd5e1; text-align: center; line-height: 1.6; }
 
         @keyframes fadeUp {
@@ -714,6 +729,8 @@
         <button class="btn-restart" onclick="startQuiz()">Try again</button>
         <a href="../evaluate.html" class="btn-back-nav">Back to Evaluate</a>
         <a href="../ethics.html" class="btn-continue">Continue to Ethics &rsaquo;</a>
+        <br>
+        <button class="btn-certificate" onclick="openCertificate('pilot','evaluate')">Download Certificate</button>
     </div>
 
     <p class="source-note">
@@ -1073,6 +1090,7 @@ function restoreOutputText() {
 
 startQuiz();
 </script>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="../certificate.js"></script>
 </body>
 </html>

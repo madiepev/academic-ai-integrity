@@ -202,6 +202,105 @@
         font-size: 12px;
       }
     }
+    /* AI Integration Wheel */
+    .wheel-visual-shell {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 11 / 7;
+      border: 1px solid rgba(106, 159, 232, 0.2);
+      border-radius: 20px;
+      background: linear-gradient(180deg, rgba(15, 36, 104, 0.22), rgba(6, 18, 40, 0.4));
+      overflow: hidden;
+      box-shadow: 0 24px 50px rgba(0, 0, 0, 0.35);
+      margin-bottom: 28px;
+    }
+    .wheel-visual-shell svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+    .wheel-cards-layer {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+    .wheel-option-card {
+      position: absolute;
+      width: clamp(185px, 21vw, 240px);
+      min-height: 92px;
+      padding: 12px 13px;
+      border-radius: 12px;
+      border: 1px solid rgba(136, 174, 235, 0.5);
+      background: rgba(9, 23, 52, 0.92);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.25);
+      transform: translate(-50%, -50%);
+      pointer-events: auto;
+      cursor: pointer;
+      z-index: 2;
+      transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+    }
+    .wheel-option-card:hover {
+      transform: translate(-50%, -50%) translateY(-2px);
+      box-shadow: 0 16px 30px rgba(0, 0, 0, 0.3);
+    }
+    .wheel-option-card.active {
+      border-width: 2px;
+      box-shadow: 0 18px 34px rgba(0, 0, 0, 0.34);
+      min-height: 150px;
+      z-index: 20;
+    }
+    .wheel-option-card .eyebrow {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      color: rgba(243, 247, 255, 0.55);
+      margin-bottom: 5px;
+    }
+    .wheel-option-card h3 {
+      font-size: 14px;
+      margin-bottom: 4px;
+    }
+    .wheel-option-card h3.tight {
+      margin-bottom: 2px;
+      line-height: 1.25;
+    }
+    .wheel-option-card p {
+      font-size: 12px;
+      line-height: 1.4;
+      color: rgba(243, 247, 255, 0.75);
+    }
+    .wheel-card-details {
+      display: none;
+      margin-top: 8px;
+      padding-top: 8px;
+      border-top: 1px solid rgba(136, 174, 235, 0.28);
+    }
+    .wheel-option-card.active .wheel-card-details {
+      display: block;
+    }
+    .wheel-card-points {
+      list-style: none;
+      display: grid;
+      gap: 6px;
+    }
+    .wheel-card-points li {
+      font-size: 11.5px;
+      line-height: 1.35;
+      color: rgba(243, 247, 255, 0.8);
+    }
+    .wheel-card-points strong {
+      color: rgba(243, 247, 255, 0.95);
+      font-weight: 700;
+    }
+    @media (max-width: 860px) {
+      .wheel-visual-shell {
+        aspect-ratio: 4 / 5;
+      }
+      .wheel-option-card {
+        width: clamp(160px, 40vw, 210px);
+      }
+    }
     /* footer */
     .footer { text-align: center; font-size: 11px; color: rgba(255,255,255,0.20); margin-top: 64px; padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.07); }
   </style>
@@ -211,19 +310,26 @@
 
   <!-- ══ HEADER ══ -->
   <header class="section">
-    <p class="overline">Vrije Universiteit Amsterdam &mdash; e-learning</p>
+    <p class="overline">Vrije Universiteit Amsterdam - e-learning</p>
     <h1>Academic AI Integrity</h1>
-    <p class="tagline">A shared starting point for students and teachers</p>
+    <p class="body-text" style="margin-top:24px; max-width:680px;">
+      <strong>Academic AI integrity</strong> combines AI literacy with a focus on academic integrity:
+      building the knowledge and skills to use AI tools effectively while maintaining
+      ethical practices and scholarly responsibility in academic work.
+    </p>
   </header>
 
   <hr class="rule">
 
   <!-- ══ FEATURE VISUAL ══ -->
   <section class="section">
-    <span class="section-label">Interactive visual</span>
-    <h2>Perspectives on AI concerns</h2>
+    <span class="section-label">Research synthesis</span>
+    <h2>How students and teachers experience AI concerns</h2>
     <p class="body-text" style="margin-bottom:24px; max-width:780px;">
-      Explore how student and teacher concerns shift across themes. This interactive scene keeps the same behaviors as the standalone visual.
+      Over 600 articles have been published collecting perspectives of students and teachers on the integration of AI in education.
+      Both groups have their concerns about whether and how to integrate AI into academic practice.
+      This visual allows you to explore the most common trends, with an estimation of their relative concernedness
+      based on how many articles mentioned students and/or teachers as concerned about each theme.
     </p>
     <div class="theme-filters" id="themeFilters"></div>
     <div class="svg-wide viz-stage">
@@ -328,22 +434,41 @@
   <!-- ══ INTRO ══ -->
   <section class="section">
     <p class="body-text">
-      Generative AI has become part of academic life &mdash; <strong>over 90% of students</strong> now use AI tools,
-      yet consistent norms and a shared language remain rare across programmes.
+      Despite these widespread concerns, generative AI has become part of academic life.
+      <strong>Over 90% of students</strong> now use AI tools, yet consistent norms and a shared language remain rare across programmes.
       This course builds that foundation: connecting <strong>what AI is</strong>,
       <strong>how to use it thoughtfully</strong>, <strong>how to evaluate its outputs</strong>,
       and <strong>how to act with integrity</strong>.
-      Designed for both students and teachers, it culminates in two authentic artefacts &mdash;
+      Designed for both students and teachers, it addresses the concerns shown above and culminates in two authentic artefacts:
       a course-ready AI <strong>rationale</strong> for teachers and an assignment-ready <strong>disclosure</strong> for students.
+    </p>
+  </section>
+
+  <!-- ══ AI INTEGRATION OPTIONS ══ -->
+  <section class="section">
+    <span class="section-label">AI integration modes</span>
+    <h2>Choosing your course's AI integration level</h2>
+    <p class="body-text" style="margin-bottom:24px;">
+      Teachers can choose one of five integration modes depending on learning goals.
+      Click a wedge or card to explore each level, from <strong>No AI</strong> to <strong>AI as Learning Goal</strong>.
+      Each mode connects directly to course design and assessment strategy.
+    </p>
+    <section class="wheel-visual-shell" aria-label="Five AI integration options shown as wedges with surrounding description boxes">
+      <svg id="aiWheel" viewBox="0 0 1100 700" role="img" aria-label="Five wedges for AI integration levels"></svg>
+      <div id="wheelCards" class="wheel-cards-layer"></div>
+    </section>
+    <p class="body-text" style="margin-top:24px;">
+      These integration levels provide a <strong>shared vocabulary</strong> for discussing AI boundaries with students.
+      The course helps teachers articulate their chosen level and understand its implications for assessment design.
     </p>
   </section>
 
   <!-- ══ DESIGN PRINCIPLES ══ -->
   <section class="section">
     <span class="section-label">Course design</span>
-    <h2>Six principles for meaningful AI integration</h2>
+    <h2>Six principles that guide the course design</h2>
     <p class="body-text" style="margin-bottom:28px;">
-      These principles shape every decision in the course &mdash; from module sequence to artefact design.
+      These principles shape every decision in the course, from module sequence to artefact design.
       Hover each numbered node to see the principle and its rationale.
     </p>
     <div class="svg-wide">
@@ -404,7 +529,7 @@
         </g>
 
         <!-- DP1 r=110 node=(300,200) card-col y=150 -->
-        <a class="dp-group dp-active" href="know" aria-label="DP1: Build a shared starting point">
+        <g class="dp-group dp-active" data-dp="1" aria-label="DP1: Build a shared starting point" style="cursor:pointer">
           <circle cx="300" cy="310" r="110" fill="none" stroke="#4a7fd4" stroke-width="3.5" class="dp-ring"/>
           <line x1="318" y1="200" x2="572" y2="195" stroke="rgba(255,255,255,0.60)" stroke-width="1.2" stroke-dasharray="4 3" class="dp-conn"/>
           <circle cx="300" cy="200" r="18" fill="#061228" filter="url(#ng2)"/>
@@ -417,10 +542,10 @@
             <text x="588" y="195" dominant-baseline="middle" font-family="-apple-system,sans-serif" font-size="14" fill="rgba(255,255,255,0.78)">Establish a shared AI baseline;</text>
             <text x="588" y="214" dominant-baseline="middle" font-family="-apple-system,sans-serif" font-size="14" fill="rgba(255,255,255,0.78)">no paid tools required</text>
           </g>
-        </a>
+        </g>
 
         <!-- DP2 r=145 node=(361,441) card-col y=415 -->
-        <a class="dp-group" href="use" aria-label="DP2: Teach prompting as systematic iteration">
+        <g class="dp-group" data-dp="2" aria-label="DP2: Teach prompting as systematic iteration" style="cursor:pointer">
           <circle cx="300" cy="310" r="145" fill="none" stroke="#4a7fd4" stroke-width="3.5" class="dp-ring"/>
           <line x1="379" y1="441" x2="572" y2="460" stroke="rgba(255,255,255,0.60)" stroke-width="1.2" stroke-dasharray="4 3" class="dp-conn"/>
           <circle cx="361" cy="441" r="18" fill="#061228" filter="url(#ng2)"/>
@@ -433,10 +558,10 @@
             <text x="588" y="460" dominant-baseline="middle" font-family="-apple-system,sans-serif" font-size="14" fill="rgba(255,255,255,0.78)">Deliberate refinement cycles;</text>
             <text x="588" y="479" dominant-baseline="middle" font-family="-apple-system,sans-serif" font-size="14" fill="rgba(255,255,255,0.78)">not templates or one-off attempts</text>
           </g>
-        </a>
+        </g>
 
         <!-- DP3 r=175 node=(152,403) card-col y=325 -->
-        <a class="dp-group" href="evaluate" aria-label="DP3: Think first, use AI second">
+        <a class="dp-group" href="evaluate.html" aria-label="DP3: Think first, use AI second">
           <circle cx="300" cy="310" r="175" fill="none" stroke="#4a7fd4" stroke-width="3.5" class="dp-ring"/>
           <line x1="170" y1="403" x2="572" y2="370" stroke="rgba(255,255,255,0.60)" stroke-width="1.2" stroke-dasharray="4 3" class="dp-conn"/>
           <circle cx="152" cy="403" r="18" fill="#061228" filter="url(#ng2)"/>
@@ -452,7 +577,7 @@
         </a>
 
         <!-- DP4 r=215 node=(432,141) card-col y=64 -->
-        <a class="dp-group" href="ethics" aria-label="DP4: Students own their work">
+        <g class="dp-group" data-dp="4" aria-label="DP4: Students own their work" style="cursor:pointer">
           <circle cx="300" cy="310" r="215" fill="none" stroke="#d44070" stroke-width="3.5" class="dp-ring"/>
           <line x1="450" y1="141" x2="572" y2="109" stroke="rgba(255,255,255,0.60)" stroke-width="1.2" stroke-dasharray="4 3" class="dp-conn"/>
           <circle cx="432" cy="141" r="18" fill="#061228" filter="url(#ng2)"/>
@@ -465,10 +590,10 @@
             <text x="588" y="109" dominant-baseline="middle" font-family="-apple-system,sans-serif" font-size="14" fill="rgba(255,255,255,0.78)">Accountability in task design;</text>
             <text x="588" y="128" dominant-baseline="middle" font-family="-apple-system,sans-serif" font-size="14" fill="rgba(255,255,255,0.78)">not in detection tools</text>
           </g>
-        </a>
+        </g>
 
         <!-- DP5 r=250 node=(492,471) card-col y=508 -->
-        <a class="dp-group" href="evaluate" aria-label="DP5: Be clear about the rules">
+        <g class="dp-group" data-dp="5" aria-label="DP5: Be clear about the rules" style="cursor:pointer">
           <circle cx="300" cy="310" r="250" fill="none" stroke="#d44070" stroke-width="3.5" class="dp-ring"/>
           <line x1="506" y1="471" x2="572" y2="548" stroke="rgba(255,255,255,0.60)" stroke-width="1.2" stroke-dasharray="4 3" class="dp-conn"/>
           <circle cx="492" cy="471" r="18" fill="#061228" filter="url(#ng2)"/>
@@ -481,10 +606,10 @@
             <text x="588" y="553" dominant-baseline="middle" font-family="-apple-system,sans-serif" font-size="14" fill="rgba(255,255,255,0.78)">Per-task norms + rationale;</text>
             <text x="588" y="572" dominant-baseline="middle" font-family="-apple-system,sans-serif" font-size="14" fill="rgba(255,255,255,0.78)">inclusive assessment design</text>
           </g>
-        </a>
+        </g>
 
         <!-- DP6 r=275 node=(25,324) card-col y=244 -->
-        <a class="dp-group" href="ethics" aria-label="DP6: Build integrity through conversation">
+        <g class="dp-group" data-dp="6" aria-label="DP6: Build integrity through conversation" style="cursor:pointer">
           <circle cx="300" cy="310" r="275" fill="none" stroke="#d44070" stroke-width="3.5" class="dp-ring"/>
           <line x1="43" y1="324" x2="572" y2="289" stroke="rgba(255,255,255,0.60)" stroke-width="1.2" stroke-dasharray="4 3" class="dp-conn"/>
           <circle cx="25" cy="324" r="18" fill="#061228" filter="url(#ng2)"/>
@@ -497,7 +622,7 @@
             <text x="588" y="289" dominant-baseline="middle" font-family="-apple-system,sans-serif" font-size="14" fill="rgba(255,255,255,0.78)">Ongoing dialogue;</text>
             <text x="588" y="308" dominant-baseline="middle" font-family="-apple-system,sans-serif" font-size="14" fill="rgba(255,255,255,0.78)">scale oversight to stakes</text>
           </g>
-        </a>
+        </g>
 
       </svg>
     </div>
@@ -506,7 +631,7 @@
   <!-- ══ BRIDGE ══ -->
   <section class="section bridge-wrap">
     <p class="bridge">
-      Each of the six principles maps directly to a <strong>course element and a recommended activity</strong> &mdash;
+      Each of the six principles maps directly to a <strong>course element and a recommended activity</strong>,
       making it clear not just what to teach, but how to act on it.
     </p>
   </section>
@@ -514,7 +639,7 @@
   <!-- ══ MAPPING ══ -->
   <section class="section">
     <span class="section-label">Mapping</span>
-    <h2>Design principles &rarr; course elements</h2>
+    <h2>From principles to practice: mapping course elements</h2>
     <p class="body-text" style="margin-bottom:28px;">
       Each design principle underpins a specific element of the course. Principles 1&ndash;3
       form the <strong>Skills &amp; Literacy</strong> zone and ground the three active learning modules.
@@ -582,7 +707,7 @@
           <text x="270" y="96" text-anchor="middle" dominant-baseline="middle" font-family="-apple-system,sans-serif" font-size="16" font-weight="800" fill="white">1</text>
           <line x1="288" y1="96" x2="540" y2="96" stroke="#009CDE" stroke-width="1.5" stroke-dasharray="5 4" class="map-conn"/>
           <polygon points="538,91 548,96 538,101" fill="#009CDE" opacity="0.65" class="map-dest"/>
-          <a href="know" style="cursor:pointer">
+          <a href="know.html" style="cursor:pointer">
             <rect x="560" y="70" width="180" height="52" rx="26" fill="#009CDE" fill-opacity="0.45" stroke="#009CDE" stroke-width="1.5" class="map-dest"/>
             <text x="650" y="93"  text-anchor="middle" dominant-baseline="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif" font-size="20" font-weight="700" fill="white" class="map-dest">Understand</text>
             <text x="650" y="111" text-anchor="middle" dominant-baseline="middle" font-family="-apple-system,sans-serif" font-size="14" fill="rgba(255,255,255,0.45)" class="map-dest">How AI works</text>
@@ -609,7 +734,7 @@
           <text x="270" y="176" text-anchor="middle" dominant-baseline="middle" font-family="-apple-system,sans-serif" font-size="16" font-weight="800" fill="white">2</text>
           <line x1="288" y1="176" x2="540" y2="176" stroke="#009CDE" stroke-width="1.5" stroke-dasharray="5 4" class="map-conn"/>
           <polygon points="538,171 548,176 538,181" fill="#009CDE" opacity="0.65" class="map-dest"/>
-          <a href="use" style="cursor:pointer">
+          <a href="use.html" style="cursor:pointer">
             <rect x="560" y="150" width="180" height="52" rx="26" fill="#009CDE" fill-opacity="0.45" stroke="#009CDE" stroke-width="1.5" class="map-dest"/>
             <text x="650" y="173" text-anchor="middle" dominant-baseline="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif" font-size="20" font-weight="700" fill="white" class="map-dest">Use</text>
             <text x="650" y="191" text-anchor="middle" dominant-baseline="middle" font-family="-apple-system,sans-serif" font-size="14" fill="rgba(255,255,255,0.45)" class="map-dest">Prompt with intention</text>
@@ -636,7 +761,7 @@
           <text x="270" y="256" text-anchor="middle" dominant-baseline="middle" font-family="-apple-system,sans-serif" font-size="16" font-weight="800" fill="white">3</text>
           <line x1="288" y1="256" x2="540" y2="256" stroke="#009CDE" stroke-width="1.5" stroke-dasharray="5 4" class="map-conn"/>
           <polygon points="538,251 548,256 538,261" fill="#009CDE" opacity="0.65" class="map-dest"/>
-          <a href="evaluate" style="cursor:pointer">
+          <a href="evaluate.html" style="cursor:pointer">
             <rect x="560" y="230" width="180" height="52" rx="26" fill="#009CDE" fill-opacity="0.45" stroke="#009CDE" stroke-width="1.5" class="map-dest"/>
             <text x="650" y="253" text-anchor="middle" dominant-baseline="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif" font-size="20" font-weight="700" fill="white" class="map-dest">Evaluate</text>
             <text x="650" y="271" text-anchor="middle" dominant-baseline="middle" font-family="-apple-system,sans-serif" font-size="14" fill="rgba(255,255,255,0.45)" class="map-dest">Facilitate critical thinking</text>
@@ -733,7 +858,7 @@
           <text x="270" y="516" text-anchor="middle" dominant-baseline="middle" font-family="-apple-system,sans-serif" font-size="16" font-weight="800" fill="white">6</text>
           <line x1="288" y1="516" x2="540" y2="516" stroke="#c0325e" stroke-width="1.5" stroke-dasharray="5 4" class="map-conn"/>
           <polygon points="538,511 548,516 538,521" fill="#c0325e" opacity="0.65" class="map-dest"/>
-          <a href="ethics" style="cursor:pointer">
+          <a href="ethics.html" style="cursor:pointer">
             <rect x="560" y="490" width="180" height="52" rx="26" fill="#c0325e" fill-opacity="0.45" stroke="#c0325e" stroke-width="1.5" class="map-dest"/>
             <text x="650" y="513" text-anchor="middle" dominant-baseline="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif" font-size="20" font-weight="700" fill="white" class="map-dest">Reflect</text>
             <text x="650" y="531" text-anchor="middle" dominant-baseline="middle" font-family="-apple-system,sans-serif" font-size="14" fill="rgba(255,255,255,0.45)" class="map-dest">Case studies</text>
@@ -757,7 +882,7 @@
   <!-- ══ JOURNEY MAP ══ -->
   <section class="section">
     <span class="section-label">Learning journey</span>
-    <h2>Four modules &mdash; one shared path</h2>
+    <h2>Four modules, one shared path</h2>
     <p class="body-text" style="margin-bottom:28px;">
       Follow the journey from <strong>Understand</strong> through <strong>Use</strong>,
       <strong>Evaluate</strong>, and <strong>Reflect</strong>. Hover each module node to see what
@@ -845,7 +970,7 @@
         </g>
 
         <!-- node 1: Understand -->
-        <a href="know" class="mod-group lnk-know" aria-label="Understand">
+        <a href="know.html" class="mod-group lnk-know" aria-label="Understand">
           <circle cx="465" cy="690" r="54" class="mod-ring" fill="none" stroke="#1a5ab5" stroke-width="14"/>
           <circle cx="465" cy="690" r="44" class="mod-node" fill="#1a5ab5"/>
           <line x1="465" y1="673" x2="465" y2="665" stroke="rgba(255,255,255,0.72)" stroke-width="2" stroke-linecap="round"/>
@@ -866,7 +991,7 @@
         </a>
 
         <!-- node 2: Use -->
-        <a href="use" class="mod-group lnk-use" aria-label="Use">
+        <a href="use.html" class="mod-group lnk-use" aria-label="Use">
           <circle cx="155" cy="575" r="54" class="mod-ring" fill="none" stroke="#007fbe" stroke-width="14"/>
           <circle cx="155" cy="575" r="44" class="mod-node" fill="#007fbe"/>
           <line x1="142" y1="592" x2="164" y2="564" stroke="rgba(255,255,255,0.82)" stroke-width="3" stroke-linecap="round"/>
@@ -884,7 +1009,7 @@
         </a>
 
         <!-- node 3: Evaluate -->
-        <a href="evaluate" class="mod-group lnk-evaluate" aria-label="Evaluate">
+        <a href="evaluate.html" class="mod-group lnk-evaluate" aria-label="Evaluate">
           <circle cx="465" cy="460" r="54" class="mod-ring" fill="none" stroke="#003082" stroke-width="14"/>
           <circle cx="465" cy="460" r="44" class="mod-node" fill="#003082"/>
           <circle cx="457" cy="452" r="16" fill="rgba(255,255,255,0.12)" stroke="rgba(255,255,255,0.87)" stroke-width="3"/>
@@ -900,7 +1025,7 @@
         </a>
 
         <!-- node 4: Reflect -->
-        <a href="ethics" class="mod-group lnk-ethics" aria-label="Reflect">
+        <a href="ethics.html" class="mod-group lnk-ethics" aria-label="Reflect">
           <circle cx="155" cy="345" r="54" class="mod-ring" fill="none" stroke="#c0325e" stroke-width="14"/>
           <circle cx="155" cy="345" r="44" class="mod-node" fill="#c0325e"/>
           <line x1="155" y1="326" x2="155" y2="358" stroke="rgba(255,255,255,0.80)" stroke-width="2.5" stroke-linecap="round"/>
@@ -951,7 +1076,7 @@
 
   <!-- ══ FOOTER ══ -->
   <footer class="footer">
-    Diepeveen (2026) &mdash; Design-Based Research &mdash; Vrije Universiteit Amsterdam
+    Diepeveen (2026) | Design-Based Research | Vrije Universiteit Amsterdam
   </footer>
 
 </div>
@@ -1399,13 +1524,218 @@
 
 (function () {
   var dpGroups = document.querySelectorAll('.dp-group');
-  document.querySelectorAll('.dp-dot').forEach(function (dot) {
-    dot.addEventListener('mouseenter', function () {
-      var group = dot.closest('.dp-group');
+  
+  dpGroups.forEach(function (group) {
+    group.addEventListener('mouseenter', function () {
       dpGroups.forEach(function (g) { g.classList.remove('dp-active'); });
-      if (group) group.classList.add('dp-active');
+      group.classList.add('dp-active');
+    });
+    
+    group.addEventListener('click', function (e) {
+      e.preventDefault();
+      dpGroups.forEach(function (g) { g.classList.remove('dp-active'); });
+      group.classList.add('dp-active');
     });
   });
+})();
+
+// AI Integration Wheel
+(function() {
+  const options = [
+    {
+      label: "Level 1 - No AI",
+      title: "I don't want students to use AI at all",
+      points: [
+        { label: "Reasoning", text: "Measure students' independent mastery without AI interference." },
+        { label: "Assessment implications", text: "Requires supervised setting and AI-free assessment design; take-home tasks may need reconsideration." },
+        { label: "Why this e-learning helps", text: "Builds shared AI knowledge and helps teachers define AI-free rules clearly." }
+      ]
+    },
+    {
+      label: "Level 2 - Brainstorm Only",
+      title: "Students may use AI to brainstorm, but the real work must be their own",
+      points: [
+        { label: "Reasoning", text: "AI can help with early ideas, but students must show their own development." },
+        { label: "Assessment implications", text: "Clarify what planning use is allowed and focus rubrics on the student's process." },
+        { label: "Why this e-learning helps", text: "Supports teachers in setting clear limits for early-stage AI use." }
+      ]
+    },
+    {
+      label: "Level 3 - Draft and Critique",
+      title: "AI may help with drafting, but students must critique and refine AI output",
+      points: [
+        { label: "Reasoning", text: "Students need critical AI literacy, not to accept AI text at face value." },
+        { label: "Assessment implications", text: "Include reflection, critique, and revision logs; assess process, not just polish." },
+        { label: "Why this e-learning helps", text: "Strengthens teachers' ability to guide reflective, transparent AI use." }
+      ]
+    },
+    {
+      label: "Level 4 - Co-Create Transparently",
+      title: "Students and AI can create together - if students show their decisions",
+      points: [
+        { label: "Reasoning", text: "AI can be a partner, but students must stay accountable for choices." },
+        { label: "Assessment implications", text: "Require transparency: prompts, decisions, revisions; shift focus to authorship accountability." },
+        { label: "Why this e-learning helps", text: "Helps students use iterative prompting and take ownership of their contributions." }
+      ]
+    },
+    {
+      label: "Level 5 - AI as Learning Goal",
+      title: "Exploring AI is part of the learning goal",
+      points: [
+        { label: "Reasoning", text: "Students must be prepared for AI-rich professional practice." },
+        { label: "Assessment implications", text: "Assess prompting, ethical reasoning, AI limits evaluation, and iterative work." },
+        { label: "Why this e-learning helps", text: "Facilitates ethical, open dialogue about AI use within case-based learning." }
+      ]
+    }
+  ];
+
+  const palette = ["#009CDE", "#34B2E8", "#FFB300", "#FF8C2B", "#DF407A"];
+  const svg = document.getElementById("aiWheel");
+  const cardsLayer = document.getElementById("wheelCards");
+  if (!svg || !cardsLayer) return;
+
+  const vbWidth = 1100;
+  const vbHeight = 700;
+  const cx = vbWidth / 2;
+  const cy = 560;
+  const outerR = 210;
+  const innerR = 112;
+  const connectorR = 282;
+  const arcStart = -90;
+  const arcEnd = 90;
+  const wedgeGap = 0;
+  let activeLevel = 2;
+
+  const arcSpan = arcEnd - arcStart;
+  const wedgeSpan = (arcSpan - wedgeGap * (options.length - 1)) / options.length;
+
+  function degToRad(deg) {
+    return (deg * Math.PI) / 180;
+  }
+
+  function polarToXY(centerX, centerY, radius, angleDeg) {
+    const a = degToRad(angleDeg - 90);
+    return { x: centerX + radius * Math.cos(a), y: centerY + radius * Math.sin(a) };
+  }
+
+  function donutWedgePath(centerX, centerY, rOuter, rInner, startDeg, endDeg) {
+    const startOuter = polarToXY(centerX, centerY, rOuter, startDeg);
+    const endOuter = polarToXY(centerX, centerY, rOuter, endDeg);
+    const startInner = polarToXY(centerX, centerY, rInner, endDeg);
+    const endInner = polarToXY(centerX, centerY, rInner, startDeg);
+    const largeArc = endDeg - startDeg > 180 ? 1 : 0;
+    return [
+      `M ${startOuter.x} ${startOuter.y}`,
+      `A ${rOuter} ${rOuter} 0 ${largeArc} 1 ${endOuter.x} ${endOuter.y}`,
+      `L ${startInner.x} ${startInner.y}`,
+      `A ${rInner} ${rInner} 0 ${largeArc} 0 ${endInner.x} ${endInner.y}`,
+      "Z"
+    ].join(" ");
+  }
+
+  function getLevelAngle(levelIndex) {
+    return arcStart + (wedgeSpan / 2) + levelIndex * (wedgeSpan + wedgeGap);
+  }
+
+  function draw() {
+    let wedges = "";
+    let connectors = "";
+    let dialTicks = "";
+    cardsLayer.innerHTML = "";
+
+    options.forEach((opt, i) => {
+      const centerAngle = getLevelAngle(i);
+      const start = centerAngle - wedgeSpan / 2;
+      const end = centerAngle + wedgeSpan / 2;
+      const path = donutWedgePath(cx, cy, outerR, innerR, start, end);
+      const isActive = i === activeLevel;
+
+      wedges += `<path class="option-wedge" data-level="${i}" d="${path}" fill="${palette[i]}" fill-opacity="${isActive ? "0.95" : "0.8"}" stroke="${isActive ? "rgba(255,255,255,0.78)" : "rgba(6,18,40,0.18)"}" stroke-width="${isActive ? "3" : "1"}" style="cursor:pointer"></path>`;
+
+      const p1 = polarToXY(cx, cy, outerR + 4, centerAngle);
+      const p2 = polarToXY(cx, cy, connectorR, centerAngle);
+      connectors += `<line x1="${p1.x}" y1="${p1.y}" x2="${p2.x}" y2="${p2.y}" stroke="rgba(136,174,235,0.35)" stroke-opacity="${isActive ? "0.95" : "0.7"}" stroke-width="${isActive ? "2.8" : "2"}"></line>`;
+
+      const cardRadius = 354;
+      const cardPos = polarToXY(cx, cy, cardRadius, centerAngle);
+      const card = document.createElement("article");
+      card.className = `wheel-option-card${isActive ? " active" : ""}`;
+      card.dataset.level = String(i);
+      card.style.left = `${(cardPos.x / vbWidth) * 100}%`;
+      card.style.top = `${(cardPos.y / vbHeight) * 100}%`;
+      card.style.borderColor = `${palette[i]}99`;
+      if (opt.points) {
+        const pointsMarkup = opt.points.map((point) => `<li><strong>${point.label}:</strong> ${point.text}</li>`).join("");
+        card.innerHTML = `
+          <div class="eyebrow">${opt.label || `Level ${i + 1}`}</div>
+          <h3 class="tight">${opt.title}</h3>
+          <div class="wheel-card-details">
+            <ul class="wheel-card-points">${pointsMarkup}</ul>
+          </div>
+        `;
+      } else {
+        card.innerHTML = `
+          <div class="eyebrow">${opt.label || `Level ${i + 1}`}</div>
+          <h3>${opt.title}</h3>
+          <p>${opt.text}</p>
+        `;
+      }
+      cardsLayer.appendChild(card);
+    });
+
+    for (let i = 0; i <= 12; i += 1) {
+      const angle = arcStart + i * (arcSpan / 12);
+      const isMajor = i % 3 === 0;
+      const outerTick = polarToXY(cx, cy, 98, angle);
+      const innerTick = polarToXY(cx, cy, isMajor ? 82 : 88, angle);
+      dialTicks += `<line x1="${innerTick.x}" y1="${innerTick.y}" x2="${outerTick.x}" y2="${outerTick.y}" stroke="rgba(136,174,235,${isMajor ? 0.75 : 0.45})" stroke-width="${isMajor ? 2 : 1.2}" stroke-linecap="round"></line>`;
+    }
+
+    const needleAngle = getLevelAngle(activeLevel);
+    const needleTip = polarToXY(cx, cy, 86, needleAngle);
+    const needleLeft = polarToXY(cx, cy, 18, needleAngle + 90);
+    const needleRight = polarToXY(cx, cy, 18, needleAngle - 90);
+
+    const centerDisk = `
+      <circle cx="${cx}" cy="${cy}" r="106" fill="rgba(10,26,58,0.42)" stroke="rgba(106,159,232,0.28)" stroke-width="2"></circle>
+      ${dialTicks}
+      <circle cx="${cx}" cy="${cy}" r="74" fill="#0b1f47" stroke="rgba(106,159,232,0.56)" stroke-width="2.2"></circle>
+      <polygon points="${needleLeft.x},${needleLeft.y} ${needleTip.x},${needleTip.y} ${needleRight.x},${needleRight.y}" fill="rgba(0,156,222,0.9)"></polygon>
+      <circle cx="${cx}" cy="${cy}" r="13" fill="#102b5c" stroke="rgba(136,174,235,0.75)" stroke-width="2"></circle>
+    `;
+
+    svg.innerHTML = `<g>${connectors}</g><g>${wedges}</g>${centerDisk}`;
+    bindInteractions();
+  }
+
+  function setActiveLevel(level) {
+    const next = Math.max(0, Math.min(options.length - 1, level));
+    if (next === activeLevel) return;
+    activeLevel = next;
+    draw();
+  }
+
+  function bindInteractions() {
+    svg.querySelectorAll(".option-wedge").forEach((wedge) => {
+      wedge.addEventListener("click", () => {
+        setActiveLevel(Number(wedge.dataset.level));
+      });
+    });
+
+    cardsLayer.querySelectorAll(".wheel-option-card").forEach((card) => {
+      card.addEventListener("click", () => {
+        setActiveLevel(Number(card.dataset.level));
+      });
+    });
+  }
+
+  draw();
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "ArrowLeft") setActiveLevel(activeLevel - 1);
+    if (event.key === "ArrowRight") setActiveLevel(activeLevel + 1);
+    if (/^[1-5]$/.test(event.key)) setActiveLevel(Number(event.key) - 1);
+  });
+  window.addEventListener("resize", draw);
 })();
 </script>
 </body>

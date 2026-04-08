@@ -435,6 +435,40 @@
         /* === Source note === */
         .source-note { margin-top: 28px; font-size: 11px; color: #cbd5e1; text-align: center; line-height: 1.6; }
 
+        /* === Certificate section === */
+        .cert-section {
+            margin-top: 32px;
+            padding-top: 28px;
+            border-top: 1px solid #e2e8f0;
+            text-align: center;
+        }
+        .cert-title {
+            font-size: 16px;
+            font-weight: 800;
+            color: #1e1b4b;
+            margin-bottom: 8px;
+        }
+        .cert-body {
+            font-size: 13px;
+            color: #6b7280;
+            line-height: 1.7;
+            max-width: 480px;
+            margin: 0 auto 18px;
+        }
+        .btn-certificate {
+            padding: 11px 26px;
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            border: none;
+            border-radius: 9px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: inherit;
+            display: inline-block;
+        }
+        .btn-certificate:hover { opacity: 0.87; }
+
         /* === Exercise structure === */
         .exercise-header {
             display: flex;
@@ -785,6 +819,12 @@ Format the output as a clear comparison table or structured breakdown that could
         <em>Journal of Educational Computing Research, 63</em>(7-8), 1782–1818.
     </p>
 
+    <div class="cert-section">
+        <div class="cert-title">Completed this module?</div>
+        <div class="cert-body">If you've worked through this practice exercise, you can download your certificate of completion for the Use module.</div>
+        <button class="btn-certificate" onclick="openCertificate('pilot','use')">Download Certificate</button>
+    </div>
+
 </div>
 
 <script>
@@ -825,5 +865,7 @@ function revealPrompt(n) {
     }, 100);
 }
 </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="../certificate.js"></script>
 </body>
 </html>
