@@ -192,9 +192,33 @@
             .cert-wrapper { position: static !important; left: auto !important; }
             .certificate { width: 100%; height: auto; aspect-ratio: 11/8.5; page-break-inside: avoid; }
         }
+
+        /* Feedback button */
+        .feedback-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            display: inline-block;
+            padding: 10px 18px;
+            font-size: 13px;
+            font-weight: 600;
+            color: white;
+            background: linear-gradient(135deg, #6a9fe8 0%, #009cde 100%);
+            border-radius: 6px;
+            text-decoration: none;
+            transition: all 0.2s;
+            white-space: nowrap;
+            box-shadow: 0 2px 8px rgba(106, 159, 232, 0.3);
+        }
+        .feedback-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(106, 159, 232, 0.4);
+        }
     </style>
 </head>
 <body>
+<a href="https://vuamsterdam.eu.qualtrics.com/jfe/form/SV_8JjSwKo76yzjtEq" target="_blank" class="feedback-btn">Feedback</a>
 
 <div class="container">
     <a href="./" class="back-link" id="back-link">&larr; Back to course</a>
