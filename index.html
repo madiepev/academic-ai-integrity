@@ -301,6 +301,57 @@
         width: clamp(160px, 40vw, 210px);
       }
     }
+    /* Navigation bar */
+    .nav-bar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(6, 18, 40, 0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(106, 159, 232, 0.15);
+      margin: -64px -24px 40px -24px;
+      padding: 0 24px;
+    }
+    .nav-container {
+      max-width: 1020px;
+      margin: 0 auto;
+      display: flex;
+      overflow-x: auto;
+      gap: 4px;
+      scrollbar-width: none;
+    }
+    .nav-container::-webkit-scrollbar {
+      display: none;
+    }
+    .nav-link {
+      display: inline-block;
+      padding: 16px 20px;
+      font-size: 13px;
+      font-weight: 600;
+      color: rgba(255, 255, 255, 0.55);
+      text-decoration: none;
+      border-bottom: 2px solid transparent;
+      transition: all 0.2s;
+      white-space: nowrap;
+      cursor: pointer;
+    }
+    .nav-link:hover {
+      color: rgba(255, 255, 255, 0.85);
+      border-bottom-color: rgba(106, 159, 232, 0.4);
+    }
+    .nav-link.active {
+      color: #6a9fe8;
+      border-bottom-color: #6a9fe8;
+    }
+    @media (max-width: 760px) {
+      .nav-bar {
+        margin: -48px -24px 32px -24px;
+      }
+      .nav-link {
+        padding: 14px 16px;
+        font-size: 12px;
+      }
+    }
     /* footer */
     .footer { text-align: center; font-size: 11px; color: rgba(255,255,255,0.20); margin-top: 64px; padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.07); }
   </style>
@@ -308,8 +359,20 @@
 <body>
 <div class="page">
 
+  <!-- ══ NAVIGATION ══ -->
+  <nav class="nav-bar">
+    <div class="nav-container">
+      <a href="#overview" class="nav-link">Overview</a>
+      <a href="#concerns" class="nav-link">AI Concerns</a>
+      <a href="#integration" class="nav-link">Integration Levels</a>
+      <a href="#principles" class="nav-link">Design Principles</a>
+      <a href="#mapping" class="nav-link">Course Mapping</a>
+      <a href="#modules" class="nav-link">Modules</a>
+    </div>
+  </nav>
+
   <!-- ══ HEADER ══ -->
-  <header class="section">
+  <header class="section" id="overview">
     <p class="overline">Vrije Universiteit Amsterdam - e-learning</p>
     <h1>Academic AI Integrity</h1>
     <p class="body-text" style="margin-top:24px; max-width:680px;">
@@ -322,7 +385,7 @@
   <hr class="rule">
 
   <!-- ══ FEATURE VISUAL ══ -->
-  <section class="section">
+  <section class="section" id="concerns">
     <span class="section-label">Research synthesis</span>
     <h2>How students and teachers experience AI concerns</h2>
     <p class="body-text" style="margin-bottom:24px; max-width:780px;">
@@ -445,7 +508,7 @@
   </section>
 
   <!-- ══ AI INTEGRATION OPTIONS ══ -->
-  <section class="section">
+  <section class="section" id="integration">
     <span class="section-label">AI integration modes</span>
     <h2>Choosing your course's AI integration level</h2>
     <p class="body-text" style="margin-bottom:24px;">
@@ -464,7 +527,7 @@
   </section>
 
   <!-- ══ DESIGN PRINCIPLES ══ -->
-  <section class="section">
+  <section class="section" id="principles">
     <span class="section-label">Course design</span>
     <h2>Six principles that guide the course design</h2>
     <p class="body-text" style="margin-bottom:28px;">
@@ -637,7 +700,7 @@
   </section>
 
   <!-- ══ MAPPING ══ -->
-  <section class="section">
+  <section class="section" id="mapping">
     <span class="section-label">Mapping</span>
     <h2>From principles to practice: mapping course elements</h2>
     <p class="body-text" style="margin-bottom:28px;">
@@ -880,7 +943,7 @@
   </section>
 
   <!-- ══ JOURNEY MAP ══ -->
-  <section class="section">
+  <section class="section" id="modules">
     <span class="section-label">Learning journey</span>
     <h2>Four modules, one shared path</h2>
     <p class="body-text" style="margin-bottom:28px;">
@@ -1736,6 +1799,39 @@
     if (/^[1-5]$/.test(event.key)) setActiveLevel(Number(event.key) - 1);
   });
   window.addEventListener("resize", draw);
+})();
+
+// ═══ Navigation Bar Active State ═══
+(function() {
+  const navLinks = document.querySelectorAll('.nav-link');
+  const sections = Array.from(navLinks).map(link => {
+    const id = link.getAttribute('href').substring(1);
+    return document.getElementById(id);
+  }).filter(Boolean);
+
+  function updateActiveNav() {
+    const scrollY = window.scrollY + 100; // Offset for better highlighting
+    
+    let currentSection = sections[0];
+    for (const section of sections) {
+      if (section.offsetTop <= scrollY) {
+        currentSection = section;
+      }
+    }
+    
+    navLinks.forEach(link => {
+      const id = link.getAttribute('href').substring(1);
+      if (id === currentSection.id) {
+        link.classList.add('active');
+      } else {
+        link.classList.remove('active');
+      }
+    });
+  }
+  
+  window.addEventListener('scroll', updateActiveNav);
+  window.addEventListener('load', updateActiveNav);
+  updateActiveNav(); // Initial call
 })();
 </script>
 </body>

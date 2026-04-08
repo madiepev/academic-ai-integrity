@@ -617,10 +617,10 @@ const QUESTIONS = [
             wrong: 'Not quite. Remember: ChatGPT does not search a database or look up a paper when you ask it a question. It generates the most plausible-sounding continuation of your prompt. Why would that process produce specific-sounding numbers that might not be real?'
         },
         options: [
-            { letter: 'A', text: 'ChatGPT searched an online database but may have retrieved the wrong paper' },
+            { letter: 'A', text: 'ChatGPT searched an online database but retrieved a related paper with similar results, leading to minor discrepancies in the reported statistics' },
             { letter: 'B', text: 'ChatGPT generates text by predicting plausible word sequences — producing realistic-sounding numbers without verifying them against any real source' },
-            { letter: 'C', text: 'ChatGPT rounds real statistics to make them easier to understand' },
-            { letter: 'D', text: 'ChatGPT uses a built-in research library that is sometimes out of date' }
+            { letter: 'C', text: 'ChatGPT accessed the study but simplified and rounded the original statistics to make the findings more accessible to general audiences' },
+            { letter: 'D', text: 'ChatGPT uses a built-in research library from its training data, but the specific statistics may be outdated or misremembered from the original publications' }
         ]
     },
 
@@ -634,10 +634,10 @@ const QUESTIONS = [
             wrong: 'Look again. The issue is not about word limits, copyright, or training dates — it is about the type of task ChatGPT is designed for. It is a general-purpose chat tool, not a literature retrieval system. What does that mismatch mean for requests that need accurate, specific academic data?'
         },
         options: [
-            { letter: 'A', text: 'ChatGPT cannot process long research papers because of its response length limit' },
-            { letter: 'B', text: 'Academic journals do not give OpenAI permission to reproduce study statistics' },
+            { letter: 'A', text: 'ChatGPT cannot process long research papers effectively because its response generation is optimized for shorter conversational exchanges rather than detailed academic analysis' },
+            { letter: 'B', text: 'Academic journals have strict copyright policies that prevent OpenAI from storing or reproducing exact study statistics, forcing ChatGPT to paraphrase or approximate the data' },
             { letter: 'C', text: 'ChatGPT is a general-purpose conversational assistant with no live access to academic databases — it is not designed for retrieving specific data from named publications' },
-            { letter: 'D', text: 'ChatGPT only has reliable knowledge of studies published before 2021, so recent research is always unreliable' }
+            { letter: 'D', text: 'ChatGPT only has training data through its knowledge cutoff date, meaning it cannot reliably access or verify studies published after that point or recent replication attempts' }
         ]
     },
 
@@ -651,9 +651,9 @@ const QUESTIONS = [
             wrong: 'Think about what Elif actually needs here: she has the original document. She does not need a web search or a general answer from training data — she needs help working with a specific file she already holds. Which type of tool is designed exactly for that?'
         },
         options: [
-            { letter: 'A', text: 'Perplexity — it searches the web in real time and will find a reliable summary of the paper from an academic source' },
-            { letter: 'B', text: 'ChatGPT — with a clear, detailed prompt, it can recall the paper accurately from its training data' },
-            { letter: 'C', text: 'Google Gemini — it is the best option for working with long documents because of its extended context window' },
+            { letter: 'A', text: 'Perplexity — it searches the web in real time and will locate the most authoritative academic summary or citation data for the paper without risk of hallucination' },
+            { letter: 'B', text: 'ChatGPT — with a clear, detailed prompt specifying the paper title and authors, it can accurately recall key findings from its training data and minimize errors' },
+            { letter: 'C', text: 'Google Gemini — its extended context window allows it to process the full paper and generate comprehensive summaries without losing track of specific details or statistics' },
             { letter: 'D', text: 'ChatPDF or a comparable document-chat tool — uploading the PDF means every answer is grounded in what the document actually says, not what the AI expects it to say' }
         ]
     }
