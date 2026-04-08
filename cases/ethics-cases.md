@@ -1,8 +1,8 @@
-# Ethics: practice cases
+# Reflect: practice cases
 
 <div style="margin-bottom: 20px;">
 	<button onclick="window.location.href='ethics'" style="padding: 10px 20px; font-size: 14px; background-color: #666; color: white; border: none; border-radius: 5px; cursor: pointer;">
-		← Back to ethics
+		← Back to Reflect
 	</button>
 </div>
 

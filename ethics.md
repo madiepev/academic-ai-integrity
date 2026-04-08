@@ -1,7 +1,7 @@
-# Ethics: VU policy and AI in assessment
+# Reflect: VU policy and AI in assessment
 
 <div style="margin-bottom: 20px;">
-	<button onclick="window.location.href='../'" style="padding: 10px 20px; font-size: 14px; background-color: #666; color: white; border: none; border-radius: 5px; cursor: pointer;">
+	<button onclick="window.location.href='./'" style="padding: 10px 20px; font-size: 14px; background-color: #666; color: white; border: none; border-radius: 5px; cursor: pointer;">
 		← Back to home
 	</button>
 </div>
