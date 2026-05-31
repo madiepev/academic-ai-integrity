@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI-Disclosuregenerator</title>
+    <style>
+        :root {
+            --brand-white: #ffffff;
+            --brand-light-gray: #f5f5f5;
+            --brand-blue: #0066cc;
+            --brand-blue-dark: #004080;
+            --brand-blue-light: #e6f0ff;
+            --text-primary: #1a1a1a;
+            --text-secondary: #4a4a4a;
+            --border-color: #d9d9d9;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #f2f2f2;
+            color: var(--text-primary);
+            min-height: 100vh;
+            padding: 24px;
+        }
+
+        .container {
+            background: var(--brand-white);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0, 102, 204, 0.08);
+            max-width: 1080px;
+            margin: 0 auto;
+            width: 100%;
+            padding: 32px;
+            position: relative;
+        }
+
+        .back-button {
+            display: inline-block;
+            padding: 10px 20px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background: var(--brand-light-gray);
+            color: var(--brand-blue);
+            text-decoration: none;
+            font-size: 14px;
+            margin-bottom: 18px;
+            transition: all 0.2s ease;
+        }
+
+        .back-button:hover {
+            background: var(--brand-blue-light);
+            border-color: var(--brand-blue);
+        }
+
+        .top-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 18px;
+        }
+
+        .top-actions .back-button {
+            margin-bottom: 0;
+        }
+
+        .lang-button {
+            display: inline-block;
+            padding: 10px 14px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background: var(--brand-white);
+            color: var(--brand-blue);
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .lang-button:hover {
+            background: var(--brand-blue-light);
+            border-color: var(--brand-blue);
+        }
+
+        h1 {
+            color: var(--brand-blue-dark);
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+
+        .subtitle {
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+
+        .form-section {
+            margin-bottom: 30px;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .question {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .description {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 15px;
+            font-family: inherit;
+            transition: border-color 0.3s ease;
+            margin-bottom: 15px;
+        }
+
+        input[type="text"]:focus,
+        input[type="number"]:focus,
+        textarea:focus,
+        select:focus {
+            outline: none;
+            border-color: var(--brand-blue);
+        }
+
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .suggestions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+
+        .suggestion-chip {
+            background: #f0f0f0;
+            border: 1px solid #ddd;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .suggestion-chip:hover {
+            background: var(--brand-blue);
+            color: white;
+            border-color: var(--brand-blue);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 2fr 2fr 2fr auto;
+            gap: 10px;
+            margin-bottom: 15px;
+            align-items: start;
+        }
+
+        .month-year-inputs {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 10px;
+        }
+
+        .month-year-inputs select,
+        .month-year-inputs input {
+            margin-bottom: 0;
+        }
+
+        .form-row input,
+        .form-row select {
+            margin-bottom: 0;
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .radio-option {
+            flex: 1;
+            min-width: 150px;
+        }
+
+        .radio-option input[type="radio"] {
+            display: none;
+        }
+
+        .radio-option label {
+            display: block;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .radio-option input[type="radio"]:checked + label {
+            background: var(--brand-blue);
+            color: white;
+            border-color: var(--brand-blue);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        button {
+            flex: 1;
+            padding: 14px 28px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: var(--brand-blue);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 102, 204, 0.25);
+        }
+
+        .btn-primary:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-secondary {
+            background: #f0f0f0;
+            color: #333;
+        }
+
+        .btn-secondary:hover {
+            background: #e0e0e0;
+        }
+
+        .result-section {
+            display: none;
+            animation: fadeIn 0.5s ease;
+            margin-top: 40px;
+            padding-top: 40px;
+            border-top: 2px solid #e0e0e0;
+        }
+
+        .result-section.active {
+            display: block;
+        }
+
+        .disclosure-output {
+            background: #f8f9fa;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            font-size: 15px;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .success-icon {
+            text-align: center;
+            font-size: 60px;
+            margin-bottom: 20px;
+        }
+
+        .copy-button {
+            background: #28a745;
+            color: white;
+        }
+
+        .copy-button:hover {
+            background: #218838;
+            transform: translateY(-2px);
+        }
+
+        .required-indicator {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+
+        .field-counter {
+            text-align: right;
+            font-size: 12px;
+            color: #999;
+            margin-top: -10px;
+            margin-bottom: 15px;
+        }
+
+        .tip-box {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 12px 15px;
+            margin-bottom: 15px;
+            border-radius: 4px;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .tip-box strong {
+            color: #856404;
+        }
+
+        .tip-box .sample-prompt {
+            background: white;
+            padding: 10px;
+            margin-top: 8px;
+            border-radius: 4px;
+            font-style: italic;
+            border: 1px solid #e0e0e0;
+        }
+
+        .copy-prompt-btn {
+            background: var(--brand-blue);
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            cursor: pointer;
+            margin-top: 8px;
+            transition: background 0.2s ease;
+            font-weight: 500;
+        }
+
+        .copy-prompt-btn:hover {
+            background: var(--brand-blue-dark);
+        }
+
+        .copy-prompt-btn:active {
+            transform: scale(0.98);
+        }
+
+        .tool-row {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        .tool-row-header {
+            margin-bottom: 10px;
+        }
+
+        .tool-number {
+            font-weight: 600;
+            color: var(--brand-blue);
+            font-size: 14px;
+        }
+
+        .delete-tool-btn {
+            background: none;
+            border: none;
+            font-size: 18px;
+            cursor: pointer;
+            padding: 8px;
+            line-height: 1;
+            opacity: 0.6;
+            transition: all 0.2s ease;
+            align-self: center;
+        }
+
+        .delete-tool-btn:hover {
+            opacity: 1;
+            transform: scale(1.2);
+        }
+
+        .add-tool-btn {
+            background: #f0f0f0;
+            color: var(--brand-blue);
+            border: 2px dashed var(--brand-blue);
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+
+        .add-tool-btn:hover {
+            background: var(--brand-blue);
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            .month-year-inputs {
+                grid-template-columns: 1fr;
+            }
+            .radio-group {
+                flex-direction: column;
+            }
+            .radio-option {
+                flex: auto;
+            }
+        }
+
+        /* Feedback button */
+        .feedback-btn {
+            position: fixed;
+            top: 16px;
+            right: 16px;
+            z-index: 1000;
+            display: inline-block;
+            padding: 10px 18px;
+            font-size: 13px;
+            font-weight: 600;
+            color: white;
+            background: var(--brand-blue);
+            border-radius: 6px;
+            text-decoration: none;
+            transition: all 0.2s;
+            white-space: nowrap;
+            box-shadow: 0 2px 8px rgba(0, 102, 204, 0.25);
+        }
+        .feedback-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 102, 204, 0.35);
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 16px;
+            }
+
+            .container {
+                padding: 22px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="top-actions">
+        <a href="index-nl.html" class="back-button">← Terug naar docenthome</a>
+        <a href="disclosure.html" class="lang-button">English</a>
+    </div>
+    <a href="https://vuamsterdam.eu.qualtrics.com/jfe/form/SV_8JjSwKo76yzjtEq" target="_blank" class="feedback-btn">Feedback</a>
+    <div class="container">
+        <h1>AI-Disclosuregenerator</h1>
+        <p class="subtitle">Vul alle verplichte velden in om je academische AI-disclosureverklaring te genereren</p>
+
+        <!-- Form Sections -->
+        <form id="disclosureForm">
+            <!-- Section 0: AI Usage Check -->
+            <div class="form-section">
+                <div class="question">Heb je AI-tools gebruikt tijdens het maken van deze opdracht? <span class="required-indicator">*</span></div>
+                <div class="radio-group">
+                    <div class="radio-option">
+                        <input type="radio" id="usedAI" name="aiUsage" value="yes" onchange="toggleAIForm(true)" required>
+                        <label for="usedAI">Ja, ik heb AI-tools gebruikt</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="noAI" name="aiUsage" value="no" onchange="toggleAIForm(false)">
+                        <label for="noAI">Nee, ik heb geen AI-tools gebruikt</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- No AI Reason Section (hidden by default) -->
+            <div id="noAISection" style="display: none;">
+                <div class="form-section">
+                    <div class="question">Reden om geen AI te gebruiken (optioneel)</div>
+                    <div class="description">Leg kort uit waarom je ervoor koos geen AI-tools te gebruiken. Schrijf helder en professioneel in volledige zinnen. Je uitleg wordt direct toegevoegd aan de disclosureverklaring.</div>
+                    <div class="tip-box">
+                        <strong>💡 Schrijftip:</strong> Gebruik objectieve, academische taal. Begin je zin alsof deze doorloopt op "...dit werk." Bijvoorbeeld: "Deze keuze is gemaakt om zelfstandige onderzoeksvaardigheden te ontwikkelen" of "De opdrachtinstructies verboden specifiek het gebruik van AI-tools."
+                    </div>
+                    <textarea id="noAIReason" name="noAIReason" placeholder="Voorbeeld: Deze keuze is gemaakt om zelfstandige analytische en schrijfvaardigheden te ontwikkelen zonder technologische ondersteuning."></textarea>
+                    <div class="field-counter"><span id="noAIReasonCounter">0</span> tekens</div>
+                </div>
+            </div>
+
+            <!-- AI Form Sections (hidden by default) -->
+            <div id="aiFormSections" style="display: none;">
+            <!-- Section 1: Tasks -->
+            <div class="form-section">
+                <div class="question">Maak deze zin af: "De auteur gebruikte AI ter ondersteuning van..." <span class="required-indicator">*</span></div>
+                <div class="description">Je antwoord komt direct in de disclosure. Noem de specifieke taken (bijv. taalverbetering, ideevorming, code-debugging).</div>
+                <div class="suggestions">
+                    <span class="suggestion-chip" onclick="addSuggestion('tasks', 'literatuuronderzoek')">literatuuronderzoek</span>
+                    <span class="suggestion-chip" onclick="addSuggestion('tasks', 'taalverbetering')">taalverbetering</span>
+                    <span class="suggestion-chip" onclick="addSuggestion('tasks', 'ideevorming')">ideevorming</span>
+                    <span class="suggestion-chip" onclick="addSuggestion('tasks', 'data-analyse')">data-analyse</span>
+                    <span class="suggestion-chip" onclick="addSuggestion('tasks', 'code-debugging')">code-debugging</span>
+                    <span class="suggestion-chip" onclick="addSuggestion('tasks', 'samenvatten')">samenvatten</span>
+                </div>
+                <textarea id="tasks" name="tasks" placeholder="Voorbeeld: taalverbetering, ideevorming en structurele ordening van argumenten" required></textarea>
+                <div class="field-counter"><span id="tasksCounter">0</span> tekens</div>
+            </div>
+
+            <!-- Section 2: Model Information -->
+            <div class="form-section">
+                <div class="question">Informatie over AI-tools <span class="required-indicator">*</span></div>
+                <div class="description">Vul de naam van de tool in, de versie (indien bekend) en wanneer je de tool gebruikte. Je kunt meerdere tools toevoegen.</div>
+                <div id="toolsContainer">
+                    <div class="tool-row" data-tool-id="1">
+                        <div class="tool-row-header">
+                            <span class="tool-number">Tool 1</span>
+                        </div>
+                        <div class="form-row">
+                            <div>
+                                <input type="text" class="tool-name" placeholder="Naam tool (bijv. ChatGPT, Claude)" required>
+                            </div>
+                            <div>
+                                <input type="text" class="tool-version" placeholder="Versie (optioneel, bijv. GPT-4)">
+                            </div>
+                            <div class="month-year-inputs">
+                                <select class="tool-month" required>
+                                    <option value="">Maand</option>
+                                    <option value="januari">januari</option>
+                                    <option value="februari">februari</option>
+                                    <option value="maart">maart</option>
+                                    <option value="april">april</option>
+                                    <option value="mei">mei</option>
+                                    <option value="juni">juni</option>
+                                    <option value="juli">juli</option>
+                                    <option value="augustus">augustus</option>
+                                    <option value="september">september</option>
+                                    <option value="oktober">oktober</option>
+                                    <option value="november">november</option>
+                                    <option value="december">december</option>
+                                </select>
+                                <input type="number" class="tool-year" placeholder="Jaar" min="2020" max="2030" required>
+                            </div>
+                            <div></div>
+                        </div>
+                    </div>
+                </div>
+                <button type="button" class="add-tool-btn" onclick="addTool()">+ Voeg nog een tool toe</button>
+            </div>
+
+            <!-- Section 3: Input/Prompts -->
+            <div class="form-section">
+                <div class="question">Maak deze zin af: "De prompts bevatten..." <span class="required-indicator">*</span></div>
+                <div class="description">Je antwoord komt direct in de disclosure. Geef authentieke en heldere voorbeeldprompts die weergeven wat je daadwerkelijk aan de AI hebt gevraagd. We adviseren minimaal een representatieve prompt per taak per tool.</div>
+                <div class="tip-box">
+                    <strong>💡 Tip:</strong> Je kunt een veelgebruikte prompt letterlijk toevoegen, voor duidelijkheid herschrijven, of onderstaande hulpprompt gebruiken om representatieve voorbeelden op te halen:
+                    <div class="sample-prompt">
+                        Geef elke prompt die ik in dit gesprek stelde, geherformuleerd als een heldere vraag. Niet samenvatten, categoriseren, nummeren of toelichten; geef alleen de vragen.
+                    </div>
+                    <button type="button" class="copy-prompt-btn" onclick="copyPromptHelper()">Kopieer deze prompt</button>
+                </div>
+                <textarea id="prompts" name="prompts" placeholder="Voorbeeld: 'Kun je me helpen de helderheid van deze alinea te verbeteren?' en 'Wat zijn de belangrijkste argumenten voor en tegen dit theoretische kader?'" required></textarea>
+                <div class="field-counter"><span id="promptsCounter">0</span> tekens</div>
+            </div>
+
+            <!-- Section 4: Percentage Used -->
+            <div class="form-section">
+                <div class="question">Hoeveel AI-gegenereerde inhoud heb je gebruikt? <span class="required-indicator">*</span></div>
+                <div class="description">Schat het percentage AI-bijdrage in je eindwerk</div>
+                <div class="radio-group">
+                    <div class="radio-option">
+                        <input type="radio" id="low" name="percentage" value="low" required>
+                        <label for="low">Laag (0-30%)</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="moderate" name="percentage" value="moderate">
+                        <label for="moderate">Gemiddeld (30-70%)</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="high" name="percentage" value="high">
+                        <label for="high">Hoog (70-100%)</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 5: Fact Checking & Ethics -->
+            <div class="form-section">
+                <div class="question">Maak deze zin af: "De auteur heeft alle AI-ondersteunde inhoud op juistheid en integriteit gecontroleerd via..." <span class="required-indicator">*</span></div>
+                <div class="description">Je antwoord komt direct in de disclosure. Beschrijf je factcheckmethoden.</div>
+                <textarea id="factCheck" name="factCheck" placeholder="Voorbeeld: vergelijking met wetenschappelijke bronnen, verificatie via bibliotheekdatabases en handmatige controle van alle inhoud" required></textarea>
+                <div class="field-counter"><span id="factCheckCounter">0</span> tekens</div>
+                
+                <div class="question" style="margin-top: 20px;">Ethiek en dataprivacy <span class="required-indicator">*</span></div>
+                <div class="description">Bevestig dat er geen vertrouwelijke, persoonlijke of identificeerbare data in de AI-tool zijn ingevoerd.</div>
+                <div class="radio-group">
+                    <div class="radio-option" style="flex: none; min-width: 200px;">
+                        <input type="radio" id="ethicsConfirm" name="ethics" value="confirmed" required>
+                        <label for="ethicsConfirm">✓ Ik bevestig dat er geen vertrouwelijke data zijn gebruikt</label>
+                    </div>
+                </div>
+            </div>
+            </div><!-- End aiFormSections -->
+        </form>
+
+        <!-- Generate Button -->
+        <div class="button-group">
+            <button type="button" class="btn-primary" id="generateBtn" onclick="generateDisclosure()" disabled>Genereer disclosureverklaring</button>
+        </div>
+
+        <!-- Result Section -->
+        <div class="result-section" id="resultSection">
+            <div class="success-icon">✅</div>
+            <h2 style="text-align: center; color: #333; margin-bottom: 20px;">Jouw AI-disclosureverklaring</h2>
+            <div class="disclosure-output" id="disclosureOutput"></div>
+            <div class="button-group">
+                <button type="button" class="copy-button" onclick="copyDisclosure()">📋 Kopieer naar klembord</button>
+                <button type="button" class="btn-secondary" onclick="editDisclosure()">✏️ Bewerk en genereer opnieuw</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let toolCounter = 1;
+
+        // Initialize character counters
+        document.addEventListener('DOMContentLoaded', function() {
+            setupCharacterCounters();
+            setupFormValidation();
+            setCurrentMonthYear();
+        });
+
+        function setupCharacterCounters() {
+            const fields = ['tasks', 'prompts', 'factCheck', 'noAIReason'];
+            fields.forEach(field => {
+                const element = document.getElementById(field);
+                const counter = document.getElementById(field + 'Counter');
+                if (element && counter) {
+                    element.addEventListener('input', function() {
+                        counter.textContent = this.value.length;
+                    });
+                }
+            });
+        }
+
+        function setupFormValidation() {
+            const form = document.getElementById('disclosureForm');
+            form.addEventListener('input', checkGenerateButton);
+            form.addEventListener('change', checkGenerateButton);
+        }
+
+        function setCurrentMonthYear() {
+            const now = new Date();
+            const currentYear = now.getFullYear();
+            const currentMonth = ['januari', 'februari', 'maart', 'april', 'mei', 'juni', 
+                          'juli', 'augustus', 'september', 'oktober', 'november', 'december'][now.getMonth()];
+            
+            // Set for first tool
+            const firstTool = document.querySelector('.tool-row');
+            const yearInput = firstTool.querySelector('.tool-year');
+            const monthSelect = firstTool.querySelector('.tool-month');
+            
+            if (yearInput) yearInput.value = currentYear;
+            if (monthSelect) monthSelect.value = currentMonth;
+        }
+
+        function addSuggestion(fieldId, text) {
+            const field = document.getElementById(fieldId);
+            const currentValue = field.value.trim();
+            if (currentValue) {
+                // Als de tekst al op "en" eindigt, direct aanvullen.
+                if (currentValue.match(/(,\s*en|en)\s*$/)) {
+                    field.value = currentValue + ' ' + text;
+                } else if (currentValue.endsWith(',')) {
+                    field.value = currentValue + ' en ' + text;
+                } else {
+                    field.value = currentValue + ', en ' + text;
+                }
+            } else {
+                field.value = text;
+            }
+            field.dispatchEvent(new Event('input'));
+            field.focus();
+        }
+
+        function addTool() {
+            toolCounter++;
+            const container = document.getElementById('toolsContainer');
+            const now = new Date();
+            const currentYear = now.getFullYear();
+            const currentMonth = ['januari', 'februari', 'maart', 'april', 'mei', 'juni', 
+                          'juli', 'augustus', 'september', 'oktober', 'november', 'december'][now.getMonth()];
+            
+            const toolRow = document.createElement('div');
+            toolRow.className = 'tool-row';
+            toolRow.setAttribute('data-tool-id', toolCounter);
+            toolRow.innerHTML = `
+                <div class="tool-row-header">
+                    <span class="tool-number">Tool ${toolCounter}</span>
+                </div>
+                <div class="form-row">
+                    <div>
+                        <input type="text" class="tool-name" placeholder="Naam tool (bijv. ChatGPT, Claude)" required>
+                    </div>
+                    <div>
+                        <input type="text" class="tool-version" placeholder="Versie (optioneel, bijv. GPT-4)">
+                    </div>
+                    <div class="month-year-inputs">
+                        <select class="tool-month" required>
+                            <option value="">Maand</option>
+                            <option value="januari">januari</option>
+                            <option value="februari">februari</option>
+                            <option value="maart">maart</option>
+                            <option value="april">april</option>
+                            <option value="mei">mei</option>
+                            <option value="juni">juni</option>
+                            <option value="juli">juli</option>
+                            <option value="augustus">augustus</option>
+                            <option value="september">september</option>
+                            <option value="oktober">oktober</option>
+                            <option value="november">november</option>
+                            <option value="december">december</option>
+                        </select>
+                        <input type="number" class="tool-year" placeholder="Jaar" min="2020" max="2030" value="${currentYear}" required>
+                    </div>
+                    <button type="button" class="delete-tool-btn" onclick="deleteTool(${toolCounter})" title="Verwijder tool">🗑️</button>
+                </div>
+            `;
+            
+            container.appendChild(toolRow);
+            
+            // Set current month
+            toolRow.querySelector('.tool-month').value = currentMonth;
+            
+            // Renumber all tools
+            renumberTools();
+            checkGenerateButton();
+        }
+
+        function deleteTool(toolId) {
+            const toolRow = document.querySelector(`[data-tool-id="${toolId}"]`);
+            if (toolRow) {
+                toolRow.remove();
+                renumberTools();
+                checkGenerateButton();
+            }
+        }
+
+        function renumberTools() {
+            const toolRows = document.querySelectorAll('.tool-row');
+            toolRows.forEach((row, index) => {
+                const toolNumber = row.querySelector('.tool-number');
+                toolNumber.textContent = `Tool ${index + 1}`;
+            });
+        }
+
+        function checkGenerateButton() {
+            const form = document.getElementById('disclosureForm');
+            const generateBtn = document.getElementById('generateBtn');
+            const aiUsage = document.querySelector('input[name="aiUsage"]:checked');
+            
+            // If "No AI" is selected, only require that selection
+            if (aiUsage && aiUsage.value === 'no') {
+                generateBtn.disabled = false;
+                return;
+            }
+            
+            // If "Yes AI" is selected, check if all required fields are filled
+            const allFilled = form.checkValidity();
+            generateBtn.disabled = !allFilled;
+        }
+
+        function generateDisclosure() {
+            // Check if AI was used
+            const aiUsage = document.querySelector('input[name="aiUsage"]:checked');
+            
+            if (!aiUsage) {
+                alert('Geef aan of je AI-tools hebt gebruikt.');
+                return;
+            }
+            
+            // If no AI was used, generate simple statement
+            if (aiUsage.value === 'no') {
+                let disclosure = 'De auteur heeft geen AI-tools gebruikt bij de voorbereiding van dit werk.';
+                const reason = document.getElementById('noAIReason').value.trim();
+                if (reason) {
+                    disclosure += ` ${reason}`;
+                }
+                document.getElementById('disclosureOutput').textContent = disclosure;
+                document.getElementById('resultSection').style.display = 'block';
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                return;
+            }
+            
+            // Validate form for AI usage
+            if (!document.getElementById('disclosureForm').checkValidity()) {
+                alert('Vul alle verplichte velden in.');
+                return;
+            }
+
+            // Get form values
+            const tasks = document.getElementById('tasks').value.trim();
+            const prompts = document.getElementById('prompts').value.trim();
+            const percentage = document.querySelector('input[name="percentage"]:checked').value;
+            const factCheck = document.getElementById('factCheck').value.trim();
+
+            // Get all tools
+            const toolRows = document.querySelectorAll('.tool-row');
+            const tools = [];
+            
+            toolRows.forEach(row => {
+                const toolName = row.querySelector('.tool-name').value.trim();
+                const version = row.querySelector('.tool-version').value.trim();
+                const month = row.querySelector('.tool-month').value;
+                const year = row.querySelector('.tool-year').value;
+                
+                if (toolName && month && year) {
+                    let modelInfo = toolName;
+                    if (version) {
+                        modelInfo += ` (${version})`;
+                    }
+                    modelInfo += `, geraadpleegd in ${month} ${year}`;
+                    tools.push(modelInfo);
+                }
+            });
+
+            // Format tools list
+            let toolsList;
+            if (tools.length === 1) {
+                toolsList = tools[0];
+            } else if (tools.length === 2) {
+                toolsList = tools.join(' en ');
+            } else {
+                toolsList = tools.slice(0, -1).join(', ') + ', en ' + tools[tools.length - 1];
+            }
+
+            // Generate disclosure statement using verbatim input
+            let disclosure = `De auteur erkent het gebruik van ${toolsList} ter ondersteuning van ${tasks} tijdens de voorbereiding van dit werk. `;
+            
+            disclosure += `De prompts bevatten ${prompts}. `;
+            
+            // Add percentage context
+            if (percentage === 'low') {
+                disclosure += `AI-ondersteuning vertegenwoordigde ongeveer 0-30% van het eindwerk. `;
+            } else if (percentage === 'moderate') {
+                disclosure += `AI-ondersteuning vertegenwoordigde ongeveer 30-70% van het eindwerk. `;
+            } else if (percentage === 'high') {
+                disclosure += `AI-ondersteuning vertegenwoordigde ongeveer 70-100% van het eindwerk. `;
+            }
+
+            disclosure += `De auteur heeft alle AI-ondersteunde inhoud op juistheid en integriteit gecontroleerd via ${factCheck}. `;
+            
+            disclosure += `Er zijn in geen enkele fase vertrouwelijke, persoonlijke of identificeerbare gegevens in de tool ingevoerd.`;
+
+            // Display result
+            document.getElementById('disclosureOutput').textContent = disclosure;
+            
+            // Show result section
+            document.getElementById('resultSection').classList.add('active');
+
+            // Scroll to result
+            document.getElementById('resultSection').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        function copyDisclosure() {
+            const disclosure = document.getElementById('disclosureOutput').textContent;
+            navigator.clipboard.writeText(disclosure).then(function() {
+                const button = event.target;
+                const originalText = button.textContent;
+                button.textContent = '✓ Gekopieerd!';
+                button.style.background = '#1e7e34';
+                setTimeout(function() {
+                    button.textContent = originalText;
+                    button.style.background = '#28a745';
+                }, 2000);
+            }, function() {
+                alert('Kopieren mislukt. Selecteer en kopieer de tekst handmatig.');
+            });
+        }
+
+        function editDisclosure() {
+            // Hide result section
+            document.getElementById('resultSection').classList.remove('active');
+            
+            // Scroll to top of form
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function copyPromptHelper() {
+            const promptText = 'Geef elke prompt die ik in dit gesprek stelde, geherformuleerd als een heldere vraag. Niet samenvatten, categoriseren, nummeren of toelichten; geef alleen de vragen.';
+            navigator.clipboard.writeText(promptText).then(function() {
+                const btn = event.target;
+                const originalText = btn.innerHTML;
+                btn.innerHTML = '✓ Gekopieerd!';
+                btn.style.background = '#28a745';
+                setTimeout(function() {
+                    btn.innerHTML = originalText;
+                    btn.style.background = '#0066cc';
+                }, 2000);
+            }, function() {
+                alert('Kopieren mislukt. Selecteer en kopieer de tekst handmatig.');
+            });
+        }
+
+        function toggleAIForm(showForm) {
+            const aiFormSections = document.getElementById('aiFormSections');
+            const noAISection = document.getElementById('noAISection');
+            const generateBtn = document.getElementById('generateBtn');
+            
+            if (showForm) {
+                aiFormSections.style.display = 'block';
+                noAISection.style.display = 'none';
+            } else {
+                aiFormSections.style.display = 'none';
+                noAISection.style.display = 'block';
+            }
+            
+            // Update button state
+            checkGenerateButton();
+        }
+    </script>
+</body>
+</html>

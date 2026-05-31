@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI-Rationalebuilder</title>
+    <style>
+        :root {
+            --brand-white: #ffffff;
+            --brand-light-gray: #f5f5f5;
+            --brand-blue: #0066cc;
+            --brand-blue-dark: #004080;
+            --brand-blue-light: #e6f0ff;
+            --text-primary: #1a1a1a;
+            --text-secondary: #4a4a4a;
+            --border-color: #d9d9d9;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #f2f2f2;
+            color: var(--text-primary);
+            min-height: 100vh;
+            padding: 24px;
+        }
+
+        .container {
+            background: var(--brand-white);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0, 102, 204, 0.08);
+            max-width: 1080px;
+            margin: 0 auto;
+            width: 100%;
+            padding: 32px;
+            position: relative;
+        }
+
+        .back-button {
+            display: inline-block;
+            padding: 10px 20px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background: var(--brand-light-gray);
+            color: var(--brand-blue);
+            text-decoration: none;
+            font-size: 14px;
+            margin-bottom: 18px;
+            transition: all 0.2s ease;
+        }
+
+        .back-button:hover {
+            background: var(--brand-blue-light);
+            border-color: var(--brand-blue);
+        }
+
+        .top-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 18px;
+        }
+
+        .top-actions .back-button {
+            margin-bottom: 0;
+        }
+
+        .lang-button {
+            display: inline-block;
+            padding: 10px 14px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background: var(--brand-white);
+            color: var(--brand-blue);
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .lang-button:hover {
+            background: var(--brand-blue-light);
+            border-color: var(--brand-blue);
+        }
+
+        h1 {
+            color: var(--brand-blue-dark);
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+
+        .subtitle {
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .form-section {
+            margin-bottom: 30px;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .question {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .description {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 15px;
+            font-family: inherit;
+            transition: border-color 0.3s ease;
+            margin-bottom: 15px;
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: var(--brand-blue);
+        }
+
+        .suggestions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+
+        .suggestion-chip {
+            background: #f0f0f0;
+            border: 1px solid #ddd;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .suggestion-chip:hover {
+            background: var(--brand-blue);
+            color: white;
+            border-color: var(--brand-blue);
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .radio-option {
+            flex: 1;
+            min-width: 150px;
+        }
+
+        .radio-option input[type="radio"] {
+            display: none;
+        }
+
+        .radio-option label {
+            display: block;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .radio-option input[type="radio"]:checked + label {
+            background: var(--brand-blue);
+            color: white;
+            border-color: var(--brand-blue);
+        }
+
+        .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+
+        .checkbox-option {
+            display: flex;
+            align-items: flex-start;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .checkbox-option:hover {
+            border-color: var(--brand-blue);
+            background: #f8f9ff;
+        }
+
+        .checkbox-option input[type="checkbox"],
+        .checkbox-option input[type="radio"] {
+            display: none;
+        }
+
+        .checkbox-option input[type="checkbox"]:checked ~ .checkbox-content,
+        .checkbox-option input[type="radio"]:checked ~ .checkbox-content {
+            color: var(--brand-blue);
+        }
+
+        .checkbox-option input[type="checkbox"]:checked ~ .custom-checkbox,
+        .checkbox-option input[type="radio"]:checked ~ .custom-checkbox {
+            background: var(--brand-blue);
+            border-color: var(--brand-blue);
+        }
+
+        .checkbox-option input[type="checkbox"]:checked ~ .custom-checkbox::after,
+        .checkbox-option input[type="radio"]:checked ~ .custom-checkbox::after {
+            content: '✓';
+            color: white;
+            display: block;
+            text-align: center;
+            line-height: 20px;
+            font-weight: bold;
+        }
+
+        .custom-checkbox {
+            width: 24px;
+            height: 24px;
+            border: 2px solid #e0e0e0;
+            border-radius: 4px;
+            margin-right: 12px;
+            flex-shrink: 0;
+            transition: all 0.3s ease;
+        }
+
+        .checkbox-content {
+            flex: 1;
+        }
+
+        .checkbox-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+            font-size: 15px;
+        }
+
+        .checkbox-description {
+            font-size: 13px;
+            color: #666;
+            line-height: 1.4;
+            font-style: italic;
+        }
+
+        .other-input {
+            margin-top: 10px;
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 14px;
+            display: none;
+        }
+
+        .other-input:focus {
+            outline: none;
+            border-color: var(--brand-blue);
+        }
+
+        button {
+            flex: 1;
+            padding: 14px 28px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .btn-primary {
+            background: var(--brand-blue);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 102, 204, 0.25);
+        }
+
+        .btn-primary:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-secondary {
+            background: #f0f0f0;
+            color: #333;
+        }
+
+        .btn-secondary:hover {
+            background: #e0e0e0;
+        }
+
+        .result-section {
+            display: none;
+            animation: fadeIn 0.5s ease;
+            margin-top: 40px;
+            padding-top: 40px;
+            border-top: 2px solid #e0e0e0;
+        }
+
+        .result-section.active {
+            display: block;
+        }
+
+        .rationale-output {
+            background: #f8f9fa;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            font-size: 15px;
+            line-height: 1.8;
+            color: #333;
+            white-space: pre-line;
+        }
+
+        .success-icon {
+            text-align: center;
+            font-size: 60px;
+            margin-bottom: 20px;
+        }
+
+        .copy-button {
+            background: #28a745;
+            color: white;
+        }
+
+        .copy-button:hover {
+            background: #218838;
+            transform: translateY(-2px);
+        }
+
+        .required-indicator {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+
+        .field-counter {
+            text-align: right;
+            font-size: 12px;
+            color: #999;
+            margin-top: -10px;
+            margin-bottom: 15px;
+        }
+
+        .info-box {
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 12px 15px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .info-box strong {
+            color: #1565c0;
+        }
+
+        .qualtrics-section {
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 2px solid #e0e0e0;
+        }
+
+        .qualtrics-section h3 {
+            font-size: 20px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .qualtrics-section p {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .btn-survey {
+            display: inline-block;
+            padding: 14px 28px;
+            background: var(--brand-blue);
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .btn-survey:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 102, 204, 0.25);
+        }
+
+        @media (max-width: 768px) {
+            .radio-group {
+                flex-direction: column;
+            }
+            .radio-option {
+                flex: auto;
+            }
+        }
+
+        /* Feedback button */
+        .feedback-btn {
+            position: fixed;
+            top: 16px;
+            right: 16px;
+            z-index: 1000;
+            display: inline-block;
+            padding: 10px 18px;
+            font-size: 13px;
+            font-weight: 600;
+            color: white;
+            background: var(--brand-blue);
+            border-radius: 6px;
+            text-decoration: none;
+            transition: all 0.2s;
+            white-space: nowrap;
+            box-shadow: 0 2px 8px rgba(0, 102, 204, 0.25);
+        }
+        .feedback-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 102, 204, 0.35);
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 16px;
+            }
+
+            .container {
+                padding: 22px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="top-actions">
+        <a href="index-nl.html" class="back-button">← Terug naar docenthome</a>
+        <a href="rationale.html" class="lang-button">English</a>
+    </div>
+    <a href="https://vuamsterdam.eu.qualtrics.com/jfe/form/SV_8JjSwKo76yzjtEq" target="_blank" class="feedback-btn">Feedback</a>
+    <div class="container">
+        <h1>AI-Rationalebuilder</h1>
+        <p class="subtitle">Om duidelijke regels en verwachtingen tussen docent en studenten vast te leggen, is het belangrijk om expliciet te communiceren over <strong>wat</strong> met generatieve AI is toegestaan, <strong>hoe</strong> AI gebruikt mag worden en <strong>waarom</strong> deze keuzes binnen jouw vak gelden. Deze rationalebuilder helpt je een onderbouwing voor je vakhandleiding op te stellen op basis van je eigen input.</p>
+
+        <!-- Form Sections -->
+        <form id="rationaleForm">
+            <!-- Section 1: AI Usage Levels -->
+            <div class="form-section">
+                <div class="question">Hoe wordt het gebruik van generatieve AI in dit vak geintegreerd? <span class="required-indicator">*</span></div>
+                <div class="description">Kies de optie die het beste past bij het AI-gebruiksniveau in jouw vak.</div>
+                    
+                    <div class="checkbox-group">
+                        <label class="checkbox-option" for="levelNoAI">
+                            <input type="radio" id="levelNoAI" name="aiLevels" value="No AI" required>
+                            <div class="custom-checkbox"></div>
+                            <div class="checkbox-content">
+                                <div class="checkbox-title">Geen AI</div>
+                                <div class="checkbox-description">De beoordeling wordt volledig zonder AI-ondersteuning uitgevoerd in een gecontroleerde setting, zodat studenten uitsluitend steunen op hun eigen kennis, begrip en vaardigheden.</div>
+                            </div>
+                        </label>
+
+                        <label class="checkbox-option" for="levelPlanning">
+                            <input type="radio" id="levelPlanning" name="aiLevels" value="AI Planning">
+                            <div class="custom-checkbox"></div>
+                            <div class="checkbox-content">
+                                <div class="checkbox-title">AI-planning</div>
+                                <div class="checkbox-description">AI mag gebruikt worden voor voorbereidende activiteiten zoals brainstormen, structureren en eerste verkenning. De nadruk ligt op effectief inzetten van AI voor planning, synthese en ideevorming, terwijl studenten die ideeen zelfstandig moeten uitwerken en verfijnen.</div>
+                            </div>
+                        </label>
+
+                        <label class="checkbox-option" for="levelCollaboration">
+                            <input type="radio" id="levelCollaboration" name="aiLevels" value="AI Collaboration">
+                            <div class="custom-checkbox"></div>
+                            <div class="checkbox-content">
+                                <div class="checkbox-title">AI-samenwerking</div>
+                                <div class="checkbox-description">AI mag helpen bij het uitvoeren van de taak, inclusief ideegeneratie, eerste versies, feedback en revisie. Studenten moeten AI-output kritisch beoordelen en aanpassen en daarmee hun begrip aantonen.</div>
+                            </div>
+                        </label>
+
+                        <label class="checkbox-option" for="levelFull">
+                            <input type="radio" id="levelFull" name="aiLevels" value="Full AI">
+                            <div class="custom-checkbox"></div>
+                            <div class="checkbox-content">
+                                <div class="checkbox-title">Volledige AI</div>
+                                <div class="checkbox-description">AI mag voor alle onderdelen van de taak worden gebruikt, waarbij studenten AI aansturen om beoordelingsdoelen te behalen. Beoordelingen op dit niveau kunnen ook expliciet vereisen dat studenten met AI werken om doelen te bereiken en problemen op te lossen.</div>
+                            </div>
+                        </label>
+
+                        <label class="checkbox-option" for="levelExploration">
+                            <input type="radio" id="levelExploration" name="aiLevels" value="AI Exploration">
+                            <div class="custom-checkbox"></div>
+                            <div class="checkbox-content">
+                                <div class="checkbox-title">AI-exploratie</div>
+                                <div class="checkbox-description">AI wordt creatief ingezet om probleemoplossing te versterken, nieuwe inzichten te ontwikkelen of innovatieve oplossingen te ontwerpen. Studenten en docenten ontwerpen samen beoordelingsvormen om unieke AI-toepassingen binnen het vakgebied te verkennen.</div>
+                            </div>
+                        </label>
+
+                        <label class="checkbox-option" for="levelOther">
+                            <input type="radio" id="levelOther" name="aiLevels" value="Other" onchange="toggleOtherInput()">
+                            <div class="custom-checkbox"></div>
+                            <div class="checkbox-content">
+                                <div class="checkbox-title">Anders</div>
+                                <textarea id="otherInput" class="other-input" placeholder="Specificeer andere AI-gebruiksrichtlijnen..."></textarea>
+                            </div>
+                        </label>
+                    </div>
+            </div>
+
+            <!-- Section 2: AI Literacy Material -->
+            <div class="form-section">
+                <div class="question">Bied je in dit vak materiaal aan over AI-geletterdheid? <span class="required-indicator">*</span></div>
+                <div class="radio-group">
+                    <div class="radio-option">
+                        <input type="radio" id="literacyYes" name="aiLiteracy" value="yes" onchange="toggleLiteracyDetails(true)" required>
+                        <label for="literacyYes">Ja</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="literacyNo" name="aiLiteracy" value="no" onchange="toggleLiteracyDetails(false)">
+                        <label for="literacyNo">Nee</label>
+                    </div>
+                </div>
+                
+                <div id="literacyDetails" style="display: none; margin-top: 15px;">
+                    <div class="description">Beschrijf welke materialen of activiteiten rond AI-geletterdheid je aanbiedt.</div>
+                    <div class="info-box">
+                        <strong>💡 Tip:</strong> Voeg links naar bruikbare bronnen toe in je beschrijving. Je kunt bijvoorbeeld verwijzen naar de e-learningmodule over Academic AI Integrity: <a href="https://madiepev.github.io/academic-ai-integrity/" target="_blank" style="color: #1565c0; text-decoration: underline;">https://madiepev.github.io/academic-ai-integrity/</a>
+                    </div>
+                    <div class="suggestions">
+                        <span class="suggestion-chip" onclick="addSuggestion('literacyDescription', 'een e-learningmodule over Academic AI Integrity (https://madiepev.github.io/academic-ai-integrity/)')">e-learningmodule</span>
+                        <span class="suggestion-chip" onclick="addSuggestion('literacyDescription', 'een gerichte lessessie over verantwoord AI-gebruik')">gerichte sessie</span>
+                        <span class="suggestion-chip" onclick="addSuggestion('literacyDescription', 'workshopactiviteiten over prompttechnieken')">workshopactiviteiten</span>
+                        <span class="suggestion-chip" onclick="addSuggestion('literacyDescription', 'geselecteerd leesmateriaal over AI-ethiek en beperkingen')">leesmateriaal</span>
+                    </div>
+                    <textarea id="literacyDescription" name="literacyDescription" placeholder="Voorbeeld: een e-learningmodule over Academic AI Integrity (https://madiepev.github.io/academic-ai-integrity/), een gerichte lessessie over verantwoord AI-gebruik en bronnen over AI-ethiek" rows="3"></textarea>
+                    <div class="field-counter"><span id="literacyDescriptionCounter">0</span> tekens</div>
+                </div>
+            </div>
+
+            <!-- Section 3: Discussion Space -->
+            <div class="form-section">
+                <div class="question">Bied je tijdens het vak ruimte om het gebruik van generatieve AI te bespreken? <span class="required-indicator">*</span></div>
+                <div class="radio-group">
+                    <div class="radio-option">
+                        <input type="radio" id="discussionYes" name="aiDiscussion" value="yes" required>
+                        <label for="discussionYes">Ja</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="discussionNo" name="aiDiscussion" value="no">
+                        <label for="discussionNo">Nee</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 4: Reasoning -->
+            <div class="form-section">
+                <div class="question">Wat is je onderbouwing voor deze aanpak van AI-integratie? <span class="required-indicator">*</span></div>
+                <div class="description">Leg je didactische rationale uit. Zo begrijpen studenten het doel achter je AI-beleid en de koppeling met leerdoelen.</div>
+                <div class="info-box">
+                    <strong>💡 Tip:</strong> Overweeg deze punten: Hoe ondersteunt je AI-beleid de leeruitkomsten? Welke vaardigheden help je studenten ontwikkelen? Waarom past deze aanpak bij je vakinhoud en toetsvormen?
+                </div>
+                <textarea id="reasoning" name="reasoning" placeholder="Voorbeeld: Dit beleid stimuleert studenten om kritisch te denken terwijl AI als leermiddel wordt ingezet. Door AI toe te staan voor planning en samenwerking leren studenten effectief met nieuwe technologieen werken, terwijl zij in het eindproduct hun eigen begrip en analyse moeten aantonen." required></textarea>
+                <div class="field-counter"><span id="reasoningCounter">0</span> tekens</div>
+            </div>
+        </form>
+
+        <!-- Generate Button -->
+        <div class="button-group">
+            <button type="button" class="btn-primary" id="generateBtn" onclick="generateRationale()" disabled>Genereer rationale</button>
+        </div>
+
+        <!-- Result Section -->
+        <div class="result-section" id="resultSection">
+            <div class="success-icon">✅</div>
+            <h2 style="text-align: center; color: #333; margin-bottom: 20px;">Jouw rationale voor AI-gebruik</h2>
+            <div class="rationale-output" id="rationaleOutput"></div>
+            <div class="button-group">
+                <button type="button" class="copy-button" onclick="copyRationale()">Kopieer naar klembord</button>
+                <button type="button" class="btn-secondary" onclick="editRationale()">Bewerk en genereer opnieuw</button>
+            </div>
+
+            <div class="qualtrics-section">
+                <h3>Deel je rationale voor onderzoek</h3>
+                <p>We verzamelen rationales om beter te begrijpen hoe docenten AI-integratie vormgeven. Als je wilt, kun je je rationale via onderstaand formulier delen. Deelname is vrijwillig en anoniem.</p>
+                <a href="https://vuamsterdam.eu.qualtrics.com/jfe/form/SV_4INCsmknxIJOfIO" target="_blank" rel="noopener noreferrer" class="btn-survey">Open enquete ↗</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            setupCharacterCounters();
+            setupFormValidation();
+        });
+
+        function setupCharacterCounters() {
+            const fields = ['reasoning', 'literacyDescription'];
+            fields.forEach(fieldId => {
+                const field = document.getElementById(fieldId);
+                const counter = document.getElementById(fieldId + 'Counter');
+                if (field && counter) {
+                    field.addEventListener('input', function() {
+                        counter.textContent = this.value.length;
+                    });
+                }
+            });
+        }
+
+        function addSuggestion(fieldId, text) {
+            const field = document.getElementById(fieldId);
+            const currentValue = field.value.trim();
+            if (currentValue) {
+                // If it already ends with "en", append directly.
+                if (currentValue.match(/(,\s*en|en)\s*$/)) {
+                    field.value = currentValue + ' ' + text;
+                } else if (currentValue.endsWith(',')) {
+                    field.value = currentValue + ' en ' + text;
+                } else {
+                    field.value = currentValue + ', en ' + text;
+                }
+            } else {
+                field.value = text;
+            }
+            field.dispatchEvent(new Event('input'));
+            field.focus();
+        }
+
+        function setupFormValidation() {
+            const form = document.getElementById('rationaleForm');
+            form.addEventListener('input', checkGenerateButton);
+            form.addEventListener('change', checkGenerateButton);
+        }
+
+        function toggleOtherInput() {
+            const otherCheckbox = document.getElementById('levelOther');
+            const otherInput = document.getElementById('otherInput');
+            if (otherCheckbox.checked) {
+                otherInput.style.display = 'block';
+                otherInput.focus();
+            } else {
+                otherInput.style.display = 'none';
+                otherInput.value = '';
+            }
+        }
+
+        function toggleLiteracyDetails(show) {
+            const literacyDetails = document.getElementById('literacyDetails');
+            const literacyDescription = document.getElementById('literacyDescription');
+            if (show) {
+                literacyDetails.style.display = 'block';
+            } else {
+                literacyDetails.style.display = 'none';
+                literacyDescription.value = '';
+            }
+            checkGenerateButton();
+        }
+
+        function checkGenerateButton() {
+            const form = document.getElementById('rationaleForm');
+            const generateBtn = document.getElementById('generateBtn');
+            const aiLevel = document.querySelector('input[name="aiLevels"]:checked');
+            const aiLiteracy = document.querySelector('input[name="aiLiteracy"]:checked');
+            const aiDiscussion = document.querySelector('input[name="aiDiscussion"]:checked');
+            const reasoning = document.getElementById('reasoning').value.trim();
+
+            let isValid = aiLevel && aiLiteracy && aiDiscussion && reasoning;
+
+            // If literacy is Yes, also need literacy description
+            if (aiLiteracy && aiLiteracy.value === 'yes') {
+                const literacyDescription = document.getElementById('literacyDescription').value.trim();
+                isValid = isValid && literacyDescription;
+            }
+
+            generateBtn.disabled = !isValid;
+        }
+
+        function generateRationale() {
+            const selectedLevel = document.querySelector('input[name="aiLevels"]:checked');
+            const aiLiteracy = document.querySelector('input[name="aiLiteracy"]:checked');
+            const aiDiscussion = document.querySelector('input[name="aiDiscussion"]:checked');
+            const reasoning = document.getElementById('reasoning').value.trim();
+
+            if (!selectedLevel || !aiLiteracy || !aiDiscussion || !reasoning) {
+                alert('Vul alle verplichte velden in.');
+                return;
+            }
+
+            let rationale = '';
+
+            // Section 1: AI Policy Statement
+            rationale += 'AI-beleid voor dit vak\n\n';
+            
+            const value = selectedLevel.value;
+            
+            if (value === 'No AI') {
+                rationale += 'Generatieve AI-tools zijn in dit vak niet toegestaan. ';
+                rationale += 'Toetsen moeten volledig zonder AI-ondersteuning in een gecontroleerde omgeving worden uitgevoerd, zodat studenten uitsluitend steunen op hun eigen kennis, begrip en vaardigheden.\n\n';
+            } else if (value === 'Other') {
+                const otherText = document.getElementById('otherInput').value.trim();
+                if (otherText) {
+                    rationale += 'Generatieve AI-tools zijn in dit vak onder specifieke voorwaarden toegestaan. ';
+                    rationale += `${otherText}\n\n`;
+                }
+            } else {
+                rationale += 'Generatieve AI-tools zijn in dit vak onder specifieke voorwaarden toegestaan. ';
+                rationale += 'Het volgende AI-gebruiksniveau is toegestaan:\n\n';
+                
+                // Get the description for the selected level
+                const descriptions = {
+                    'AI Planning': 'AI mag worden gebruikt voor voorbereidende taken zoals brainstormen, structureren en eerste verkenning. Studenten gebruiken AI voor planning, synthese en ideevorming, maar werken en verfijnen ideeen zelfstandig.',
+                    'AI Collaboration': 'AI mag worden gebruikt bij het uitvoeren van taken, inclusief ideegeneratie, eerste versies, feedback en revisie. Studenten beoordelen AI-output kritisch en passen deze aan om hun begrip te tonen.',
+                    'Full AI': 'AI mag voor elk onderdeel van de taak worden ingezet, waarbij studenten AI aansturen om beoordelingsdoelen te behalen. Sommige toetsen kunnen expliciet AI-gebruik vereisen om doelen te bereiken en problemen op te lossen.',
+                    'AI Exploration': 'AI mag creatief worden ingezet om probleemoplossing te versterken, nieuwe inzichten te ontwikkelen of innovatieve oplossingen te bouwen. Studenten en docenten verkennen samen unieke AI-toepassingen binnen het vakgebied.'
+                };
+                rationale += `${value}: ${descriptions[value]}\n\n`;
+            }
+
+            rationale += 'Voor meer informatie over het instellingsbeleid van VU Amsterdam rond generatieve AI, zie: https://vu.nl/en/student/examinations/generative-ai-your-use-our-expectations\n\n';
+
+            // Section 2: Educational Rationale
+            rationale += 'Didactische onderbouwing\n\n';
+            rationale += reasoning + '\n\n';
+
+            // Section 3: Support and Resources
+            rationale += 'Ondersteuning en bronnen\n\n';
+            
+            if (aiLiteracy.value === 'yes') {
+                const literacyDescription = document.getElementById('literacyDescription').value.trim();
+                rationale += 'Dit vak biedt ondersteuning op AI-geletterdheid, waaronder ' + literacyDescription + ', om studenten te helpen de mogelijkheden, beperkingen en ethische aspecten van generatieve AI te begrijpen. ';
+            } else {
+                rationale += 'Dit vak biedt geen specifieke materialen over AI-geletterdheid, maar studenten worden aangemoedigd om zelfstandig begrip van deze tools op te bouwen. ';
+            }
+
+            if (aiDiscussion.value === 'yes') {
+                rationale += 'Tijdens het vak wordt gerichte tijd vrijgemaakt om het gebruik van generatieve AI te bespreken, zodat studenten ervaringen kunnen delen, vragen kunnen stellen en samen werkafspraken kunnen ontwikkelen.';
+            } else {
+                rationale += 'Hoewel er geen vaste discussietijd is ingepland, kunnen vragen over AI-gebruik waar nodig tijdens reguliere contactmomenten of spreekuren worden besproken.';
+            }
+
+            // Display result
+            document.getElementById('rationaleOutput').textContent = rationale;
+            document.getElementById('resultSection').classList.add('active');
+            document.getElementById('resultSection').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        function copyRationale() {
+            const rationale = document.getElementById('rationaleOutput').textContent;
+            navigator.clipboard.writeText(rationale).then(function() {
+                const button = event.target;
+                const originalText = button.textContent;
+                button.textContent = '✓ Gekopieerd!';
+                button.style.background = '#1e7e34';
+                setTimeout(function() {
+                    button.textContent = originalText;
+                    button.style.background = '#28a745';
+                }, 2000);
+            }, function() {
+                alert('Kopieren mislukt. Selecteer en kopieer de tekst handmatig.');
+            });
+        }
+
+        function editRationale() {
+            document.getElementById('resultSection').classList.remove('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>

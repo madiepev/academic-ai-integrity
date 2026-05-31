@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Docenten - Academische AI-integriteit</title>
+  <style>
+    :root {
+      --brand-white: #ffffff;
+      --brand-light-gray: #f5f5f5;
+      --brand-blue: #0066cc;
+      --brand-blue-dark: #004080;
+      --brand-blue-light: #e6f0ff;
+      --text-primary: #1a1a1a;
+      --text-secondary: #4a4a4a;
+      --text-tertiary: #7a7a7a;
+      --border-color: #d9d9d9;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: #f2f2f2;
+      color: var(--text-primary);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .page {
+      max-width: 1020px;
+      margin: 0 auto;
+      padding: 64px 24px 80px;
+    }
+
+    .section {
+      margin-bottom: 64px;
+    }
+
+    .overline,
+    .section-label {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      color: var(--brand-blue);
+      margin-bottom: 10px;
+    }
+
+    h1 {
+      font-size: clamp(34px, 5vw, 54px);
+      line-height: 1.1;
+      margin-bottom: 14px;
+      color: var(--brand-blue-dark);
+    }
+
+    h2 {
+      font-size: clamp(22px, 3vw, 30px);
+      line-height: 1.25;
+      margin-bottom: 16px;
+      color: var(--text-primary);
+    }
+
+    h3 {
+      font-size: 20px;
+      margin-bottom: 10px;
+      color: var(--text-primary);
+    }
+
+    .tagline {
+      font-size: 18px;
+      color: var(--text-secondary);
+      margin-bottom: 18px;
+      max-width: 860px;
+    }
+
+    .meta {
+      font-size: 14px;
+      color: var(--text-tertiary);
+    }
+
+    .lead-intro {
+      margin-top: 16px;
+      margin-bottom: 14px;
+      max-width: 860px;
+      font-size: clamp(24px, 3.2vw, 34px);
+      line-height: 1.38;
+      color: #0078bf;
+      font-weight: 400;
+    }
+
+    .body-text {
+      font-size: 16px;
+      line-height: 1.8;
+      color: var(--text-secondary);
+      max-width: 760px;
+      margin-bottom: 12px;
+    }
+
+    .body-text strong {
+      color: var(--text-primary);
+    }
+
+    .back-button {
+      display: inline-block;
+      padding: 10px 20px;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      background: var(--brand-light-gray);
+      color: var(--brand-blue);
+      text-decoration: none;
+      font-size: 14px;
+      margin-bottom: 20px;
+      transition: all 0.2s ease;
+    }
+
+    .back-button:hover {
+      background: var(--brand-blue-light);
+      border-color: var(--brand-blue);
+    }
+
+    .rule {
+      border: none;
+      border-top: 1px solid var(--border-color);
+      margin: 36px 0;
+    }
+
+    .intro-box {
+      background: var(--brand-blue-light);
+      border: 1px solid #b3d9ff;
+      border-radius: 12px;
+      padding: 24px;
+      margin: 18px 0;
+      max-width: 900px;
+      position: relative;
+    }
+
+    .intro-box::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 4px;
+      border-radius: 12px 0 0 12px;
+      background: var(--brand-blue);
+    }
+
+    .intro-box p {
+      color: var(--text-secondary);
+      margin-bottom: 10px;
+    }
+
+    .hint {
+      margin-top: 4px;
+      margin-bottom: 8px;
+    }
+
+    .hint summary {
+      font-size: 13px;
+      color: var(--brand-blue);
+      cursor: pointer;
+      list-style: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      user-select: none;
+    }
+
+    .hint summary::-webkit-details-marker { display: none; }
+
+    .hint summary::before {
+      content: "\25B6";
+      font-size: 9px;
+      transition: transform 0.15s;
+    }
+
+    .hint[open] summary::before {
+      transform: rotate(90deg);
+    }
+
+    .hint-body {
+      margin-top: 6px;
+      padding: 10px 12px;
+      border-radius: 8px;
+      background: rgba(255,255,255,0.65);
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    .example {
+      margin-top: 10px;
+      padding: 12px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.78);
+      font-size: 14px;
+    }
+
+    .value-grid {
+      margin-top: 22px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+      gap: 14px;
+    }
+
+    .theory-grid {
+      margin-top: 18px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 14px;
+    }
+
+    .theory-card {
+      background: var(--brand-white);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 18px;
+    }
+
+    .theory-card h3 {
+      font-size: 17px;
+      color: var(--brand-blue-dark);
+      margin-bottom: 8px;
+    }
+
+    .theory-card p {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.65;
+      margin: 0;
+    }
+
+    .ai-integrity-summary {
+      margin-top: 14px;
+      padding: 14px 18px;
+      background: var(--brand-blue-light);
+      border: 1px solid #b3d9ff;
+      border-radius: 10px;
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.65;
+    }
+
+    .ai-integrity-summary p {
+      margin: 0;
+    }
+
+    .value-card {
+      background: var(--brand-white);
+      border: 2px solid var(--brand-blue-light);
+      border-radius: 12px;
+      padding: 16px;
+      transition: all 0.2s ease;
+    }
+
+    .value-card:hover {
+      transform: translateY(-3px);
+      border-color: var(--brand-blue);
+      box-shadow: 0 8px 20px rgba(0, 102, 204, 0.12);
+    }
+
+    .value-title {
+      font-weight: 700;
+      color: var(--brand-blue-dark);
+      margin-bottom: 6px;
+      font-size: 16px;
+    }
+
+    .value-card p {
+      font-size: 14px;
+      color: var(--text-secondary);
+    }
+
+    .links-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 20px;
+      margin-top: 18px;
+    }
+
+    .link-card {
+      position: relative;
+      background: var(--brand-light-gray);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 22px;
+      transition: all 0.2s ease;
+      overflow: hidden;
+    }
+
+    .link-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: var(--brand-blue);
+    }
+
+    .link-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--brand-blue);
+      background: var(--brand-blue-light);
+      box-shadow: 0 8px 20px rgba(0, 102, 204, 0.1);
+    }
+
+    .link-card h3 {
+      color: var(--brand-blue-dark);
+      margin-bottom: 10px;
+      font-size: 18px;
+    }
+
+    .link-card p {
+      color: var(--text-secondary);
+      font-size: 14px;
+      margin-bottom: 12px;
+    }
+
+    a {
+      color: var(--brand-blue);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    a:hover {
+      color: var(--brand-blue-dark);
+      text-decoration: underline;
+    }
+
+    .btn {
+      display: inline-block;
+      background: var(--brand-blue);
+      color: #ffffff;
+      padding: 13px 28px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 12px rgba(0, 102, 204, 0.2);
+    }
+
+    .btn:hover {
+      text-decoration: none;
+      background: var(--brand-blue-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(0, 102, 204, 0.25);
+    }
+
+    .cta {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    @media (max-width: 768px) {
+      .page {
+        padding: 36px 18px 56px;
+      }
+
+      h1 {
+        font-size: 32px;
+      }
+
+      h2 {
+        font-size: 24px;
+      }
+
+      .section {
+        margin-bottom: 48px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <a class="back-button" href="../index.html">Terug naar de homepage</a>
+
+    <section class="section">
+      <h1>Academische integriteit waarborgen in het AI-tijdperk</h1>
+      <p class="meta">Laatst bijgewerkt op 17 mei 2026</p>
+      <p class="lead-intro">AI kan het werk van studenten versnellen, maar als docent wil je echt begrip, zelfstandig denken en verantwoord academisch handelen blijven beschermen.</p>
+      <p class="body-text">Deze gids biedt een praktisch startpunt: studenten leren hoe AI werkt is belangrijk, maar op zichzelf niet voldoende. Studenten hebben ook momenten nodig om echte situaties te bespreken en samen te bepalen wat passend AI-gebruik in jouw vak betekent.</p>
+      <p class="body-text">Deze gids bevat korte definities, realistische onderwijssituaties en praktische stappen die je direct kunt gebruiken.</p>
+
+      <h2>Waarom oordeelsvorming oefening vraagt</h2>
+      <p class="body-text">AI-regels kennen en begrijpen hoe AI werkt is belangrijk, maar leidt niet automatisch tot goede beslissingen in echte opdrachten. Onderzoek naar integriteitstraining laat zien dat regels vooral kennis opbouwen, terwijl bespreking van concrete, persoonlijke casussen het oordeelsvermogen in de praktijk versterkt.<br>Met andere woorden: om studenten te helpen bepalen wat passend AI-gebruik is, moet je ze betrekken in dialoog over realistische situaties, waardenspanningen zichtbaar maken en samen mogelijke reacties doordenken.</p>
+    </section>
+
+    <hr class="rule">
+
+    <section class="section">
+      <h2>Drie integriteitsdefinities</h2>
+      <p class="body-text">Deze drie definities helpen je zowel je cursusbeleid als je dagelijkse communicatie met studenten vorm te geven.</p>
+
+      <div class="theory-grid">
+        <div class="theory-card">
+          <h3>Academische integriteit</h3>
+          <p>Academische integriteit gaat over het handelen van studenten binnen het onderwijs. Het wordt vaak beschreven via waarden zoals eerlijkheid, vertrouwen, rechtvaardigheid, respect, verantwoordelijkheid en moed.</p>
+          <p><a href="https://www.academicintegrity.org/aws/ICAI/asset_manager/get_file/911282?ver=1" target="_blank" rel="noopener noreferrer">ICAI-richtlijn over academische integriteit</a></p>
+        </div>
+
+        <div class="theory-card">
+          <h3>Wetenschappelijke integriteit</h3>
+          <p>Wetenschappelijke integriteit gaat over handelen in onderzoek: hoe bewijs wordt verzameld, hoe bevindingen worden gerapporteerd en hoe bijdragen van anderen worden erkend met eerlijkheid, zorgvuldigheid, transparantie, onafhankelijkheid en verantwoordelijkheid.</p>
+          <p><a href="https://storage.knaw.nl/2023-02/Nederlandse-gedragscode-wetenschappelijke-integriteit_2018.pdf" target="_blank" rel="noopener noreferrer">Nederlandse Gedragscode Wetenschappelijke Integriteit (2018)</a></p>
+        </div>
+      </div>
+
+      <div class="ai-integrity-summary">
+        <p><strong>AI-integriteit</strong> is geen apart waardesysteem. Het is het vermogen om generatieve AI te gebruiken op manieren die in lijn zijn met bestaande integriteitswaarden, vooral wanneer die waarden in echte onderwijsbeslissingen met elkaar botsen.</p>
+      </div>
+
+      <p class="body-text" style="margin-top: 24px;"><strong>Hoe waarden en integriteit samenhangen:</strong> Waarden zijn idealen over wat belangrijk is (bijvoorbeeld eerlijkheid, rechtvaardigheid of transparantie). Integriteit in de praktijk betekent keuzes maken die in lijn blijven met die waarden, vooral wanneer waarden in verschillende richtingen trekken.</p>
+      <p class="body-text">Vanuit Aristoteles ontstaat deugd door oefening en gewoonte, niet alleen door regels te kennen. Daarom is casusbespreking belangrijk: studenten leren een evenwichtige middenpositie te vinden in plaats van een uiterste. Transparantie kan bijvoorbeeld te weinig zijn (AI-gebruik verbergen) of te veel (zoveel procesdetails opnemen dat de tekst onleesbaar wordt). De integriteitsopgave is: vind het passende midden in de context.</p>
+    </section>
+
+    <hr class="rule">
+
+    <section class="section">
+      <h2>Situaties die herkenbaar kunnen zijn</h2>
+      <p class="body-text">Dit zijn realistische situaties die veel docenten tegenkomen, persoonlijk en praktisch beschreven.</p>
+      <p class="body-text"><strong>Gebruik deze als persoonlijke casussen, niet als abstracte voorbeelden:</strong> vraag studenten wat zij zouden doen, waarom, en wat zij met die keuze mogelijk winnen of verliezen.</p>
+
+      <div class="intro-box">
+        <h3>"De student heeft AI-gebruik vermeld, maar de concepttekst voelt nog niet goed"</h3>
+        <p class="example"><strong>Situatie:</strong> "Een student levert een formatieve concepttekst in en vermeldt duidelijk AI-gebruik. Tijdens het lezen zie je dat een kernbegrip in deze context feitelijk onjuist is en niet aansluit op de cursusinhoud of verplichte literatuur. De tekst leest vloeiend, maar bevat een duidelijke fout en je twijfelt of de student het onderliggende idee begrijpt."</p>
+        <p><strong>Richtvragen:</strong></p>
+        <p>1. Welke integriteitswaarden spelen in deze situatie een rol?</p>
+        <p>2. Welke waarden botsen hier, en hoe werkt die spanning uit in de praktijk?</p>
+        <details class="hint"><summary>Hint</summary><div class="hint-body">De student was transparant over AI-gebruik, maar de feitelijke fout roept vragen op over zorgvuldigheid (is de output gecontroleerd?) en verantwoordelijkheid (wie is aanspreekbaar op de fout?). Hoe trekken die waarden in verschillende richtingen?</div></details>
+        <p>3. Wat zou jij doen?</p>
+        <details class="hint"><summary>Hint</summary><div class="hint-body">Denk na over wat de docent nu moet doen: de fout individueel bespreken, er een leermoment voor de klas van maken, of iets anders. En wat zou de student anders moeten doen bij AI-ondersteund werk?</div></details>
+      </div>
+
+      <div class="intro-box">
+        <h3>"Een student vraagt om een route zonder AI"</h3>
+        <p class="example"><strong>Situatie:</strong> "Je hebt een opdracht ontworpen waarin AI het leerproces ondersteunt. Een student wil hier niet aan meedoen omdat AI-gebruik botst met persoonlijke milieuwaarden. De student is gemotiveerd en wil dezelfde leerdoelen halen, maar zonder de tool te gebruiken."</p>
+        <p><strong>Richtvragen:</strong></p>
+        <p>1. Welke integriteitswaarden spelen in deze situatie een rol?</p>
+        <p>2. Welke waarden botsen hier, en hoe werkt die spanning uit in de praktijk?</p>
+        <details class="hint"><summary>Hint</summary><div class="hint-body">Respect voor de persoonlijke waarden van de student trekt richting autonomie en respect, maar een individuele uitzondering roept vragen op over rechtvaardigheid naar de rest van de groep. Hoe trekken die waarden in verschillende richtingen?</div></details>
+        <p>3. Wat zou jij doen?</p>
+        <details class="hint"><summary>Hint</summary><div class="hint-body">Denk na over wat de docent moet beslissen: uitzondering toestaan, afwijzen, of een middenweg kiezen, en hoe je die keuze uitlegt aan de student en de klas.</div></details>
+      </div>
+
+      <div class="intro-box">
+        <h3>"Ik beperk AI omdat ik het nog niet goed kan begeleiden"</h3>
+        <p class="example"><strong>Situatie:</strong> "In jouw vak is AI nu beperkt, omdat het niet nodig is voor de beoogde leerdoelen en je je nog niet zeker voelt in het verantwoord begeleiden van AI-gebruik. Sommige studenten zijn het daar niet mee eens en stellen dat AI al standaard is in academische en professionele contexten."</p>
+        <p><strong>Richtvragen:</strong></p>
+        <p>1. Welke integriteitswaarden spelen in deze situatie een rol?</p>
+        <p>2. Welke waarden botsen hier, en hoe werkt die spanning uit in de praktijk?</p>
+        <details class="hint"><summary>Hint</summary><div class="hint-body">De voorzichtigheid van de docent laat zorgvuldigheid en verantwoordelijkheid zien, maar studenten wijzen op een transparantievraag: AI is in de praktijk al gangbaar, dus is een beperking eerlijk over wat studenten later tegenkomen? Hoe trekken die waarden in verschillende richtingen?</div></details>
+        <p>3. Wat zou jij doen?</p>
+        <details class="hint"><summary>Hint</summary><div class="hint-body">Denk na over wat de docent moet doen: de beperking handhaven, de onderbouwing explicieter maken, of voorbereiden op versoepeling. En wat moeten studenten doen als ze het oneens zijn met beleid?</div></details>
+      </div>
+
+      <div class="intro-box">
+        <h3>"De student leunt op AI bij elke stap"</h3>
+        <p class="example"><strong>Situatie:</strong> "Tijdens begeleiding licht een student het werkproces toe: AI genereerde onderwerpopties, onderzoeksvragen, opzet, eerste versie en revisiesuggesties. De eindtekst is coherent, maar wanneer je vraagt waarom kernkeuzes zijn gemaakt, kan de student die zonder tool nauwelijks uitleggen."</p>
+        <p><strong>Richtvragen:</strong></p>
+        <p>1. Welke integriteitswaarden spelen in deze situatie een rol?</p>
+        <p>2. Welke waarden botsen hier, en hoe werkt die spanning uit in de praktijk?</p>
+        <details class="hint"><summary>Hint</summary><div class="hint-body">De student heeft de taak afgerond en de tekst is coherent, wat verantwoordelijk lijkt, maar onafhankelijke oordeelsvorming ontbreekt: kernbeslissingen zijn uitbesteed aan AI. Hoe botsen verantwoordelijkheid en onafhankelijkheid hier?</div></details>
+        <p>3. Wat zou jij doen?</p>
+        <details class="hint"><summary>Hint</summary><div class="hint-body">Denk na over wat de docent moet doen: nu ingrijpen, het opdrachtontwerp voor volgende groepen aanpassen, of beide. En wat moet de student anders doen om te laten zien dat de redenering echt van henzelf is?</div></details>
+      </div>
+
+      <div class="intro-box">
+        <h3>"Het betoog lijkt sterk, maar de evaluatie ontbreekt"</h3>
+        <p class="example"><strong>Situatie:</strong> "Een student levert een verzorgde analyse in met stellige claims en vloeiende overgangen. Bij nader lezen herhaalt de tekst AI-gegenereerde punten, maar evalueert de kwaliteit van bewijs niet, vergelijkt bronnen niet en bevraagt aannames niet. Het betoog klinkt overtuigend, maar kritisch denken ontbreekt grotendeels."</p>
+        <p><strong>Richtvragen:</strong></p>
+        <p>1. Welke integriteitswaarden spelen in deze situatie een rol?</p>
+        <p>2. Welke waarden botsen hier, en hoe werkt die spanning uit in de praktijk?</p>
+        <details class="hint"><summary>Hint</summary><div class="hint-body">De output is vloeiend en zelfverzekerd, wat betrouwbaar of zorgvuldig kan lijken, maar zorgvuldigheid en betrouwbaarheid vragen om bewijsbeoordeling en het bevragen van aannames, en dat ontbreekt hier. Hoe botsen schijnbare kwaliteit en echt kritisch denken?</div></details>
+        <p>3. Wat zou jij doen?</p>
+        <details class="hint"><summary>Hint</summary><div class="hint-body">Denk na over wat de docent moet doen: feedback geven op deze inlevering, de beoordelingsopdracht herontwerpen zodat kritisch denken zichtbaar wordt, of beide. En wat moet de student anders doen om te laten zien dat de analyse echt van henzelf is?</div></details>
+      </div>
+    </section>
+
+    <hr class="rule">
+
+    <section class="section">
+      <h2>De waarden achter je beleid</h2>
+      <p class="body-text">Deze waarden staan het vaakst onder druk in AI-gerelateerde dilemma's in het onderwijs.</p>
+
+      <div class="value-grid">
+        <div class="value-card">
+          <div class="value-title">Onafhankelijkheid</div>
+          <p>Studenten tonen hun eigen redenering en oordeelsvermogen.</p>
+        </div>
+        <div class="value-card">
+          <div class="value-title">Eerlijkheid</div>
+          <p>Studenten zijn eerlijk over auteurschap en ondersteuning.</p>
+        </div>
+        <div class="value-card">
+          <div class="value-title">Transparantie</div>
+          <p>Studenten maken duidelijk waar AI heeft bijgedragen.</p>
+        </div>
+        <div class="value-card">
+          <div class="value-title">Zorgvuldigheid</div>
+          <p>Studenten verifieren, controleren en herzien output kritisch.</p>
+        </div>
+        <div class="value-card">
+          <div class="value-title">Verantwoordelijkheid</div>
+          <p>Studenten blijven verantwoordelijk voor eindbeslissingen en claims.</p>
+        </div>
+        <div class="value-card">
+          <div class="value-title">Rechtvaardigheid</div>
+          <p>Verwachtingen en beoordeling worden consistent en onpartijdig toegepast op alle studenten.</p>
+        </div>
+        <div class="value-card">
+          <div class="value-title">Respect</div>
+          <p>Studenten en docenten erkennen intellectuele bijdragen en gaan verantwoord om met verschillende perspectieven.</p>
+        </div>
+        <div class="value-card">
+          <div class="value-title">Vertrouwen</div>
+          <p>Leren berust op vertrouwen dat claims, disclosures en feedback betrouwbaar en oprecht zijn.</p>
+        </div>
+        <div class="value-card">
+          <div class="value-title">Moed</div>
+          <p>Studenten handelen in lijn met integriteitswaarden, ook wanneer dat moeilijk of riskant is.</p>
+        </div>
+        <div class="value-card">
+          <div class="value-title">Betrouwbaarheid</div>
+          <p>Werk is methodologisch degelijk, met zorgvuldig gebruik van bewijs, tools en redeneerstappen.</p>
+        </div>
+        <div class="value-card">
+          <div class="value-title">Rekenschap</div>
+          <p>Studenten kunnen proceskeuzes, uitkomsten en gevolgen van AI-ondersteunde beslissingen uitleggen en verantwoorden.</p>
+        </div>
+        <div class="value-card">
+          <div class="value-title">Goed rentmeesterschap</div>
+          <p>Studenten gaan verantwoord om met bronnen, data en gedeelde middelen namens de academische gemeenschap.</p>
+        </div>
+      </div>
+
+      <p class="body-text">Gebruik deze kaarten als gedeelde woordenschat: niet elke waarde is in elke casus even centraal, maar expliciet benoemen helpt om waardenspanningen bespreekbaar te maken.</p>
+
+      <div class="intro-box" style="max-width: 760px;">
+        <h3>Verken waardenspanningen in context</h3>
+        <p>Gebruik de Waardenspanningenmatrix om een of twee waarden te selecteren en spanningen en representatieve casussen zichtbaar te maken die passen bij jouw onderwijscontext.</p>
+        <p><a href="values-matrix-nl.html">Open de waardenspanningenmatrix</a></p>
+      </div>
+    </section>
+
+    <hr class="rule">
+
+    <section class="section">
+      <h2>Drie praktische stappen die je nu kunt gebruiken</h2>
+
+      <p class="body-text">Gebruik deze stappen in volgorde: maak eerst AI-gebruik zichtbaar, leg daarna je onderbouwing uit, en bespreek vervolgens samen een echte casus.</p>
+
+      <div class="intro-box">
+        <h3>Tip 1: Maak disclosure concreet</h3>
+        <p>Vraag studenten om de tool, de taak en hun aanpassingen na AI-output te beschrijven.</p>
+        <p>Dit helpt bij helderheid, maar bewijst op zichzelf nog geen goed oordeelsvermogen.</p>
+        <p class="example"><strong>Gebruik:</strong> de disclosure-handleiding om verwachtingen specifiek en werkbaar te maken.</p>
+        <p><a href="disclosure-nl.html">Open de disclosure-builder</a></p>
+      </div>
+
+      <div class="intro-box">
+        <h3>Tip 2: Leg je rationale uit, niet alleen je regel</h3>
+        <p>Studenten handelen consistenter als zij het leerdoel achter beleidskeuzes begrijpen.</p>
+        <p>Ga verder dan "wel/niet toegestaan": leg uit welk leerdoel je beschermt en waarom.</p>
+        <p class="example"><strong>Gebruik:</strong> de rationale-pagina in je syllabus, Canvas of klassengesprek.</p>
+        <p><a href="rationale-nl.html">Open de rationale-builder</a></p>
+      </div>
+
+      <div class="intro-box">
+        <h3>Tip 3: Kies een casus of gebruik je eigen casus</h3>
+        <p>Begin met een casus uit de collectie, of breng een casus uit je eigen onderwijs mee waarin waarden botsen.</p>
+        <p>Gebruik een echte klassensituatie. Vraag studenten om een handelingskeuze te maken, die toe te lichten en na te denken over mogelijke gevolgen.</p>
+        <p class="example"><strong>Gebruik:</strong> vergelijk mogelijke reacties en deel daarna je eigen casus, zodat collega's over contexten heen kunnen leren.</p>
+        <p><a href="../cases/ethics-cases.html">Kies een casus</a> · <a href="submit-case.html">Gebruik je eigen casus</a></p>
+      </div>
+    </section>
+
+    <hr class="rule">
+
+    <section class="section">
+      <h2>Ga verder met hulpmiddelen</h2>
+      <p class="body-text">Gebruik deze pagina's om je aanpak te verfijnen en casussen met collega's te bespreken.</p>
+
+      <div class="links-grid">
+        <div class="link-card">
+          <h3>Casuscollectie voor docenten</h3>
+          <p>Bekijk authentieke casussen uit dit project voor reflectie en bespreking.</p>
+          <a href="../cases/ethics-cases.html">Bekijk casussen</a>
+        </div>
+
+        <div class="link-card">
+          <h3>Disclosure-builder</h3>
+          <p>Genereer direct inzetbare AI-disclosureteksten met duidelijke invulstappen voor studenten.</p>
+          <a href="disclosure-nl.html">Open disclosure-builder</a>
+        </div>
+
+        <div class="link-card">
+          <h3>Rationale-builder</h3>
+          <p>Maak een heldere didactische onderbouwing van AI-gebruik voor je syllabus en opdrachten.</p>
+          <a href="rationale-nl.html">Open rationale-builder</a>
+        </div>
+
+        <div class="link-card">
+          <h3>Storyboard 60-minuten college</h3>
+          <p>Klaar lesplan met slides links en speaker notes rechts voor een sessie met 50 studenten.</p>
+          <a href="storyboard-lecture-nl.html">Open storyboard</a>
+        </div>
+
+        <div class="link-card">
+          <h3>Dien je eigen casus in</h3>
+          <p>Deel je uitdaging of oplossing zodat anderen van jouw context kunnen leren.</p>
+          <a href="submit-case.html">Ga naar casusinzending</a>
+        </div>
+      </div>
+    </section>
+
+    <hr class="rule">
+
+    <section class="section cta">
+      <h2>Een kleine stap deze week</h2>
+      <p class="body-text" style="margin: 0 auto 24px;">Kies een verbetering: maak je disclosure-taal scherper, leg je rationale uit in de les, of bespreek met studenten een persoonlijke, echte casus waarin zij passend AI-gebruik moeten kiezen en verantwoorden.</p>
+      <a href="submit-case.html" class="btn">Deel wat je hebt geleerd</a>
+    </section>
+  </div>
+</body>
+</html>

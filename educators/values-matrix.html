@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Values conflict matrix - educators</title>
+  <style>
+    :root {
+      --brand-white: #ffffff;
+      --brand-light-gray: #f5f5f5;
+      --brand-blue: #0066cc;
+      --brand-blue-dark: #004080;
+      --brand-blue-light: #e6f0ff;
+      --text-primary: #1a1a1a;
+      --text-secondary: #4a4a4a;
+      --text-tertiary: #7a7a7a;
+      --border-color: #d9d9d9;
+      --ok: #0a7f45;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: #f2f2f2;
+      color: var(--text-primary);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .page {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 64px 24px 80px;
+    }
+
+    .section {
+      margin-bottom: 52px;
+    }
+
+    h1 {
+      font-size: clamp(32px, 4.8vw, 50px);
+      line-height: 1.08;
+      margin-bottom: 12px;
+      color: var(--brand-blue-dark);
+    }
+
+    h2 {
+      font-size: clamp(22px, 3vw, 30px);
+      line-height: 1.25;
+      margin-bottom: 14px;
+      color: var(--text-primary);
+    }
+
+    h3 {
+      font-size: 19px;
+      margin-bottom: 8px;
+      color: var(--text-primary);
+    }
+
+    p {
+      color: var(--text-secondary);
+    }
+
+    .meta {
+      font-size: 14px;
+      color: var(--text-tertiary);
+      margin-bottom: 14px;
+    }
+
+    .intro {
+      max-width: 860px;
+      font-size: 16px;
+      line-height: 1.8;
+    }
+
+    .cases-intro .intro {
+      margin-bottom: 14px;
+    }
+
+    .cases-intro .intro:last-of-type {
+      margin-bottom: 0;
+    }
+
+    .back-button {
+      display: inline-block;
+      padding: 10px 20px;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      background: var(--brand-light-gray);
+      color: var(--brand-blue);
+      text-decoration: none;
+      font-size: 14px;
+      margin-bottom: 20px;
+      transition: all 0.2s ease;
+    }
+
+    .back-button:hover {
+      background: var(--brand-blue-light);
+      border-color: var(--brand-blue);
+    }
+
+    .rule {
+      border: none;
+      border-top: 1px solid var(--border-color);
+      margin: 30px 0;
+    }
+
+    .selector-panel {
+      background: var(--brand-white);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 20px;
+    }
+
+    .selector-help {
+      font-size: 14px;
+      color: var(--text-secondary);
+      margin-bottom: 14px;
+    }
+
+    .value-chips {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .perspective-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 6px 0 12px;
+    }
+
+    .perspective-chip {
+      border: 1px solid var(--border-color);
+      border-radius: 999px;
+      background: var(--brand-white);
+      color: var(--text-primary);
+      font-size: 13px;
+      padding: 7px 12px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .perspective-chip:hover {
+      border-color: var(--brand-blue);
+      background: var(--brand-blue-light);
+      color: var(--brand-blue-dark);
+    }
+
+    .perspective-chip.active {
+      border-color: var(--brand-blue);
+      background: var(--brand-blue);
+      color: var(--brand-white);
+    }
+
+    .chip {
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      background: var(--brand-white);
+      color: var(--text-primary);
+      font-size: 14px;
+      padding: 12px 14px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: flex-start;
+      gap: 4px;
+      line-height: 1.2;
+      width: 100%;
+      text-align: left;
+    }
+
+    .chip:hover {
+      border-color: var(--brand-blue);
+      color: var(--brand-blue-dark);
+      background: var(--brand-blue-light);
+    }
+
+    .chip.active {
+      border-color: var(--brand-blue);
+      background: var(--brand-blue);
+      color: var(--brand-white);
+    }
+
+    .chip-label {
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    .chip-subtext {
+      font-size: 13px;
+      opacity: 0.9;
+      font-weight: 500;
+      line-height: 1.35;
+    }
+
+    .status {
+      font-size: 14px;
+      color: var(--text-tertiary);
+      min-height: 22px;
+    }
+
+    .status strong {
+      color: var(--ok);
+      font-weight: 600;
+    }
+
+    .grid-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 16px;
+      margin-top: 16px;
+    }
+
+    .info-card {
+      background: var(--brand-white);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 18px;
+      box-shadow: 0 1px 0 rgba(0, 0, 0, 0.02);
+    }
+
+    .badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 10px 0 12px;
+    }
+
+    .badge {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--brand-blue-dark);
+      background: var(--brand-blue-light);
+      border: 1px solid #cde3ff;
+      border-radius: 999px;
+      padding: 3px 10px;
+    }
+
+    .desc {
+      font-size: 14px;
+      line-height: 1.65;
+      margin-bottom: 0;
+    }
+
+    .situations {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+      margin-top: 16px;
+    }
+
+    .situation-box {
+      background: var(--brand-blue-light);
+      border: 1px solid #b3d9ff;
+      border-radius: 12px;
+      padding: 18px;
+      position: relative;
+    }
+
+    .situation-box::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 4px;
+      border-radius: 12px 0 0 12px;
+      background: var(--brand-blue);
+    }
+
+    .situation-box p {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.65;
+      margin: 0;
+    }
+
+    .situation-meta {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--brand-blue-dark);
+      margin-bottom: 8px;
+    }
+
+    .links {
+      margin-top: 12px;
+      font-size: 14px;
+    }
+
+    .links a {
+      color: var(--brand-blue);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .links a:hover {
+      color: var(--brand-blue-dark);
+      text-decoration: underline;
+    }
+
+    .empty {
+      display: none;
+      background: var(--brand-white);
+      border: 1px dashed var(--border-color);
+      border-radius: 12px;
+      padding: 18px;
+      color: var(--text-secondary);
+      font-size: 14px;
+    }
+
+    .intro-box {
+      background: var(--brand-blue-light);
+      border: 1px solid #b3d9ff;
+      border-radius: 12px;
+      padding: 24px;
+      margin: 18px 0;
+      max-width: 900px;
+      position: relative;
+    }
+
+    .intro-box::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 4px;
+      border-radius: 12px 0 0 12px;
+      background: var(--brand-blue);
+    }
+
+    .intro-box h3 {
+      margin: 0 0 16px 0;
+      color: var(--text-primary);
+      font-size: 18px;
+      font-weight: 600;
+      line-height: 1.4;
+    }
+
+    .intro-box p {
+      color: var(--text-secondary);
+      margin-bottom: 10px;
+      font-size: 14px;
+      line-height: 1.65;
+    }
+
+    .example {
+      margin-top: 10px;
+      padding: 12px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.78);
+      font-size: 14px;
+    }
+
+    .question-section {
+      margin-top: 16px;
+      border-top: 1px solid rgba(179, 217, 255, 0.5);
+      padding-top: 12px;
+    }
+
+    .question-button {
+      background: none;
+      border: none;
+      color: var(--brand-blue-dark);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      padding: 0;
+      text-align: left;
+      width: 100%;
+      transition: color 0.2s ease;
+    }
+
+    .question-button:hover {
+      color: var(--brand-blue);
+    }
+
+    .answer-section {
+      margin-top: 10px;
+      padding: 12px;
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.9);
+    }
+
+    .answer-section p {
+      margin-bottom: 8px;
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--text-secondary);
+    }
+
+    .answer-section p:last-child {
+      margin-bottom: 0;
+    }
+
+    @media (max-width: 768px) {
+      .page {
+        padding: 36px 18px 56px;
+      }
+
+      .value-chips {
+        grid-template-columns: 1fr;
+      }
+
+      h1 {
+        font-size: 30px;
+      }
+
+      h2 {
+        font-size: 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <a class="back-button" href="./index.html">Back to educator home</a>
+
+    <section class="section">
+      <h1>Values conflict matrix</h1>
+      <p class="meta">Last updated on 17 May 2026</p>
+    </section>
+
+    <section class="section cases-intro">
+      <p class="intro">The cases in this matrix are real situations from academic research and student learning contexts. Each case describes a genuine dilemma where multiple values matter but pull in different directions. They represent moments when different values come into tension.</p>
+      <p class="intro">Because these are real cases, each one includes a real outcome: something had to happen in practice. That outcome should not be read as the only correct solution. In many cases, other responses could also have been ethically defensible. Use these cases to examine what is happening, compare possible options, and explore grey areas, not to teach fixed rules or predict guaranteed consequences.</p>
+      <p class="intro">Each case is structured the same way:</p>
+      <p class="intro"><strong>1. A situation</strong> (~75 words): A realistic scenario that fits on a slide. Personal enough to make it relatable and specific enough to provide room for discussion.</p>
+      <p class="intro"><strong>2. Three guiding questions:</strong></p>
+      <ul style="margin-left: 20px; margin-top: 8px; font-size: 14px; color: var(--text-secondary); line-height: 1.65;">
+        <li><strong>What values are relevant?</strong> Which values matter in this situation?</li>
+        <li><strong>Which values are at conflict? And how?</strong> What is the dilemma here? How does one value conflict with another?</li>
+        <li><strong>What would you do next?</strong> How do you think this dilemma should be resolved?</li>
+      </ul>
+      <p class="intro" style="margin-top: 12px;"><strong>How to use them:</strong> Work through one question at a time. Think through your own answer first, then reveal what the case shows. Use the outcome as one real example to discuss alternatives, trade-offs, and grey areas, rather than as a fixed rule or guaranteed consequence.</p>
+    </section>
+
+    <hr class="rule">
+
+    <section class="section">
+      <h2>Select values</h2>
+      <div class="selector-panel">
+        <p class="selector-help">Choose one or more values to view likely tensions and representative cases for that combination.</p>
+        <p class="selector-help">Select perspective: show student, teacher, or researcher cases.</p>
+        <div class="perspective-chips" id="perspective-chips"></div>
+        <p class="selector-help"><strong>Foundation (ICAI):</strong> Honesty underlies all four values in this matrix and is treated here as the core integrity condition across cases.</p>
+        <div class="value-chips" id="value-chips"></div>
+        <p class="status" id="status-text"></p>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Representative cases</h2>
+      <div class="empty" id="empty-situations">Select one or more values above to surface representative situations.</div>
+      <div class="situations" id="situation-cards"></div>
+    </section>
+
+    <hr class="rule">
+
+    <section class="section">
+      <h2>Next step</h2>
+      <p class="intro">After identifying the key value tensions, use the disclosure and rationale guides to make your policy language explicit and discussable with students.</p>
+      <p class="links"><a href="../disclosure.html">Open the disclosure guide</a> · <a href="../rationale.html">Open the rationale guide</a> · <a href="submit-case.html">Submit your case</a></p>
+    </section>
+  </div>
+
+  <script>
+    const valueDescriptions = {
+      "Independence": "Students show their own reasoning and judgment.",
+      "Care": "Students verify, check, and revise outputs critically.",
+      "Transparency": "Students clearly disclose where AI contributed.",
+      "Responsibility": "Students remain accountable for final decisions and claims."
+    };
+
+    const valueShortDescriptions = {
+      "Independence": "Show your own reasoning and judgment.",
+      "Care": "Check, verify, and revise AI output critically.",
+      "Transparency": "Clearly disclose where AI contributed.",
+      "Responsibility": "Remain accountable for final claims and decisions."
+    };
+
+    const values = [
+      "Independence", "Care", "Transparency", "Responsibility"
+    ];
+
+    const tensions = [
+      {
+        title: "Independence x Care",
+        values: ["Independence", "Care"],
+        description: "Independent reasoning can look strong while careful verification is weak. Conversely, intensive checking and revision can reduce visible evidence of a student's original reasoning if process choices are not documented.",
+        cases: [
+          {
+            title: "Fluent writing without source comparison",
+            perspective: "student",
+            situation: "As a student, you submit a polished assignment that repeats AI claims without comparing sources or testing assumptions."
+          }
+        ]
+      },
+      {
+        title: "Independence x Transparency",
+        values: ["Independence", "Transparency"],
+        description: "Detailed disclosure of AI support can seem to weaken claims of independence. Conversely, emphasizing independence can tempt students to under-disclose how much AI shaped key decisions.",
+        cases: [
+          {
+            title: "Diagrams generated with AI: does disclosure undermine credibility?",
+            perspective: "researcher",
+            situation: "As a researcher, you submit a paper to a journal. The diagrams that illustrate your key findings were created with AI tools. You decide to disclose this clearly. A reviewer then asks whether AI also shaped the underlying idea. You now need to show that your core concept and reasoning are your own, while remaining transparent about the AI support used for visualization.",
+            q1: {
+              question: "What values are relevant in this situation?",
+              answer: "Transparency, Responsibility, and Independence are all at stake.",
+              why: "Transparency matters because you disclosed the AI use. Responsibility matters because you must defend and own your findings. They are your intellectual contribution. Independence matters because the reviewer questions whether your original thinking is truly yours or influenced too much by the AI."
+            },
+            q2: {
+              question: "Which values are at conflict? And how?",
+              answer: "Transparency and Independence are in direct tension here.",
+              why: "When you disclose AI use transparently, the reviewer (and others) may doubt your independence and originality. They may think: 'Did the AI do the real thinking here?' On the other hand, if you hide the AI use and claim full independence, you violate transparency and risk your credibility if it's discovered later. So you face a dilemma: be honest and risk looking less independent, or hide the truth and risk being dishonest. Neither feels like a perfect choice."
+            },
+            q3: {
+              question: "As a researcher, what would you do next?",
+              answer: "You can share email correspondence between you and your co-authors to show your original discussion and reasoning process before you used AI for the diagrams. The emails can show that you already thought through the findings and made the key decisions together. You can explain that AI supports only the visualization of ideas you already understand. With this evidence, the reviewer can see that your thinking is independent and can evaluate the manuscript more confidently.",
+              why: ""
+            }
+          }
+        ]
+      },
+      {
+        title: "Independence x Responsibility",
+        values: ["Independence", "Responsibility"],
+        description: "A student can submit work that meets requirements yet rely on AI for choices that should reflect personal judgment. Conversely, strict responsibility requirements can drive safer, less independent reasoning.",
+        cases: [
+          {
+            title: "The student cannot justify AI-generated choices",
+            perspective: "student",
+            situation: "As a student, you let AI generate your topic, outline, and argument structure, and then struggle to justify key choices without the tool."
+          }
+        ]
+      },
+      {
+        title: "Care x Transparency",
+        values: ["Care", "Transparency"],
+        description: "A student may disclose AI use clearly but still fail to verify claims critically. Conversely, a strong focus on careful revision can blur what exactly should be disclosed unless expectations are explicit.",
+        cases: [
+          {
+            title: "Clear disclosure, limited checking",
+            perspective: "student",
+            situation: "As a student, you provide a detailed disclosure statement but still leave factual mistakes uncorrected."
+          }
+        ]
+      },
+      {
+        title: "Care x Responsibility",
+        values: ["Care", "Responsibility"],
+        description: "Students may perform surface checks without taking full responsibility for final claims. Conversely, responsibility can be asserted rhetorically without the careful verification needed to support it.",
+        cases: [
+          {
+            title: "Checked but not owned",
+            perspective: "student",
+            situation: "As a student, you say you reviewed the AI output, but cannot explain why unreliable claims remained in your final version."
+          }
+        ]
+      },
+      {
+        title: "Transparency x Responsibility",
+        values: ["Transparency", "Responsibility"],
+        description: "Disclosure of AI use does not by itself show ownership of decisions and outcomes. Conversely, claiming responsibility without transparent disclosure limits what can be fairly evaluated.",
+        cases: [
+          {
+            title: "Accountable claim, incomplete disclosure",
+            perspective: "student",
+            situation: "As a student, you defend your final answer confidently but provide only minimal detail about AI's role in shaping it."
+          },
+          {
+            title: "AI traces in a no-AI assignment: what now?",
+            perspective: "teacher",
+            situation: "As a teacher, you receive an assignment in a course where AI use is explicitly not allowed. In the submitted answers, markers such as 'Thought for 4 seconds' appear, and you report suspected fraud. The student explains that AI was used only for translation and wording support, not for core reasoning. The case is now under review, and no final decision has been made yet.",
+            q1: {
+              question: "What values are relevant in this situation?",
+              answer: "Responsibility, Transparency, Fairness, and Care are all relevant.",
+              why: "For a teacher, Responsibility matters because course rules must be upheld consistently. Transparency matters because the exact role of AI must be clear and verifiable. Fairness matters because any response should be proportionate and comparable to similar cases. Care matters because evidence and student context should be reviewed carefully before conclusions are finalized."
+            },
+            q2: {
+              question: "Which values are at conflict? And how?",
+              answer: "Transparency and Responsibility are in tension, and Fairness can conflict with strict rule enforcement.",
+              why: "A student may be transparent about limited AI use for language support, but still breach a strict no-AI rule. From a teacher perspective, enforcing responsibility protects academic standards, while fairness asks whether the response matches the nature and scope of the breach. The dilemma is whether any AI use should trigger one standard consequence, or whether context should inform a more tailored response."
+            },
+            q3: {
+              question: "As a teacher, what would you do next?",
+              answer: "As a teacher, you report the suspicion to the examination committee and document the indicators in the submission, including AI traces such as 'Thought for x seconds.' The committee then determines that AI use was not allowed for this assignment and treats the submission as fraud under the course rules. In the shared case, this led to a 0.0 for the assignment and, after correction because of prior fraud, temporary exclusion from assessments in that period. The appeal bodies upheld that outcome.",
+              why: ""
+            }
+          }
+        ]
+      }
+    ];
+
+    const selected = new Set();
+    let selectedPerspective = "all";
+    const chipsEl = document.getElementById("value-chips");
+    const perspectiveChipsEl = document.getElementById("perspective-chips");
+    const situationCardsEl = document.getElementById("situation-cards");
+    const statusEl = document.getElementById("status-text");
+    const emptySituationsEl = document.getElementById("empty-situations");
+
+    const perspectives = [
+      { id: "all", label: "All perspectives" },
+      { id: "student", label: "Student" },
+      { id: "teacher", label: "Teacher" },
+      { id: "researcher", label: "Researcher" }
+    ];
+
+    function renderChips() {
+      chipsEl.innerHTML = "";
+      values.forEach((value) => {
+        const btn = document.createElement("button");
+        btn.className = "chip" + (selected.has(value) ? " active" : "");
+        btn.type = "button";
+        btn.innerHTML =
+          "<span class=\"chip-label\">" + value + "</span>" +
+          "<span class=\"chip-subtext\">" + valueShortDescriptions[value] + "</span>";
+        btn.title = value + ": " + valueDescriptions[value];
+        btn.addEventListener("click", () => {
+          if (selected.has(value)) {
+            selected.delete(value);
+          } else {
+            selected.add(value);
+          }
+          renderChips();
+          renderAll();
+        });
+        chipsEl.appendChild(btn);
+      });
+    }
+
+    function renderPerspectiveChips() {
+      perspectiveChipsEl.innerHTML = "";
+      perspectives.forEach((perspective) => {
+        const btn = document.createElement("button");
+        btn.className = "perspective-chip" + (selectedPerspective === perspective.id ? " active" : "");
+        btn.type = "button";
+        btn.textContent = perspective.label;
+        btn.addEventListener("click", () => {
+          selectedPerspective = perspective.id;
+          renderPerspectiveChips();
+          renderAll();
+        });
+        perspectiveChipsEl.appendChild(btn);
+      });
+    }
+
+    function getMatchingTensions() {
+      const chosen = Array.from(selected);
+      if (chosen.length === 0) return tensions;
+      if (chosen.length === 1) {
+        return tensions.filter((tension) => tension.values.includes(chosen[0]));
+      }
+      // For multi-select, show tensions whose value pair is fully contained in the selection.
+      return tensions.filter((tension) => tension.values.every((v) => chosen.includes(v)));
+    }
+
+    function renderSituations(filtered) {
+      situationCardsEl.innerHTML = "";
+      let renderedCount = 0;
+
+      filtered.forEach((item) => {
+        item.cases.forEach((caseObj) => {
+          const perspective = caseObj.perspective || "student";
+          if (selectedPerspective !== "all" && perspective !== selectedPerspective) {
+            return;
+          }
+
+          renderedCount += 1;
+          const box = document.createElement("article");
+          box.className = "intro-box";
+          
+          let html = "<h3>" + caseObj.title + "</h3>" +
+            "<p class=\"example\"><strong>Situation:</strong> " + caseObj.situation + "</p>";
+          
+          // Add questions if they exist
+          if (caseObj.q1) {
+            html += "<div class=\"question-section\">" +
+              "<button class=\"question-button\" onclick=\"this.nextElementSibling.style.display = this.nextElementSibling.style.display === 'none' ? 'block' : 'none'; this.textContent = this.textContent.includes('Click') ? '▼ ' + this.dataset.q : '▶ ' + this.dataset.q;\" data-q=\"" + caseObj.q1.question + "\">▶ " + caseObj.q1.question + "</button>" +
+              "<div class=\"answer-section\" style=\"display:none;\">" +
+              "<p>" + caseObj.q1.answer + "</p>" +
+              (caseObj.q1.why ? "<p>" + caseObj.q1.why + "</p>" : "") +
+              "</div>" +
+              "</div>";
+          }
+          
+          if (caseObj.q2) {
+            html += "<div class=\"question-section\">" +
+              "<button class=\"question-button\" onclick=\"this.nextElementSibling.style.display = this.nextElementSibling.style.display === 'none' ? 'block' : 'none'; this.textContent = this.textContent.includes('Click') ? '▼ ' + this.dataset.q : '▶ ' + this.dataset.q;\" data-q=\"" + caseObj.q2.question + "\">▶ " + caseObj.q2.question + "</button>" +
+              "<div class=\"answer-section\" style=\"display:none;\">" +
+              "<p>" + caseObj.q2.answer + "</p>" +
+              (caseObj.q2.why ? "<p>" + caseObj.q2.why + "</p>" : "") +
+              "</div>" +
+              "</div>";
+          }
+          
+          if (caseObj.q3) {
+            html += "<div class=\"question-section\">" +
+              "<button class=\"question-button\" onclick=\"this.nextElementSibling.style.display = this.nextElementSibling.style.display === 'none' ? 'block' : 'none'; this.textContent = this.textContent.includes('Click') ? '▼ ' + this.dataset.q : '▶ ' + this.dataset.q;\" data-q=\"" + caseObj.q3.question + "\">▶ " + caseObj.q3.question + "</button>" +
+              "<div class=\"answer-section\" style=\"display:none;\">" +
+              "<p>" + caseObj.q3.answer + "</p>" +
+              (caseObj.q3.why ? "<p>" + caseObj.q3.why + "</p>" : "") +
+              "</div>" +
+              "</div>";
+          }
+          
+          box.innerHTML = html;
+          situationCardsEl.appendChild(box);
+        });
+      });
+
+      emptySituationsEl.style.display = renderedCount === 0 ? "block" : "none";
+    }
+
+    function renderAll() {
+      const chosen = Array.from(selected);
+      const filtered = getMatchingTensions();
+
+      if (chosen.length === 0) {
+        statusEl.innerHTML = "Showing all cases. Select one or more values to narrow the results.";
+      } else {
+        statusEl.innerHTML = "Selected: <strong>" + chosen.join(" + ") + "</strong>";
+      }
+
+      if (selectedPerspective !== "all") {
+        const perspectiveLabel = selectedPerspective.charAt(0).toUpperCase() + selectedPerspective.slice(1);
+        statusEl.innerHTML += " · Perspective: <strong>" + perspectiveLabel + "</strong>";
+      }
+
+      renderSituations(filtered);
+    }
+
+    renderPerspectiveChips();
+    renderChips();
+    renderAll();
+  </script>
+</body>
+</html>

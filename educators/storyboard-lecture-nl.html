@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Storyboard 60-minuten sessie - Academic AI Integrity</title>
+    <style>
+        :root {
+            --bg: #f2f2f2;
+            --card: #ffffff;
+            --text: #333333;
+            --muted: #666666;
+            --border: #dddddd;
+            --blue: #0066cc;
+            --blue-dark: #004080;
+            --blue-light: #e9f2ff;
+            --orange: #ff6600;
+            --green: #28a745;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 24px;
+            background: var(--bg);
+            color: var(--text);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+            line-height: 1.6;
+        }
+
+        .top-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 18px;
+        }
+
+        .back-button {
+            display: inline-block;
+            padding: 10px 14px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: var(--card);
+            color: var(--blue);
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .back-button:hover {
+            background: var(--blue-light);
+            border-color: var(--blue);
+        }
+
+        .page {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 28px;
+        }
+
+        h1 {
+            margin: 0 0 6px;
+            color: var(--blue-dark);
+            font-size: 30px;
+            line-height: 1.2;
+        }
+
+        .subtitle {
+            margin: 0 0 20px;
+            color: var(--muted);
+            font-size: 15px;
+        }
+
+        .meta {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(140px, 1fr));
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .meta-card {
+            background: #fafafa;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 12px;
+        }
+
+        .meta-label {
+            display: block;
+            font-size: 12px;
+            color: var(--muted);
+            margin-bottom: 4px;
+        }
+
+        .meta-value {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .overview {
+            background: #f8f9fa;
+            border-left: 4px solid var(--blue);
+            border-radius: 8px;
+            padding: 14px 16px;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            overflow: hidden;
+            table-layout: fixed;
+        }
+
+        th, td {
+            border-bottom: 1px solid var(--border);
+            padding: 14px;
+            vertical-align: top;
+            font-size: 14px;
+        }
+
+        th {
+            background: var(--blue);
+            color: #ffffff;
+            text-align: left;
+            font-size: 13px;
+            letter-spacing: 0.02em;
+        }
+
+        th:nth-child(1), td:nth-child(1) {
+            width: 18%;
+        }
+
+        th:nth-child(2), td:nth-child(2) {
+            width: 42%;
+        }
+
+        th:nth-child(3), td:nth-child(3) {
+            width: 40%;
+        }
+
+        .slide-title {
+            margin: 0 0 6px;
+            color: var(--blue-dark);
+            font-size: 15px;
+            font-weight: 700;
+            line-height: 1.4;
+        }
+
+        ul {
+            margin: 0;
+            padding-left: 18px;
+        }
+
+        li {
+            margin-bottom: 5px;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 999px;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.02em;
+            margin-bottom: 6px;
+        }
+
+        .tag-intro { background: #e9f2ff; color: #0050a3; }
+        .tag-case { background: #fff4e8; color: #cc5200; }
+        .tag-discussie { background: #ecf9f0; color: #1d7f36; }
+        .tag-afronding { background: #f3ecff; color: #6a3db8; }
+
+        .time {
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .note {
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .case-block {
+            background: #fffdf7;
+            border: 1px solid #ffe5b8;
+            border-left: 4px solid var(--orange);
+            border-radius: 8px;
+            padding: 10px 12px;
+            margin-top: 8px;
+            font-size: 13px;
+        }
+
+        .footer-box {
+            margin-top: 18px;
+            padding: 14px 16px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            background: #fafafa;
+            font-size: 14px;
+        }
+
+        .footer-box h2 {
+            margin: 0 0 8px;
+            color: var(--blue-dark);
+            font-size: 17px;
+        }
+
+        .verbatim-section {
+            margin-top: 22px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            background: #fafafa;
+            padding: 14px 16px;
+        }
+
+        .verbatim-section h2 {
+            margin: 0 0 10px;
+            color: var(--blue-dark);
+            font-size: 17px;
+        }
+
+        .verbatim-note {
+            font-size: 13px;
+            color: var(--muted);
+            margin-bottom: 12px;
+        }
+
+        .verbatim-block {
+            margin-bottom: 12px;
+        }
+
+        .verbatim-block h3 {
+            margin: 0 0 6px;
+            font-size: 15px;
+            color: var(--blue-dark);
+        }
+
+        .verbatim-text {
+            margin: 0;
+            white-space: pre-wrap;
+            background: #ffffff;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 10px;
+            font-size: 13px;
+            line-height: 1.55;
+        }
+
+        @media (max-width: 980px) {
+            body {
+                padding: 14px;
+            }
+
+            .page {
+                padding: 16px;
+            }
+
+            .meta {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            table, thead, tbody, tr, th, td {
+                display: block;
+                width: 100%;
+            }
+
+            thead {
+                display: none;
+            }
+
+            tr {
+                border-bottom: 1px solid var(--border);
+                padding: 10px 0;
+            }
+
+            td {
+                border: none;
+                padding: 8px 0;
+            }
+
+            td::before {
+                display: block;
+                font-size: 12px;
+                font-weight: 700;
+                color: var(--muted);
+                margin-bottom: 4px;
+            }
+
+            td:nth-child(1)::before { content: "Tijd"; }
+            td:nth-child(2)::before { content: "Slide + inhoud"; }
+            td:nth-child(3)::before { content: "Speaker notes"; }
+        }
+    </style>
+</head>
+<body>
+    <div class="top-actions">
+        <a href="index-nl.html" class="back-button">← Terug naar docenthome</a>
+    </div>
+
+    <div class="page">
+        <h1>Storyboard: 60-minuten college AI & academische integriteit</h1>
+        <p class="subtitle">Nederlandse sessie-opzet voor 50 studenten, met slides links en spreeknotities rechts.</p>
+
+        <div class="meta">
+            <div class="meta-card">
+                <span class="meta-label">Doelgroep</span>
+                <span class="meta-value">50 studenten</span>
+            </div>
+            <div class="meta-card">
+                <span class="meta-label">Duur</span>
+                <span class="meta-value">60 minuten</span>
+            </div>
+            <div class="meta-card">
+                <span class="meta-label">Werkvorm</span>
+                <span class="meta-value">Plenair + Mentimeter individueel</span>
+            </div>
+            <div class="meta-card">
+                <span class="meta-label">Taal</span>
+                <span class="meta-value">Nederlands</span>
+            </div>
+        </div>
+
+        <div class="overview">
+            Focus van de sessie: leerdoelen expliciteren, integriteit kort kaderen (zonder uitgebreide waardediepte), een eenvoudige voorbeeldcase tonen, daarna twee cases individueel via Mentimeter laten beantwoorden en afsluiten met een compact overzicht van integriteitswaarden en praktische disclosure-richtlijnen.
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Tijd</th>
+                    <th>Slide + inhoud (links)</th>
+                    <th>Speaker notes (rechts)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><span class="time">0-2 min</span></td>
+                    <td>
+                        <span class="tag tag-intro">INTRO</span>
+                        <p class="slide-title">Slide 0 - Titelslide</p>
+                        <ul>
+                            <li>AI en academische integriteit: waarden afwegen in de praktijk</li>
+                            <li>Subtitel: van afweging naar verantwoord besluit</li>
+                            <li>Context: onderwijs, opdrachten, feedback en disclosure</li>
+                        </ul>
+                    </td>
+                    <td>
+                        Start direct met inhoud: benoem dat deze sessie draait om besluitvorming in context.
+                        Zet de Mentimeter-code al in beeld zodat iedereen kan inloggen.
+                    </td>
+                </tr>
+
+                <tr>
+                    <td><span class="time">2-6 min</span></td>
+                    <td>
+                        <span class="tag tag-intro">INTRO</span>
+                        <p class="slide-title">Slide 1 - Leerdoelen en opbrengst</p>
+                        <ul>
+                            <li>Kernleerdoel: je leert beter inschatten en onderbouwen wat in jouw context verantwoord AI-gebruik is</li>
+                            <li>Vandaag leer je:</li>
+                            <li>1) Relevante waarden en belangen expliciet afwegen</li>
+                            <li>2) Een beargumenteerde keuze formuleren</li>
+                            <li>3) Je keuze transparant maken in een korte disclosure</li>
+                            <li>Casussen gebruiken we als oefenvorm om dit te trainen</li>
+                        </ul>
+                    </td>
+                    <td>
+                        Start kort en concreet. Benoem dat dit geen technische AI-les is, maar een besluitvormingsles.
+                        Koppel meteen aan praktijk: "jullie gaan straks keuzes maken in opdrachten, stages en scripties".
+                        Mentimeter (woordwolk): "Noem 1 woord dat je associeert met AI en integriteit".
+                        Bespreek in 1 minuut de opvallendste woorden op het scherm.
+                    </td>
+                </tr>
+
+                <tr>
+                    <td><span class="time">6-12 min</span></td>
+                    <td>
+                        <span class="tag tag-intro">INTRO</span>
+                        <p class="slide-title">Slide 2 - Wat bedoelen we met integriteit?</p>
+                        <ul>
+                            <li>Academische integriteit: eerlijk en navolgbaar leren, schrijven en toetsen afleggen</li>
+                            <li>Onderzoeksintegriteit: methodologisch zorgvuldig werken met data, bronnen en verslaglegging</li>
+                            <li>Integriteit met AI: AI bewust gebruiken en je keuzes transparant verantwoorden</li>
+                            <li>Kernvraag bij alle drie: niet alleen "mag het?", maar ook "kan ik dit verantwoorden?"</li>
+                        </ul>
+                    </td>
+                    <td>
+                        Houd dit bewust compact; geen uitgebreide waardenverdieping hier. Gebruik ongeveer 1 minuut per definitie.
+                        Mentimeter (schaalvraag 1-5): "Hoe zeker voel je je over wat wel/niet integer AI-gebruik is?".
+                        Formuleer daarna de toetsvraag: "Als iemand je werkwijze leest, snapt die dan wat jij hebt gedaan en waarom?".
+                    </td>
+                </tr>
+
+                <tr>
+                    <td><span class="time">12-20 min</span></td>
+                    <td>
+                        <span class="tag tag-case">CASE</span>
+                        <p class="slide-title">Slide 3 - Eenvoudige voorbeeldcase (zorgcontext)</p>
+                        <ul>
+                            <li><strong>Situatie:</strong> Als zorgorganisatie gebruik je AI om consultgesprekken automatisch om te zetten in medische notities, met als doel minder administratielast en meer tijd voor patiënten.</li>
+                            <li><strong>Context:</strong> In een vergelijkbare situatie (Sharp HealthCare, VS) ontstond een rechtszaak over mogelijke opname en verwerking zonder expliciete patiënttoestemming.</li>
+                            <li><strong>Dilemma:</strong> Hoe combineer je efficiëntie met transparantie, geïnformeerde toestemming en duidelijke verantwoordelijkheid voor dossierinhoud?</li>
+                        </ul>
+                        <div class="case-block">
+                            Kernvraag op slide: Welke integriteitsvragen zie je hier als eerste?
+                        </div>
+                    </td>
+                    <td>
+                        Lees de case in 60-90 seconden voor.
+                        Mentimeter (open vraag): "Welke integriteitsvraag komt als eerste bij je op?".
+                        Stuur in de nabespreking op type vragen, niet op "goed/fout" oordeel:
+                        toestemming, transparantie, datagebruik, menselijke verantwoordelijkheid.
+                        Rond af met: "dit is precies het soort vraagpatroon dat we in de volgende cases gebruiken".
+                    </td>
+                </tr>
+
+                <tr>
+                    <td><span class="time">20-24 min</span></td>
+                    <td>
+                        <span class="tag tag-intro">INTRO</span>
+                        <p class="slide-title">Slide 4 - Werkwijze voor Mentimeter-casusanalyse</p>
+                        <ul>
+                            <li>Iedere student antwoordt individueel via Mentimeter</li>
+                            <li>Per case: 2 minuten stemmen/schrijven + 5 minuten plenair duiden</li>
+                            <li>Analysevragen op slide:</li>
+                            <li>1) Wat is het dilemma?</li>
+                            <li>2) Wie draagt verantwoordelijkheid?</li>
+                            <li>3) Welke handeloptie is het meest verdedigbaar?</li>
+                        </ul>
+                    </td>
+                    <td>
+                        Leg tempo en structuur strak uit en toon de Mentimeter-code zichtbaar op elke casusslide.
+                        Zeg expliciet: "we kiezen geen perfecte oplossing; we zoeken een onderbouwde oplossing".
+                    </td>
+                </tr>
+
+                <tr>
+                    <td><span class="time">24-31 min</span></td>
+                    <td>
+                        <span class="tag tag-discussie">DISCUSSIE</span>
+                        <p class="slide-title">Slide 5 - Case A: AI-disclosure in formatieve opdracht</p>
+                        <ul>
+                            <li>Student meldt AI-gebruik correct in een conceptopdracht</li>
+                            <li>Docent ziet een misplaatste technische term in dat deel</li>
+                            <li>Vraag: hoe reageert de docent proportioneel en leergericht?</li>
+                        </ul>
+                        <div class="note">Gebaseerd op ethics-case-1.</div>
+                    </td>
+                    <td>
+                        Mentimeter-vraag 1 (meerkeuze): "Wat is de beste eerste reactie van de docent?".
+                        Mentimeter-vraag 2 (open): "Noem 1 reden voor je keuze".
+                        Plenair duiden: focus op "feedback als leermoment" en belang van correcte disclosure.
+                    </td>
+                </tr>
+
+                <tr>
+                    <td><span class="time">31-38 min</span></td>
+                    <td>
+                        <span class="tag tag-discussie">DISCUSSIE</span>
+                        <p class="slide-title">Slide 6 - Case B: student wil niet met AI werken</p>
+                        <ul>
+                            <li>Opdracht integreert AI voor leerdoelen</li>
+                            <li>Student weigert o.b.v. duurzaamheidsbezwaren</li>
+                            <li>Vraag: hoe combineer je leerdoelen met ruimte voor gewetensbezwaar?</li>
+                        </ul>
+                        <div class="note">Gebaseerd op ethics-case-2.</div>
+                    </td>
+                    <td>
+                        Mentimeter-vraag 1 (meerkeuze): "Is een alternatief zonder AI hier nodig?".
+                        Mentimeter-vraag 2 (open): "Welke voorwaarde moet in zo'n alternatief zitten?".
+                        In de plenaire terugkoppeling stuur je naar: gelijkwaardige alternatieven,
+                        expliciteren waarom AI wel/niet essentieel is voor het leerdoel,
+                        en respect voor studentautonomie.
+                    </td>
+                </tr>
+
+                <tr>
+                    <td><span class="time">38-45 min</span></td>
+                    <td>
+                        <span class="tag tag-discussie">DISCUSSIE</span>
+                        <p class="slide-title">Slide 7 - Plenaire vergelijking van beide cases</p>
+                        <ul>
+                            <li>Wat was gelijk in beide cases?</li>
+                            <li>Wat was anders qua rol van docent/student?</li>
+                            <li>Welke afwegingen waren het lastigst?</li>
+                            <li>1 samenvattende les per case</li>
+                        </ul>
+                    </td>
+                    <td>
+                        Laat Mentimeter-resultaten van case A en B naast elkaar zien.
+                        Maak een twee-kolommen overzicht op slide: "Case A" en "Case B".
+                        Vraag 2 studenten om 1 opvallend patroon uit de resultaten te benoemen.
+                        Sluit af met: "integriteit vraagt contextafweging, geen vaste standaardzin".
+                    </td>
+                </tr>
+
+                <tr>
+                    <td><span class="time">45-52 min</span></td>
+                    <td>
+                        <span class="tag tag-afronding">AFRONDING</span>
+                        <p class="slide-title">Slide 8 - Snel overzicht integriteitswaarden</p>
+                        <ul>
+                            <li>Transparantie: maak AI-gebruik zichtbaar</li>
+                            <li>Verantwoordelijkheid: eigenaar blijven van inhoud en keuzes</li>
+                            <li>Zorgvuldigheid: bronnen, claims en context checken</li>
+                            <li>Rechtvaardigheid: houd rekening met verschillende studentposities</li>
+                        </ul>
+                    </td>
+                    <td>
+                        Dit is bewust een samenvatting, geen verdiepend waardecollege.
+                        Mentimeter (rangschikvraag): "Welke waarde vond jij het lastigst in de cases?".
+                        Verwijs terug naar de cases: koppel per waarde 1 concreet voorbeeld uit de antwoorden.
+                    </td>
+                </tr>
+
+                <tr>
+                    <td><span class="time">52-58 min</span></td>
+                    <td>
+                        <span class="tag tag-afronding">AFRONDING</span>
+                        <p class="slide-title">Slide 9 - Disclosure: wat moet erin staan?</p>
+                        <ul>
+                            <li>Welk AI-systeem of tool is gebruikt?</li>
+                            <li>Voor welke stap in het werkproces?</li>
+                            <li>Hoe heb je output gecontroleerd of aangepast?</li>
+                            <li>Wat blijft jouw eigen bijdrage/verantwoordelijkheid?</li>
+                        </ul>
+                        <div class="case-block">
+                            Mini-template op slide: "Ik gebruikte [tool] voor [doel], waarna ik [controle/aanpassing] heb gedaan."
+                        </div>
+                    </td>
+                    <td>
+                        Houd dit praktisch. Laat studenten 2 minuten individueel een mini-disclosure invoeren via Mentimeter (open antwoord).
+                        Bespreek 2-3 anonieme voorbeelden en geef korte feedback op duidelijkheid en eigenaarschap.
+                    </td>
+                </tr>
+
+                <tr>
+                    <td><span class="time">58-60 min</span></td>
+                    <td>
+                        <span class="tag tag-afronding">AFRONDING</span>
+                        <p class="slide-title">Slide 10 - Afsluiting en vervolg</p>
+                        <ul>
+                            <li>3 take-aways herhalen</li>
+                            <li>Waar studenten de disclosure- en rationale-builders vinden</li>
+                            <li>Exit question via Mentimeter</li>
+                        </ul>
+                    </td>
+                    <td>
+                        Sluit strak af op tijd. Mentimeter exit-vraag: "Welke zin voeg jij voortaan toe aan je disclosure?".
+                        Verwijs naar de tools op de docentpagina als vervolgondersteuning.
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="footer-box">
+            <h2>Benodigdheden voor uitvoering</h2>
+            <ul>
+                <li>Slideset met 10 slides volgens dit storyboard</li>
+                <li>Mentimeter-presentatie met voorbereid vragenscript (woordwolk, schaal, meerkeuze, open vraag, ranking)</li>
+                <li>Projector + timer (zichtbaar voor docent)</li>
+                <li>Mentimeter-code of QR zichtbaar op elke interactieve slide</li>
+                <li>Link naar disclosure builder en rationale builder klaarzetten</li>
+            </ul>
+        </div>
+
+        <div class="verbatim-section">
+            <h2>Verbatim slide-teksten (copy-paste naar PPT)</h2>
+            <p class="verbatim-note">Gebruik deze blokken direct in je presentatie. Per slide staat de exacte tekst plus Mentimeter-vraag.</p>
+
+            <div class="verbatim-block">
+                <h3>Slide 0 - Titelslide</h3>
+                <p class="verbatim-text">AI en academische integriteit: waarden afwegen in de praktijk
+Subtitel: van casus naar verantwoord besluit
+Context: onderwijs, opdrachten, feedback en disclosure</p>
+            </div>
+
+            <div class="verbatim-block">
+                <h3>Slide 1 - Leerdoelen en opbrengst</h3>
+                <p class="verbatim-text">AI en academische integriteit: keuzes kunnen verantwoorden
+
+Kernleerdoel:
+Je leert beter inschatten en onderbouwen wat in jouw context verantwoord AI-gebruik is.
+
+Vandaag leer je:
+1. Relevante waarden en belangen expliciet afwegen
+2. Een beargumenteerde keuze formuleren
+3. Je keuze transparant maken in een korte disclosure
+Casussen gebruiken we als oefenvorm om dit te trainen.
+
+Mentimeter (woordwolk): Welk woord associeer jij met AI en integriteit?</p>
+            </div>
+
+            <div class="verbatim-block">
+                <h3>Slide 2 - Wat bedoelen we met integriteit?</h3>
+                <p class="verbatim-text">Academische integriteit: eerlijk en navolgbaar leren, schrijven en toetsen afleggen.
+Onderzoeksintegriteit: methodologisch zorgvuldig werken met data, bronnen en verslaglegging.
+Integriteit met AI: AI bewust gebruiken en je keuzes transparant verantwoorden.
+
+Kernvraag:
+Niet alleen: mag het?
+Maar ook: kan ik het verantwoorden?
+
+Mentimeter (schaal 1-5): Hoe zeker voel jij je over wat wel of niet integer AI-gebruik is?</p>
+            </div>
+
+            <div class="verbatim-block">
+                <h3>Slide 3 - Voorbeeldcase zorgcontext</h3>
+                <p class="verbatim-text">Situatie:
+Als zorgorganisatie gebruik je AI om consultgesprekken automatisch om te zetten in medische notities, met als doel minder administratielast en meer tijd voor patienten.
+
+Context:
+In een vergelijkbare situatie (Sharp HealthCare, VS) ontstond een rechtszaak over mogelijke opname en verwerking zonder expliciete patienttoestemming.
+
+Dilemma:
+Hoe combineer je efficientie met transparantie, geinformeerde toestemming en duidelijke verantwoordelijkheid voor dossierinhoud?
+
+Kernvraag: Welke integriteitsvragen zie je hier als eerste?
+
+Mentimeter (open): Welke integriteitsvraag komt als eerste bij je op?</p>
+            </div>
+
+            <div class="verbatim-block">
+                <h3>Slide 4 - Werkwijze voor casusanalyse via Mentimeter</h3>
+                <p class="verbatim-text">Iedereen antwoordt individueel via Mentimeter.
+
+Per case:
+- 2 minuten stemmen of schrijven
+- 5 minuten plenaire duiding
+
+Analysevragen:
+1. Wat is het dilemma?
+2. Wie draagt verantwoordelijkheid?
+3. Welke handeloptie is het meest verdedigbaar?</p>
+            </div>
+
+            <div class="verbatim-block">
+                <h3>Slide 5 - Case A: AI-disclosure in formatieve opdracht</h3>
+                <p class="verbatim-text">Een student meldt AI-gebruik correct in een conceptopdracht.
+De docent ziet een misplaatste technische term in dat deel.
+
+Vraag: Hoe reageert de docent proportioneel en leergericht?
+
+Mentimeter (meerkeuze): Wat is de beste eerste reactie van de docent?
+A. Direct sanctie geven
+B. AI-gebruik verbieden voor deze student
+C. Disclosure erkennen en gerichte feedback geven
+D. Niets doen
+
+Mentimeter (open): Noem 1 reden voor je keuze.</p>
+            </div>
+
+            <div class="verbatim-block">
+                <h3>Slide 6 - Case B: student wil niet met AI werken</h3>
+                <p class="verbatim-text">De opdracht integreert AI als onderdeel van het leerproces.
+Een student weigert op basis van duurzaamheidsbezwaren.
+
+Vraag: Hoe combineer je leerdoelen met ruimte voor gewetensbezwaar?
+
+Mentimeter (meerkeuze): Is een gelijkwaardig alternatief zonder AI nodig?
+A. Ja, altijd
+B. Ja, als leerdoelen gelijk blijven
+C. Nee, AI is altijd verplicht
+D. Alleen bij hoge uitzondering
+
+Mentimeter (open): Welke voorwaarde moet in zo'n alternatief zitten?</p>
+            </div>
+
+            <div class="verbatim-block">
+                <h3>Slide 7 - Vergelijking case A en case B</h3>
+                <p class="verbatim-text">Wat is gelijk in beide cases?
+Wat is anders in rol en verantwoordelijkheid?
+Welke afwegingen zijn het lastigst?
+1 samenvattende les per case
+
+Mentimeter (open): Wat is het belangrijkste verschil tussen case A en case B?</p>
+            </div>
+
+            <div class="verbatim-block">
+                <h3>Slide 8 - Kort overzicht integriteitswaarden</h3>
+                <p class="verbatim-text">Transparantie: maak AI-gebruik zichtbaar
+Verantwoordelijkheid: blijf eigenaar van inhoud en keuzes
+Zorgvuldigheid: controleer bronnen, claims en context
+Rechtvaardigheid: houd rekening met verschillende studentposities
+
+Mentimeter (ranking): Welke waarde vond jij het lastigst in de cases?
+- Transparantie
+- Verantwoordelijkheid
+- Zorgvuldigheid
+- Rechtvaardigheid</p>
+            </div>
+
+            <div class="verbatim-block">
+                <h3>Slide 9 - Disclosure: wat moet erin staan?</h3>
+                <p class="verbatim-text">Welke AI-tool heb je gebruikt?
+Voor welke stap in je werkproces?
+Hoe heb je output gecontroleerd of aangepast?
+Wat blijft jouw eigen bijdrage en verantwoordelijkheid?
+
+Mini-template:
+Ik gebruikte [tool] voor [doel], waarna ik [controle of aanpassing] heb gedaan.
+
+Mentimeter (open): Schrijf je eigen mini-disclosure in 1 of 2 zinnen.</p>
+            </div>
+
+            <div class="verbatim-block">
+                <h3>Slide 10 - Afsluiting en vervolg</h3>
+                <p class="verbatim-text">3 take-aways:
+1. Integriteit draait om verantwoording, niet om perfectie
+2. Casusdenken helpt bij lastige AI-keuzes
+3. Goede disclosure maakt je keuzes toetsbaar
+
+Vervolg:
+Gebruik de disclosure-builder en rationale-builder
+Pas dit toe in je volgende opdracht
+
+Mentimeter exit-vraag: Welke zin voeg jij voortaan toe aan je disclosure?</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

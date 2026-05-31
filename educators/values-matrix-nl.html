@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Waardenspanningenmatrix - docenten</title>
+  <style>
+    :root {
+      --brand-white: #ffffff;
+      --brand-light-gray: #f5f5f5;
+      --brand-blue: #0066cc;
+      --brand-blue-dark: #004080;
+      --brand-blue-light: #e6f0ff;
+      --text-primary: #1a1a1a;
+      --text-secondary: #4a4a4a;
+      --text-tertiary: #7a7a7a;
+      --border-color: #d9d9d9;
+      --ok: #0a7f45;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: #f2f2f2;
+      color: var(--text-primary);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .page {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 64px 24px 80px;
+    }
+
+    .section {
+      margin-bottom: 52px;
+    }
+
+    h1 {
+      font-size: clamp(32px, 4.8vw, 50px);
+      line-height: 1.08;
+      margin-bottom: 12px;
+      color: var(--brand-blue-dark);
+    }
+
+    h2 {
+      font-size: clamp(22px, 3vw, 30px);
+      line-height: 1.25;
+      margin-bottom: 14px;
+      color: var(--text-primary);
+    }
+
+    h3 {
+      font-size: 19px;
+      margin-bottom: 8px;
+      color: var(--text-primary);
+    }
+
+    p {
+      color: var(--text-secondary);
+    }
+
+    .meta {
+      font-size: 14px;
+      color: var(--text-tertiary);
+      margin-bottom: 14px;
+    }
+
+    .intro {
+      max-width: 860px;
+      font-size: 16px;
+      line-height: 1.8;
+    }
+
+    .cases-intro .intro {
+      margin-bottom: 14px;
+    }
+
+    .cases-intro .intro:last-of-type {
+      margin-bottom: 0;
+    }
+
+    .back-button {
+      display: inline-block;
+      padding: 10px 20px;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      background: var(--brand-light-gray);
+      color: var(--brand-blue);
+      text-decoration: none;
+      font-size: 14px;
+      margin-bottom: 20px;
+      transition: all 0.2s ease;
+    }
+
+    .back-button:hover {
+      background: var(--brand-blue-light);
+      border-color: var(--brand-blue);
+    }
+
+    .rule {
+      border: none;
+      border-top: 1px solid var(--border-color);
+      margin: 30px 0;
+    }
+
+    .selector-panel {
+      background: var(--brand-white);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 20px;
+    }
+
+    .selector-help {
+      font-size: 14px;
+      color: var(--text-secondary);
+      margin-bottom: 14px;
+    }
+
+    .value-chips {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .perspective-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 6px 0 12px;
+    }
+
+    .perspective-chip {
+      border: 1px solid var(--border-color);
+      border-radius: 999px;
+      background: var(--brand-white);
+      color: var(--text-primary);
+      font-size: 13px;
+      padding: 7px 12px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .perspective-chip:hover {
+      border-color: var(--brand-blue);
+      background: var(--brand-blue-light);
+      color: var(--brand-blue-dark);
+    }
+
+    .perspective-chip.active {
+      border-color: var(--brand-blue);
+      background: var(--brand-blue);
+      color: var(--brand-white);
+    }
+
+    .chip {
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      background: var(--brand-white);
+      color: var(--text-primary);
+      font-size: 14px;
+      padding: 12px 14px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: flex-start;
+      gap: 4px;
+      line-height: 1.2;
+      width: 100%;
+      text-align: left;
+    }
+
+    .chip:hover {
+      border-color: var(--brand-blue);
+      color: var(--brand-blue-dark);
+      background: var(--brand-blue-light);
+    }
+
+    .chip.active {
+      border-color: var(--brand-blue);
+      background: var(--brand-blue);
+      color: var(--brand-white);
+    }
+
+    .chip-label {
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    .chip-subtext {
+      font-size: 13px;
+      opacity: 0.9;
+      font-weight: 500;
+      line-height: 1.35;
+    }
+
+    .status {
+      font-size: 14px;
+      color: var(--text-tertiary);
+      min-height: 22px;
+    }
+
+    .status strong {
+      color: var(--ok);
+      font-weight: 600;
+    }
+
+    .grid-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 16px;
+      margin-top: 16px;
+    }
+
+    .info-card {
+      background: var(--brand-white);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 18px;
+      box-shadow: 0 1px 0 rgba(0, 0, 0, 0.02);
+    }
+
+    .badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 10px 0 12px;
+    }
+
+    .badge {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--brand-blue-dark);
+      background: var(--brand-blue-light);
+      border: 1px solid #cde3ff;
+      border-radius: 999px;
+      padding: 3px 10px;
+    }
+
+    .desc {
+      font-size: 14px;
+      line-height: 1.65;
+      margin-bottom: 0;
+    }
+
+    .situations {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+      margin-top: 16px;
+    }
+
+    .situation-box {
+      background: var(--brand-blue-light);
+      border: 1px solid #b3d9ff;
+      border-radius: 12px;
+      padding: 18px;
+      position: relative;
+    }
+
+    .situation-box::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 4px;
+      border-radius: 12px 0 0 12px;
+      background: var(--brand-blue);
+    }
+
+    .situation-box p {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.65;
+      margin: 0;
+    }
+
+    .situation-meta {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--brand-blue-dark);
+      margin-bottom: 8px;
+    }
+
+    .links {
+      margin-top: 12px;
+      font-size: 14px;
+    }
+
+    .links a {
+      color: var(--brand-blue);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .links a:hover {
+      color: var(--brand-blue-dark);
+      text-decoration: underline;
+    }
+
+    .empty {
+      display: none;
+      background: var(--brand-white);
+      border: 1px dashed var(--border-color);
+      border-radius: 12px;
+      padding: 18px;
+      color: var(--text-secondary);
+      font-size: 14px;
+    }
+
+    .intro-box {
+      background: var(--brand-blue-light);
+      border: 1px solid #b3d9ff;
+      border-radius: 12px;
+      padding: 24px;
+      margin: 18px 0;
+      max-width: 900px;
+      position: relative;
+    }
+
+    .intro-box::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 4px;
+      border-radius: 12px 0 0 12px;
+      background: var(--brand-blue);
+    }
+
+    .intro-box h3 {
+      margin: 0 0 16px 0;
+      color: var(--text-primary);
+      font-size: 18px;
+      font-weight: 600;
+      line-height: 1.4;
+    }
+
+    .intro-box p {
+      color: var(--text-secondary);
+      margin-bottom: 10px;
+      font-size: 14px;
+      line-height: 1.65;
+    }
+
+    .example {
+      margin-top: 10px;
+      padding: 12px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.78);
+      font-size: 14px;
+    }
+
+    .question-section {
+      margin-top: 16px;
+      border-top: 1px solid rgba(179, 217, 255, 0.5);
+      padding-top: 12px;
+    }
+
+    .question-button {
+      background: none;
+      border: none;
+      color: var(--brand-blue-dark);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      padding: 0;
+      text-align: left;
+      width: 100%;
+      transition: color 0.2s ease;
+    }
+
+    .question-button:hover {
+      color: var(--brand-blue);
+    }
+
+    .answer-section {
+      margin-top: 10px;
+      padding: 12px;
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.9);
+    }
+
+    .answer-section p {
+      margin-bottom: 8px;
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--text-secondary);
+    }
+
+    .answer-section p:last-child {
+      margin-bottom: 0;
+    }
+
+    @media (max-width: 768px) {
+      .page {
+        padding: 36px 18px 56px;
+      }
+
+      .value-chips {
+        grid-template-columns: 1fr;
+      }
+
+      h1 {
+        font-size: 30px;
+      }
+
+      h2 {
+        font-size: 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <a class="back-button" href="./index-nl.html">Terug naar docentenpagina</a>
+
+    <section class="section">
+      <h1>Waardenspanningenmatrix</h1>
+      <p class="meta">Laatst bijgewerkt op 17 mei 2026</p>
+    </section>
+
+    <section class="section cases-intro">
+      <p class="intro">De casussen in deze matrix zijn echte situaties uit academisch onderzoek en onderwijscontexten. Elke casus beschrijft een echt dilemma waarin meerdere waarden relevant zijn, maar in verschillende richtingen trekken. Ze laten momenten zien waarop verschillende waarden met elkaar botsen.</p>
+      <p class="intro">Omdat dit echte casussen zijn, heeft elke casus een echte uitkomst: in de praktijk moest er iets gebeuren. Die uitkomst moet je niet lezen als de enige juiste oplossing. In veel gevallen hadden ook andere reacties ethisch verdedigbaar kunnen zijn. Gebruik deze casussen om te analyseren wat er gebeurt, opties te vergelijken en grijze gebieden te verkennen, niet om vaste regels aan te leren of uitkomsten te garanderen.</p>
+      <p class="intro">Elke casus heeft dezelfde opbouw:</p>
+      <p class="intro"><strong>1. Een situatie</strong> (ongeveer 75 woorden): Een realistisch scenario dat op een slide past. Persoonlijk genoeg om herkenbaar te zijn en specifiek genoeg om ruimte te geven voor discussie.</p>
+      <p class="intro"><strong>2. Drie leidende vragen:</strong></p>
+      <ul style="margin-left: 20px; margin-top: 8px; font-size: 14px; color: var(--text-secondary); line-height: 1.65;">
+        <li><strong>Welke waarden zijn relevant?</strong> Welke waarden spelen in deze situatie?</li>
+        <li><strong>Welke waarden zijn met elkaar in conflict? En hoe?</strong> Wat is hier het dilemma? Hoe botst de ene waarde met de andere?</li>
+        <li><strong>Wat zou je hierna doen?</strong> Hoe zou jij dit dilemma aanpakken?</li>
+      </ul>
+      <p class="intro" style="margin-top: 12px;"><strong>Hoe gebruik je deze casussen:</strong> Werk per vraag. Denk eerst zelf na over je antwoord en klap daarna het casusantwoord open. Gebruik de uitkomst als een echt voorbeeld om alternatieven, afwegingen en grijze gebieden te bespreken, niet als vaste regel of gegarandeerde consequentie.</p>
+    </section>
+
+    <hr class="rule">
+
+    <section class="section">
+      <h2>Selecteer waarden</h2>
+      <div class="selector-panel">
+        <p class="selector-help">Kies een of meer waarden om waarschijnlijke spanningen en representatieve casussen voor die combinatie te bekijken.</p>
+        <p class="selector-help">Selecteer perspectief: toon casussen voor student, docent of onderzoeker.</p>
+        <div class="perspective-chips" id="perspective-chips"></div>
+        <p class="selector-help"><strong>Basis (ICAI):</strong> Eerlijkheid ligt onder alle vier de waarden in deze matrix en wordt hier behandeld als kernvoorwaarde voor integriteit in alle casussen.</p>
+        <div class="value-chips" id="value-chips"></div>
+        <p class="status" id="status-text"></p>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Representatieve casussen</h2>
+      <div class="empty" id="empty-situations">Selecteer een of meer waarden hierboven om representatieve situaties te tonen.</div>
+      <div class="situations" id="situation-cards"></div>
+    </section>
+
+    <hr class="rule">
+
+    <section class="section">
+      <h2>Volgende stap</h2>
+      <p class="intro">Nadat je de belangrijkste waardenspanningen hebt geïdentificeerd, gebruik je de disclosure- en rationale-gidsen om je beleidstaal expliciet en bespreekbaar te maken met studenten.</p>
+      <p class="links"><a href="../disclosure.html">Open de disclosure-gids</a> · <a href="../rationale.html">Open de rationale-gids</a> · <a href="submit-case.html">Dien je casus in</a></p>
+    </section>
+  </div>
+
+  <script>
+    const valueLabels = {
+      "Independence": "Onafhankelijkheid",
+      "Care": "Zorgvuldigheid",
+      "Transparency": "Transparantie",
+      "Responsibility": "Verantwoordelijkheid"
+    };
+
+    const valueDescriptions = {
+      "Independence": "Studenten laten hun eigen redenering en oordeel zien.",
+      "Care": "Studenten controleren, verifieren en herzien AI-output kritisch.",
+      "Transparency": "Studenten maken duidelijk waar AI heeft bijgedragen.",
+      "Responsibility": "Studenten blijven verantwoordelijk voor eindbeslissingen en claims."
+    };
+
+    const valueShortDescriptions = {
+      "Independence": "Toon je eigen redenering en oordeel.",
+      "Care": "Controleer en verifieer AI-output kritisch.",
+      "Transparency": "Maak duidelijk waar AI bijdroeg.",
+      "Responsibility": "Blijf verantwoordelijk voor eindclaims en keuzes."
+    };
+
+    const values = [
+      "Independence", "Care", "Transparency", "Responsibility"
+    ];
+
+    const tensions = [
+      {
+        title: "Independence x Care",
+        values: ["Independence", "Care"],
+        description: "Zelfstandige redenering kan sterk lijken terwijl zorgvuldige verificatie zwak is. Omgekeerd kan intensief controleren en herzien zicht op de oorspronkelijke eigen redenering verminderen als proceskeuzes niet zijn vastgelegd.",
+        cases: [
+          {
+            title: "Vloeiende tekst zonder bronvergelijking",
+            perspective: "student",
+            situation: "Als student lever je een verzorgde opdracht in die AI-claims herhaalt zonder bronnen te vergelijken of aannames te testen."
+          }
+        ]
+      },
+      {
+        title: "Independence x Transparency",
+        values: ["Independence", "Transparency"],
+        description: "Gedetailleerde disclosure van AI-steun kan claims van zelfstandigheid verzwakken. Omgekeerd kan nadruk op zelfstandigheid studenten verleiden om te weinig te melden hoeveel AI kernkeuzes heeft beinvloed.",
+        cases: [
+          {
+            title: "Diagrammen met AI gegenereerd: ondermijnt disclosure je geloofwaardigheid?",
+            perspective: "researcher",
+            situation: "Als onderzoeker dien je een artikel in bij een tijdschrift. De diagrammen die je kernbevindingen tonen, zijn gemaakt met AI-tools. Je kiest ervoor dit duidelijk te melden. Een reviewer vraagt vervolgens of AI dan ook het onderliggende idee heeft gevormd. Je moet nu laten zien dat je kernconcept en redenering van jou zijn, terwijl je transparant blijft over AI-steun voor visualisatie.",
+            q1: {
+              question: "Welke waarden zijn relevant in deze situatie?",
+              answer: "Transparantie, Verantwoordelijkheid en Onafhankelijkheid staan allemaal op het spel.",
+              why: "Transparantie is relevant omdat je AI-gebruik hebt gemeld. Verantwoordelijkheid is relevant omdat je je bevindingen moet onderbouwen en er eigenaarschap voor moet nemen. Onafhankelijkheid is relevant omdat de reviewer zich afvraagt of je kernredenering echt van jou is of te sterk door AI is beinvloed."
+            },
+            q2: {
+              question: "Welke waarden zijn met elkaar in conflict? En hoe?",
+              answer: "Transparantie en Onafhankelijkheid staan hier direct op spanning.",
+              why: "Wanneer je AI-gebruik transparant meldt, kunnen reviewer en lezers twijfelen aan je onafhankelijkheid en originaliteit. Zij kunnen denken: 'Heeft AI hier het echte denkwerk gedaan?' Als je AI-gebruik verzwijgt om onafhankelijker te lijken, schend je transparantie en riskeer je geloofwaardigheidsverlies als dit later uitkomt. Je zit dus in een dilemma: eerlijk zijn en mogelijk minder onafhankelijk lijken, of verzwijgen en oneerlijk zijn."
+            },
+            q3: {
+              question: "Als onderzoeker, wat zou je hierna doen?",
+              answer: "Je kunt e-mailcorrespondentie tussen jou en je co-auteurs delen om jullie oorspronkelijke discussie en redenering te laten zien van voordat je AI voor de diagrammen gebruikte. Die e-mails kunnen aantonen dat de bevindingen en kernkeuzes al door jullie waren doordacht. Je kunt toelichten dat AI alleen hielp bij visualisatie van inzichten die jullie al hadden. Met dit bewijs kan de reviewer zien dat je denken onafhankelijk was en het manuscript met meer vertrouwen beoordelen.",
+              why: ""
+            }
+          }
+        ]
+      },
+      {
+        title: "Independence x Responsibility",
+        values: ["Independence", "Responsibility"],
+        description: "Een student kan werk inleveren dat aan de eisen voldoet maar AI keuzes laten maken die persoonlijke oordeelsvorming vragen. Omgekeerd kunnen strenge verantwoordingsregels leiden tot veiligere, minder zelfstandige redenering.",
+        cases: [
+          {
+            title: "De student kan AI-keuzes niet verantwoorden",
+            perspective: "student",
+            situation: "Als student laat je AI je onderwerp, opzet en argumentstructuur genereren, en vervolgens lukt het niet om kernkeuzes zonder de tool te verantwoorden."
+          }
+        ]
+      },
+      {
+        title: "Care x Transparency",
+        values: ["Care", "Transparency"],
+        description: "Een student kan AI-gebruik helder melden en toch claims onvoldoende kritisch verifieren. Omgekeerd kan sterke focus op revisie onduidelijk maken wat precies gemeld moet worden, tenzij verwachtingen expliciet zijn.",
+        cases: [
+          {
+            title: "Duidelijke disclosure, beperkte controle",
+            perspective: "student",
+            situation: "Als student geef je een gedetailleerde disclosureverklaring, maar laat je feitelijke fouten toch staan."
+          }
+        ]
+      },
+      {
+        title: "Care x Responsibility",
+        values: ["Care", "Responsibility"],
+        description: "Studenten kunnen oppervlakkig controleren zonder volledige verantwoordelijkheid te nemen voor eindclaims. Omgekeerd kan verantwoordelijkheid retorisch worden geclaimd zonder de zorgvuldige verificatie die dat ondersteunt.",
+        cases: [
+          {
+            title: "Gecontroleerd maar niet gedragen",
+            perspective: "student",
+            situation: "Als student zeg je dat je AI-output hebt gecontroleerd, maar je kunt niet uitleggen waarom onbetrouwbare claims in je eindversie bleven staan."
+          }
+        ]
+      },
+      {
+        title: "Transparency x Responsibility",
+        values: ["Transparency", "Responsibility"],
+        description: "Disclosure van AI-gebruik laat op zichzelf niet zien dat iemand eigenaarschap neemt over keuzes en uitkomsten. Omgekeerd beperkt het claimen van verantwoordelijkheid zonder transparante disclosure wat eerlijk beoordeeld kan worden.",
+        cases: [
+          {
+            title: "Verantwoord claimen, onvolledige disclosure",
+            perspective: "student",
+            situation: "Als student verdedig je je eindantwoord zelfverzekerd, maar geef je weinig detail over de rol van AI in je proces."
+          },
+          {
+            title: "AI-sporen in een no-AI-opdracht: wat nu?",
+            perspective: "teacher",
+            situation: "Als docent ontvang je een opdracht in een vak waar AI-gebruik expliciet niet is toegestaan. In de antwoorden staan sporen zoals 'Thought for 4 seconds' en je meldt een vermoeden van fraude. De student legt uit dat AI alleen is gebruikt voor vertaling en formulering, niet voor de kernredenering. De zaak is nu in behandeling en er is nog geen definitieve beslissing genomen.",
+            q1: {
+              question: "Welke waarden zijn relevant in deze situatie?",
+              answer: "Verantwoordelijkheid, Transparantie, Rechtvaardigheid en Zorgvuldigheid zijn allemaal relevant.",
+              why: "Voor een docent is Verantwoordelijkheid relevant omdat cursusregels consequent moeten worden toegepast. Transparantie is relevant omdat de exacte rol van AI duidelijk en toetsbaar moet zijn. Rechtvaardigheid is relevant omdat een reactie proportioneel moet zijn en vergelijkbaar met soortgelijke gevallen. Zorgvuldigheid is relevant omdat bewijs en context van de student zorgvuldig moeten worden beoordeeld voordat conclusies vaststaan."
+            },
+            q2: {
+              question: "Welke waarden zijn met elkaar in conflict? En hoe?",
+              answer: "Transparantie en Verantwoordelijkheid staan op spanning, en Rechtvaardigheid kan botsen met strikte regelhandhaving.",
+              why: "Een student kan transparant zijn over beperkt AI-gebruik voor taalsteun en toch een strikte no-AI-regel overtreden. Vanuit docentenperspectief beschermt handhaving van verantwoordelijkheid academische standaarden, terwijl rechtvaardigheid vraagt of de reactie past bij aard en omvang van de overtreding. Het dilemma is of elk AI-gebruik dezelfde consequentie moet hebben of dat context ruimte moet geven voor maatwerk."
+            },
+            q3: {
+              question: "Als docent, wat zou je hierna doen?",
+              answer: "Als docent rapporteer je het vermoeden aan de examencommissie en leg je de signalen in het werk vast, waaronder AI-sporen zoals 'Thought for x seconds'. De commissie stelt vervolgens vast dat AI-gebruik bij deze opdracht niet was toegestaan en kwalificeert dit onder de regels als fraude. In de gedeelde zaak leidde dit tot een 0,0 voor de opdracht en, na correctie vanwege eerdere fraude, tot tijdelijke uitsluiting van toetsing in die periode. De beroepsinstanties hebben die uitkomst in stand gelaten.",
+              why: ""
+            }
+          }
+        ]
+      }
+    ];
+
+    const selected = new Set();
+    let selectedPerspective = "all";
+    const chipsEl = document.getElementById("value-chips");
+    const perspectiveChipsEl = document.getElementById("perspective-chips");
+    const situationCardsEl = document.getElementById("situation-cards");
+    const statusEl = document.getElementById("status-text");
+    const emptySituationsEl = document.getElementById("empty-situations");
+
+    const perspectives = [
+      { id: "all", label: "Alle perspectieven" },
+      { id: "student", label: "Student" },
+      { id: "teacher", label: "Docent" },
+      { id: "researcher", label: "Onderzoeker" }
+    ];
+
+    function renderChips() {
+      chipsEl.innerHTML = "";
+      values.forEach((value) => {
+        const btn = document.createElement("button");
+        btn.className = "chip" + (selected.has(value) ? " active" : "");
+        btn.type = "button";
+        btn.innerHTML =
+          "<span class=\"chip-label\">" + valueLabels[value] + "</span>" +
+          "<span class=\"chip-subtext\">" + valueShortDescriptions[value] + "</span>";
+        btn.title = valueLabels[value] + ": " + valueDescriptions[value];
+        btn.addEventListener("click", () => {
+          if (selected.has(value)) {
+            selected.delete(value);
+          } else {
+            selected.add(value);
+          }
+          renderChips();
+          renderAll();
+        });
+        chipsEl.appendChild(btn);
+      });
+    }
+
+    function renderPerspectiveChips() {
+      perspectiveChipsEl.innerHTML = "";
+      perspectives.forEach((perspective) => {
+        const btn = document.createElement("button");
+        btn.className = "perspective-chip" + (selectedPerspective === perspective.id ? " active" : "");
+        btn.type = "button";
+        btn.textContent = perspective.label;
+        btn.addEventListener("click", () => {
+          selectedPerspective = perspective.id;
+          renderPerspectiveChips();
+          renderAll();
+        });
+        perspectiveChipsEl.appendChild(btn);
+      });
+    }
+
+    function getMatchingTensions() {
+      const chosen = Array.from(selected);
+      if (chosen.length === 0) return tensions;
+      if (chosen.length === 1) {
+        return tensions.filter((tension) => tension.values.includes(chosen[0]));
+      }
+      // For multi-select, show tensions whose value pair is fully contained in the selection.
+      return tensions.filter((tension) => tension.values.every((v) => chosen.includes(v)));
+    }
+
+    function renderSituations(filtered) {
+      situationCardsEl.innerHTML = "";
+      let renderedCount = 0;
+
+      filtered.forEach((item) => {
+        item.cases.forEach((caseObj) => {
+          const perspective = caseObj.perspective || "student";
+          if (selectedPerspective !== "all" && perspective !== selectedPerspective) {
+            return;
+          }
+
+          renderedCount += 1;
+          const box = document.createElement("article");
+          box.className = "intro-box";
+          
+          let html = "<h3>" + caseObj.title + "</h3>" +
+            "<p class=\"example\"><strong>Situatie:</strong> " + caseObj.situation + "</p>";
+          
+          // Add questions if they exist
+          if (caseObj.q1) {
+            html += "<div class=\"question-section\">" +
+              "<button class=\"question-button\" onclick=\"this.nextElementSibling.style.display = this.nextElementSibling.style.display === 'none' ? 'block' : 'none'; this.textContent = this.textContent.includes('Click') ? '▼ ' + this.dataset.q : '▶ ' + this.dataset.q;\" data-q=\"" + caseObj.q1.question + "\">▶ " + caseObj.q1.question + "</button>" +
+              "<div class=\"answer-section\" style=\"display:none;\">" +
+              "<p>" + caseObj.q1.answer + "</p>" +
+              (caseObj.q1.why ? "<p>" + caseObj.q1.why + "</p>" : "") +
+              "</div>" +
+              "</div>";
+          }
+          
+          if (caseObj.q2) {
+            html += "<div class=\"question-section\">" +
+              "<button class=\"question-button\" onclick=\"this.nextElementSibling.style.display = this.nextElementSibling.style.display === 'none' ? 'block' : 'none'; this.textContent = this.textContent.includes('Click') ? '▼ ' + this.dataset.q : '▶ ' + this.dataset.q;\" data-q=\"" + caseObj.q2.question + "\">▶ " + caseObj.q2.question + "</button>" +
+              "<div class=\"answer-section\" style=\"display:none;\">" +
+              "<p>" + caseObj.q2.answer + "</p>" +
+              (caseObj.q2.why ? "<p>" + caseObj.q2.why + "</p>" : "") +
+              "</div>" +
+              "</div>";
+          }
+          
+          if (caseObj.q3) {
+            html += "<div class=\"question-section\">" +
+              "<button class=\"question-button\" onclick=\"this.nextElementSibling.style.display = this.nextElementSibling.style.display === 'none' ? 'block' : 'none'; this.textContent = this.textContent.includes('Click') ? '▼ ' + this.dataset.q : '▶ ' + this.dataset.q;\" data-q=\"" + caseObj.q3.question + "\">▶ " + caseObj.q3.question + "</button>" +
+              "<div class=\"answer-section\" style=\"display:none;\">" +
+              "<p>" + caseObj.q3.answer + "</p>" +
+              (caseObj.q3.why ? "<p>" + caseObj.q3.why + "</p>" : "") +
+              "</div>" +
+              "</div>";
+          }
+          
+          box.innerHTML = html;
+          situationCardsEl.appendChild(box);
+        });
+      });
+
+      emptySituationsEl.style.display = renderedCount === 0 ? "block" : "none";
+    }
+
+    function renderAll() {
+      const chosen = Array.from(selected);
+      const filtered = getMatchingTensions();
+
+      if (chosen.length === 0) {
+        statusEl.innerHTML = "Alle casussen worden getoond. Selecteer een of meer waarden om de resultaten te verfijnen.";
+      } else {
+        statusEl.innerHTML = "Geselecteerd: <strong>" + chosen.map((value) => valueLabels[value]).join(" + ") + "</strong>";
+      }
+
+      if (selectedPerspective !== "all") {
+        const perspectiveLabel = perspectives.find((p) => p.id === selectedPerspective).label;
+        statusEl.innerHTML += " · Perspectief: <strong>" + perspectiveLabel + "</strong>";
+      }
+
+      renderSituations(filtered);
+    }
+
+    renderPerspectiveChips();
+    renderChips();
+    renderAll();
+  </script>
+</body>
+</html>
