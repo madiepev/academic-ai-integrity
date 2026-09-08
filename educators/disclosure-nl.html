@@ -62,31 +62,40 @@
 
         .top-actions {
             display: flex;
+            justify-content: center;
             align-items: center;
-            gap: 10px;
             margin-bottom: 18px;
         }
 
-        .top-actions .back-button {
-            margin-bottom: 0;
+        .language-toggle {
+            display: inline-flex;
+            padding: 3px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background: var(--brand-light-gray);
         }
 
         .lang-button {
             display: inline-block;
-            padding: 10px 14px;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            background: var(--brand-white);
+            min-width: 88px;
+            padding: 8px 14px;
+            border-radius: 6px;
+            background: transparent;
             color: var(--brand-blue);
             text-decoration: none;
             font-size: 13px;
             font-weight: 600;
+            text-align: center;
             transition: all 0.2s ease;
         }
 
         .lang-button:hover {
             background: var(--brand-blue-light);
-            border-color: var(--brand-blue);
+        }
+
+        .lang-button[aria-current="page"] {
+            background: var(--brand-blue);
+            color: var(--brand-white);
         }
 
         h1 {
@@ -480,12 +489,14 @@
     </style>
 </head>
 <body>
-    <div class="top-actions">
-        <a href="index-nl.html" class="back-button">← Terug naar docenthome</a>
-        <a href="disclosure.html" class="lang-button">English</a>
-    </div>
     <a href="https://vuamsterdam.eu.qualtrics.com/jfe/form/SV_8JjSwKo76yzjtEq" target="_blank" class="feedback-btn">Feedback</a>
     <div class="container">
+        <nav class="top-actions" aria-label="Taalkeuze">
+            <div class="language-toggle">
+                <a href="disclosure-en.html" class="lang-button" lang="en">English</a>
+                <a href="disclosure-nl.html" class="lang-button" lang="nl" aria-current="page">Nederlands</a>
+            </div>
+        </nav>
         <h1>AI-Disclosuregenerator</h1>
         <p class="subtitle">Vul alle verplichte velden in om je academische AI-disclosureverklaring te genereren</p>
 
